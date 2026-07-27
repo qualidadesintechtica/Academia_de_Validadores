@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificação — Academia dos Validadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <style>
+    body { padding-top: 72px; }
+
+    /* ── HERO ── */
+    .cert-hero {
+      background: var(--grad-hero);
+      padding: var(--gap-3xl) 0;
+      border-bottom: 1px solid var(--cor-borda);
+      text-align: center;
+    }
+
+    .cert-hero h1 { margin-bottom: var(--gap-md); }
+    .cert-hero p  { color: var(--cor-texto-muted); max-width: 600px; margin: 0 auto; }
+
+    /* ── REQUISITOS ── */
+    .requisitos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap-xl);
+      margin-bottom: var(--gap-2xl);
+    }
+
+    .req-card {
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-lg);
+      padding: var(--gap-xl);
+      text-align: center;
+      transition: all var(--trans-media);
+    }
+
+    .req-card.cumprido {
+      border-color: rgba(67,233,123,0.4);
+      background: rgba(67,233,123,0.05);
+    }
+
+    .req-card.pendente {
+      border-color: rgba(255,101,132,0.3);
+    }
+
+    .req-icone { font-size: 2.5rem; margin-bottom: var(--gap-md); display: block; }
+    .req-titulo { font-weight: 700; margin-bottom: var(--gap-sm); }
+    .req-desc   { font-size: 0.85rem; color: var(--cor-texto-muted); margin-bottom: var(--gap-md); }
+    .req-status { font-size: 0.85rem; font-weight: 700; }
+    .req-status.ok  { color: #43E97B; }
+    .req-status.nao { color: #FF6584; }
+
+    /* ── CERTIFICADO PREVIEW ── */
+    .cert-preview-wrapper {
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-xl);
+      padding: var(--gap-xl);
+      margin-bottom: var(--gap-xl);
+    }
+
+    .cert-preview-wrapper h3 { margin-bottom: var(--gap-lg); }
+
+    #certificadoCanvas {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--cor-borda);
+      display: block;
+    }
+
+    .cert-acoes {
+      display: flex;
+      gap: var(--gap-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--gap-xl);
+    }
+
+    /* ── BLOQUEADO ── */
+    .cert-bloqueado {
+      text-align: center;
+      padding: var(--gap-3xl);
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--gap-xl);
+    }
+
+    .cert-bloqueado-icone { font-size: 4rem; margin-bottom: var(--gap-lg); }
+
+    /* ── PROGRESSO PARA CERT ── */
+    .progresso-cert {
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-lg);
+      padding: var(--gap-xl);
+      margin-bottom: var(--gap-xl);
+    }
+
+    .progresso-cert h3 { margin-bottom: var(--gap-lg); }
+
+    .cert-step {
+      display: flex;
+      align-items: center;
+      gap: var(--gap-md);
+      padding: var(--gap-md) 0;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .cert-step:last-child { border-bottom: none; }
+
+    .cert-step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .cert-step-num.ok  { background: rgba(67,233,123,0.2); color: #43E97B; border: 2px solid rgba(67,233,123,0.4); }
+    .cert-step-num.nao { background: rgba(255,255,255,0.05); color: var(--cor-texto-muted); border: 2px solid var(--cor-borda); }
+
+    .cert-step-info { flex: 1; }
+    .cert-step-titulo { font-weight: 600; font-size: 0.95rem; }
+    .cert-step-desc   { font-size: 0.8rem; color: var(--cor-texto-muted); }
+
+    @media (max-width: 768px) {
+      .requisitos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <div class="logo-icon">🎓</div>
+        <span>Academia <span class="grad-text">Validadores</span></span>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="../index.html">Início</a></li>
+        <li><a href="trilha.html">Trilha</a></li>
+        <li><a href="gamificacao.html">Gamificação</a></li>
+        <li><a href="perfil.html">Perfil</a></li>
+        <li><a href="certificacao.html" class="ativo">Certificação</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="navbar-xp"><span>⚡</span><span class="navbar-xp-valor">0 XP</span></div>
+        <a href="perfil.html" class="navbar-avatar">👤</a>
+        <button class="navbar-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="cert-hero aurora-bg">
+  <div class="container">
+    <span class="badge badge-primario mb-md">🎓 Certificação Oficial</span>
+    <h1>Certificado de <span class="grad-text">Validador Acadêmico</span></h1>
+    <p>Emitido pela Sintechtica com validação do ecossistema Ânima. Comprova sua excelência como guardião da qualidade acadêmica digital.</p>
+  </div>
+</section>
+
+<!-- CONTEÚDO -->
+<div class="section">
+  <div class="container">
+
+    <!-- Requisitos -->
+    <div class="section-header" style="text-align:left;margin-bottom:var(--gap-xl);">
+      <h2>Requisitos para <span class="grad-text">Certificação</span></h2>
+    </div>
+
+    <div class="requisitos-grid" id="requisitosGrid"></div>
+
+    <!-- Progresso -->
+    <div class="progresso-cert" id="progressoCert">
+      <h3>📋 Sua Jornada até o Certificado</h3>
+      <div id="certSteps"></div>
+    </div>
+
+    <!-- Certificado (visível se elegível) -->
+    <div id="certDisponivel" style="display:none;">
+      <div class="cert-preview-wrapper">
+        <h3>🎓 Seu Certificado</h3>
+        <canvas id="certificadoCanvas" width="1200" height="800"></canvas>
+        <div class="cert-acoes">
+          <button class="btn btn-primario btn-lg" id="btnDownloadCert">
+            ⬇️ Baixar Certificado (PNG)
+          </button>
+          <button class="btn btn-outline btn-lg" id="btnCompartilharCert">
+            🔗 Compartilhar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloqueado -->
+    <div id="certBloqueado">
+      <div class="cert-bloqueado">
+        <div class="cert-bloqueado-icone">🔒</div>
+        <h2>Certificado ainda não disponível</h2>
+        <p style="color:var(--cor-texto-muted);margin:var(--gap-md) auto;max-width:500px;">
+          Complete todos os 8 módulos da trilha para desbloquear seu certificado oficial de Validador Acadêmico.
+        </p>
+        <a href="trilha.html" class="btn btn-primario btn-lg mt-lg">
+          📚 Continuar Trilha →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2025 Sintechtica — Qualidade Acadêmica Digital — Ecossistema Ânima.</p>
+      <p><a href="../index.html">← Voltar ao Início</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../data/trilha.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  verificarElegibilidade();
+});
+
+function verificarElegibilidade() {
+  const u = App?.usuario || {};
+  const modulosCompletos = (u.modulosCompletos || []).length;
+  const xp = u.xp || 0;
+  const nivelInfo = App?.calcularNivel(xp) || { nivel: 1 };
+
+  const req1 = modulosCompletos >= 8;
+  const req2 = nivelInfo.nivel >= 3;
+  const req3 = xp >= 500;
+
+  renderizarRequisitos(modulosCompletos, nivelInfo, xp, req1, req2, req3);
+  renderizarSteps(modulosCompletos, req1, req2, req3);
+
+  if (req1 && req2 && req3) {
+    document.getElementById("certDisponivel").style.display = "block";
+    document.getElementById("certBloqueado").style.display = "none";
+    gerarCertificado();
+  }
+}
+
+function renderizarRequisitos(modulos, nivel, xp, r1, r2, r3) {
+  const grid = document.getElementById("requisitosGrid");
+  const reqs = [
+    {
+      icone: "📚",
+      titulo: "Trilha Completa",
+      desc: "Complete todos os 8 módulos da trilha de aprendizagem",
+      status: r1,
+      atual: `${modulos}/8 módulos`
+    },
+    {
+      icone: "🏆",
+      titulo: "Nível Praticante",
+      desc: "Alcance o nível 3 (Praticante) ou superior",
+      status: r2,
+      atual: `Nível ${nivel.nivel}: ${nivel.titulo}`
+    },
+    {
+      icone: "⚡",
+      titulo: "500 XP Mínimo",
+      desc: "Acumule pelo menos 500 pontos de experiência",
+      status: r3,
+      atual: `${xp.toLocaleString("pt-BR")} XP acumulados`
+    }
+  ];
+
+  reqs.forEach(r => {
+    const card = document.createElement("div");
+    card.className = `req-card ${r.status ? "cumprido" : "pendente"}`;
+    card.innerHTML = `
+      <span class="req-icone">${r.icone}</span>
+      <div class="req-titulo">${r.titulo}</div>
+      <p class="req-desc">${r.desc}</p>
+      <div class="req-status ${r.status ? "ok" : "nao"}">${r.status ? "✅ Cumprido" : "❌ Pendente"}</div>
+      <div style="font-size:0.8rem;color:var(--cor-texto-muted);margin-top:4px;">${r.atual}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderizarSteps(modulos, r1, r2, r3) {
+  const container = document.getElementById("certSteps");
+  const steps = [
+    { titulo: "Completar Módulo 1 — Introdução", ok: modulos >= 1 },
+    { titulo: "Completar Módulo 2 — Fluxo de Trabalho", ok: modulos >= 2 },
+    { titulo: "Completar Módulo 3 — Planilha de Validação", ok: modulos >= 3 },
+    { titulo: "Completar Módulos 4 a 8", ok: r1 },
+    { titulo: "Alcançar Nível Praticante (Nível 3)", ok: r2 },
+    { titulo: "Acumular 500 XP ou mais", ok: r3 },
+    { titulo: "Gerar e baixar o certificado", ok: r1 && r2 && r3 },
+  ];
+
+  steps.forEach((s, i) => {
+    const div = document.createElement("div");
+    div.className = "cert-step";
+    div.innerHTML = `
+      <div class="cert-step-num ${s.ok ? "ok" : "nao"}">${s.ok ? "✓" : i + 1}</div>
+      <div class="cert-step-info">
+        <div class="cert-step-titulo" style="color:${s.ok ? "#43E97B" : "var(--cor-texto)"}">${s.titulo}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function gerarCertificado() {
+  const canvas = document.getElementById("certificadoCanvas");
+  const ctx = canvas.getContext("2d");
+  const u = App?.usuario || {};
+  const nome = u.nome || "Validador";
+  const xp = u.xp || 0;
+  const nivelInfo = App?.calcularNivel(xp) || { titulo: "Praticante" };
+  const data = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+
+  const W = 1200, H = 800;
+  canvas.width = W;
+  canvas.height = H;
+
+  // Fundo escuro
+  const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+  bgGrad.addColorStop(0, "#0F0F1A");
+  bgGrad.addColorStop(0.5, "#16213E");
+  bgGrad.addColorStop(1, "#0F3460");
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Borda decorativa
+  const borderGrad = ctx.createLinearGradient(0, 0, W, H);
+  borderGrad.addColorStop(0, "#6C63FF");
+  borderGrad.addColorStop(0.5, "#FF6584");
+  borderGrad.addColorStop(1, "#43E97B");
+  ctx.strokeStyle = borderGrad;
+  ctx.lineWidth = 6;
+  ctx.strokeRect(30, 30, W - 60, H - 60);
+
+  // Borda interna
+  ctx.strokeStyle = "rgba(108,99,255,0.2)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(45, 45, W - 90, H - 90);
+
+  // Ícone central
+  ctx.font = "80px serif";
+  ctx.textAlign = "center";
+  ctx.fillText("🎓", W / 2, 160);
+
+  // Título da instituição
+  ctx.font = "bold 18px 'Poppins', sans-serif";
+  ctx.fillStyle = "rgba(108,99,255,0.8)";
+  ctx.letterSpacing = "0.15em";
+  ctx.fillText("SINTECHTICA · ECOSSISTEMA ÂNIMA", W / 2, 210);
+
+  // Título do certificado
+  ctx.font = "bold 48px 'Poppins', sans-serif";
+  const titleGrad = ctx.createLinearGradient(W/2 - 300, 0, W/2 + 300, 0);
+  titleGrad.addColorStop(0, "#6C63FF");
+  titleGrad.addColorStop(0.5, "#FF6584");
+  titleGrad.addColorStop(1, "#43E97B");
+  ctx.fillStyle = titleGrad;
+  ctx.fillText("CERTIFICADO DE VALIDADOR ACADÊMICO", W / 2, 280);
+
+  // Linha decorativa
+  const lineGrad = ctx.createLinearGradient(W/2 - 200, 0, W/2 + 200, 0);
+  lineGrad.addColorStop(0, "transparent");
+  lineGrad.addColorStop(0.5, "#6C63FF");
+  lineGrad.addColorStop(1, "transparent");
+  ctx.strokeStyle = lineGrad;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 250, 300);
+  ctx.lineTo(W/2 + 250, 300);
+  ctx.stroke();
+
+  // Texto de certificação
+  ctx.font = "20px 'Inter', sans-serif";
+  ctx.fillStyle = "rgba(200,200,220,0.7)";
+  ctx.fillText("Certificamos que", W / 2, 360);
+
+  // Nome do usuário
+  ctx.font = "bold 52px 'Poppins', sans-serif";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText(nome, W / 2, 430);
+
+  // Linha sob o nome
+  ctx.strokeStyle = "rgba(255,255,255,0.2)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 200, 450);
+  ctx.lineTo(W/2 + 200, 450);
+  ctx.stroke();
+
+  // Texto de conclusão
+  ctx.font = "20px 'Inter', sans-serif";
+  ctx.fillStyle = "rgba(200,200,220,0.7)";
+  ctx.fillText("concluiu com excelência a Trilha de Aprendizagem da", W / 2, 490);
+
+  ctx.font = "bold 26px 'Poppins', sans-serif";
+  ctx.fillStyle = "#A29BFE";
+  ctx.fillText("Academia dos Validadores", W / 2, 530);
+
+  ctx.font = "18px 'Inter', sans-serif";
+  ctx.fillStyle = "rgba(200,200,220,0.6)";
+  ctx.fillText(`alcançando o nível ${nivelInfo.titulo} com ${xp.toLocaleString("pt-BR")} XP acumulados`, W / 2, 565);
+
+  // Data e código
+  ctx.font = "16px 'Inter', sans-serif";
+  ctx.fillStyle = "rgba(150,150,180,0.6)";
+  ctx.fillText(`Emitido em ${data}`, W / 2, 640);
+
+  const codigo = "AV-" + Date.now().toString(36).toUpperCase();
+  ctx.fillText(`Código de verificação: ${codigo}`, W / 2, 665);
+
+  // Assinaturas
+  ctx.strokeStyle = "rgba(255,255,255,0.2)";
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(250, 720); ctx.lineTo(450, 720); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(750, 720); ctx.lineTo(950, 720); ctx.stroke();
+
+  ctx.font = "14px 'Inter', sans-serif";
+  ctx.fillStyle = "rgba(150,150,180,0.6)";
+  ctx.fillText("Diretor Acadêmico", 350, 740);
+  ctx.fillText("Coordenação Sintechtica", 850, 740);
+
+  // Configurar botões
+  document.getElementById("btnDownloadCert").addEventListener("click", () => {
+    const link = document.createElement("a");
+    link.download = `certificado-validador-${nome.replace(/\s+/g, "-").toLowerCase()}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    App?.toast("✅ Download!", "Certificado salvo com sucesso.", "sucesso");
+  });
+
+  document.getElementById("btnCompartilharCert").addEventListener("click", () => {
+    if (navigator.share) {
+      navigator.share({
+        title: "Certificado de Validador Acadêmico",
+        text: `${nome} concluiu a Academia dos Validadores — Sintechtica | Ecossistema Ânima`,
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      App?.toast("🔗 Link copiado!", "URL copiada para a área de transferência.", "info");
+    }
+  });
+}
+</script>
+</body>
+</html>

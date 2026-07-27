@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamificação — Academia dos Validadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <style>
+    body { padding-top: 72px; }
+
+    /* ── HERO GAMIFICAÇÃO ── */
+    .gami-hero {
+      background: var(--grad-hero);
+      padding: var(--gap-3xl) 0;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+    .gami-hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap-3xl);
+      align-items: center;
+    }
+    .gami-hero h1 { margin-bottom: var(--gap-md); }
+    .gami-hero p  { color: var(--cor-texto-muted); font-size: 1.05rem; margin-bottom: 0; }
+
+    /* ── CARD NÍVEL ATUAL ── */
+    .nivel-atual-card {
+      background: rgba(26,26,46,0.9);
+      border: 1px solid rgba(108,99,255,0.3);
+      border-radius: var(--radius-xl);
+      padding: var(--gap-xl);
+    }
+    .nivel-atual-header {
+      display: flex;
+      align-items: center;
+      gap: var(--gap-md);
+      margin-bottom: var(--gap-lg);
+    }
+    .nivel-atual-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-lg);
+      background: var(--grad-primario);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    .nivel-atual-info h3 { margin-bottom: 2px; }
+    .nivel-atual-info span { font-size: 0.85rem; color: var(--cor-texto-muted); }
+    .nivel-xp-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--cor-texto-muted);
+      margin-bottom: var(--gap-sm);
+    }
+    .nivel-xp-row strong { color: var(--cor-primaria); }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: var(--gap-sm);
+      border-bottom: 1px solid var(--cor-borda);
+      margin-bottom: var(--gap-2xl);
+      overflow-x: auto;
+      padding-bottom: 1px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: var(--gap-md) var(--gap-lg);
+      font-family: var(--fonte-titulo);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--cor-texto-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all var(--trans-media);
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--cor-branco); }
+    .tab-btn.ativo { color: var(--cor-primaria); border-bottom-color: var(--cor-primaria); }
+    .tab-panel { display: none; }
+    .tab-panel.ativo { display: block; }
+
+    /* ── NÍVEIS ── */
+    .niveis-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-md);
+    }
+    .nivel-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: var(--gap-lg);
+      align-items: center;
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-md);
+      padding: var(--gap-lg);
+      transition: all var(--trans-media);
+    }
+    .nivel-row.atual {
+      border-color: rgba(108,99,255,0.5);
+      background: rgba(108,99,255,0.08);
+    }
+    .nivel-row.conquistado { border-color: rgba(67,233,123,0.3); }
+    .nivel-num {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .nivel-nome { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+    .nivel-range { font-size: 0.8rem; color: var(--cor-texto-muted); }
+    .nivel-status { font-size: 0.85rem; font-weight: 600; }
+
+    /* ── MEDALHAS ── */
+    .medalhas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap-lg);
+    }
+    .medalha-card {
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-lg);
+      padding: var(--gap-xl);
+      text-align: center;
+      transition: all var(--trans-media);
+      position: relative;
+    }
+    .medalha-card.obtida {
+      border-color: rgba(250,130,49,0.4);
+      background: rgba(250,130,49,0.05);
+    }
+    .medalha-card.obtida:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(250,130,49,0.2);
+    }
+    .medalha-card.bloqueada { opacity: 0.45; filter: grayscale(0.8); }
+    .medalha-icone { font-size: 3rem; margin-bottom: var(--gap-md); display: block; }
+    .medalha-titulo { font-weight: 700; font-size: 0.95rem; margin-bottom: var(--gap-xs); }
+    .medalha-desc { font-size: 0.8rem; color: var(--cor-texto-muted); margin: 0; }
+    .medalha-xp {
+      position: absolute;
+      top: var(--gap-sm);
+      right: var(--gap-sm);
+      background: rgba(250,130,49,0.2);
+      color: #FA8231;
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .medalha-check {
+      position: absolute;
+      top: var(--gap-sm);
+      left: var(--gap-sm);
+      font-size: 1rem;
+    }
+
+    /* ── RANKING ── */
+    .ranking-lista {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-sm);
+    }
+    .ranking-item {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: var(--gap-lg);
+      align-items: center;
+      background: var(--cor-bg-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-md);
+      padding: var(--gap-md) var(--gap-lg);
+    }
+    .ranking-item.voce {
+      border-color: rgba(108,99,255,0.5);
+      background: rgba(108,99,255,0.08);
+    }
+    .ranking-pos {
+      font-family: var(--fonte-titulo);
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-align: center;
+    }
+    .ranking-pos.ouro   { color: #F39C12; }
+    .ranking-pos.prata  { color: #BDC3C7; }
+    .ranking-pos.bronze { color: #E67E22; }
+    .ranking-nome { font-weight: 600; }
+    .ranking-nivel { font-size: 0.8rem; color: var(--cor-texto-muted); }
+    .ranking-xp { font-weight: 700; color: var(--cor-primaria); font-size: 0.95rem; }
+
+    /* ── RESPONSIVIDADE ── */
+    @media (max-width: 768px) {
+      .gami-hero-inner { grid-template-columns: 1fr; }
+      .medalhas-grid { grid-template-columns: repeat(2, 1fr); }
+      .nivel-row { grid-template-columns: 48px 1fr; }
+      .nivel-status { display: none; }
+    }
+    @media (max-width: 480px) {
+      .medalhas-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <div class="logo-icon">🎓</div>
+        <span>Academia <span class="grad-text">Validadores</span></span>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="../index.html">Início</a></li>
+        <li><a href="trilha.html">Trilha</a></li>
+        <li><a href="gamificacao.html" class="ativo">Gamificação</a></li>
+        <li><a href="perfil.html">Perfil</a></li>
+        <li><a href="certificacao.html">Certificação</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="navbar-xp"><span>⚡</span><span class="navbar-xp-valor">0 XP</span></div>
+        <a href="perfil.html" class="navbar-avatar">👤</a>
+        <button class="navbar-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="gami-hero aurora-bg">
+  <div class="container">
+    <div class="gami-hero-inner">
+      <div>
+        <span class="badge badge-primario mb-md">🎮 Sistema de Gamificação</span>
+        <h1>Evolua, <span class="grad-text">Conquiste</span> e Seja Reconhecido</h1>
+        <p>Cada módulo concluído, cada quiz respondido e cada dia de dedicação te aproxima do nível máximo: Guardião da Qualidade.</p>
+      </div>
+      <div class="nivel-atual-card" id="nivelAtualCard">
+        <div class="nivel-atual-header">
+          <div class="nivel-atual-badge" id="nivelAtualBadge">🌱</div>
+          <div class="nivel-atual-info">
+            <h3 id="nivelAtualNome">Aprendiz</h3>
+            <span>Nível 1 de 7</span>
+          </div>
+        </div>
+        <div class="nivel-xp-row">
+          <span>XP Atual: <strong id="nivelXPAtual">0</strong></span>
+          <span>Próximo nível: <strong id="nivelXPProximo">300</strong></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill aurora" id="nivelProgressBar" style="width:0%"></div>
+        </div>
+        <div style="margin-top:var(--gap-md);font-size:0.85rem;color:var(--cor-texto-muted);text-align:center;">
+          <span id="nivelXPFaltando">300 XP</span> para o próximo nível
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="section">
+  <div class="container">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn ativo" data-tab="niveis">🏆 Níveis</button>
+      <button class="tab-btn" data-tab="medalhas">🏅 Medalhas</button>
+      <button class="tab-btn" data-tab="ranking">📊 Ranking</button>
+      <button class="tab-btn" data-tab="como-ganhar">⚡ Como Ganhar XP</button>
+    </div>
+
+    <!-- TAB: NÍVEIS -->
+    <div class="tab-panel ativo" id="tab-niveis">
+      <div class="section-header" style="text-align:left;margin-bottom:var(--gap-xl);">
+        <h2>Jornada de <span class="grad-text">Evolução</span></h2>
+        <p class="text-muted">7 níveis de progressão — do primeiro passo à maestria absoluta.</p>
+      </div>
+      <div class="niveis-grid" id="niveisGrid"></div>
+    </div>
+
+    <!-- TAB: MEDALHAS -->
+    <div class="tab-panel" id="tab-medalhas">
+      <div class="section-header" style="text-align:left;margin-bottom:var(--gap-xl);">
+        <h2>Coleção de <span class="grad-text">Medalhas</span></h2>
+        <p class="text-muted">8 conquistas exclusivas para desbloquear ao longo da sua jornada.</p>
+      </div>
+      <div class="medalhas-grid" id="medalhasGrid"></div>
+    </div>
+
+    <!-- TAB: RANKING -->
+    <div class="tab-panel" id="tab-ranking">
+      <div class="section-header" style="text-align:left;margin-bottom:var(--gap-xl);">
+        <h2>Ranking de <span class="grad-text">Validadores</span></h2>
+        <p class="text-muted">Veja onde você se posiciona entre os validadores da plataforma.</p>
+      </div>
+      <div class="ranking-lista" id="rankingLista"></div>
+    </div>
+
+    <!-- TAB: COMO GANHAR XP -->
+    <div class="tab-panel" id="tab-como-ganhar">
+      <div class="section-header" style="text-align:left;margin-bottom:var(--gap-xl);">
+        <h2>Como Ganhar <span class="grad-text">XP</span></h2>
+        <p class="text-muted">Todas as formas de acumular pontos de experiência na plataforma.</p>
+      </div>
+      <div class="grid-2" id="xpFontesGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2025 Sintechtica — Qualidade Acadêmica Digital — Ecossistema Ânima.</p>
+      <p><a href="../index.html">← Voltar ao Início</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../data/trilha.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  renderizarNiveis();
+  renderizarMedalhas();
+  renderizarRanking();
+  renderizarFontesXP();
+  atualizarNivelAtual();
+  iniciarTabs();
+});
+
+function iniciarTabs() {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("ativo"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("ativo"));
+      btn.classList.add("ativo");
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("ativo");
+    });
+  });
+}
+
+function atualizarNivelAtual() {
+  const u = App?.usuario || {};
+  const xp = u.xp || 0;
+  const nivelInfo = App?.calcularNivel(xp) || { nivel: 1, titulo: "Aprendiz", xpMin: 0, xpMax: 299 };
+  const pct = Math.min(100, Math.round(((xp - nivelInfo.xpMin) / (nivelInfo.xpMax - nivelInfo.xpMin)) * 100));
+  const faltando = Math.max(0, nivelInfo.xpMax - xp + 1);
+
+  const icones = ["🌱","⭐","🔵","💜","🔶","🔴","👑"];
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+  document.getElementById("nivelAtualBadge").textContent = icones[nivelInfo.nivel - 1] || "🌱";
+  set("nivelAtualNome", nivelInfo.titulo);
+  set("nivelXPAtual", xp.toLocaleString("pt-BR"));
+  set("nivelXPProximo", nivelInfo.xpMax.toLocaleString("pt-BR"));
+  set("nivelXPFaltando", faltando.toLocaleString("pt-BR") + " XP");
+  document.getElementById("nivelProgressBar").style.width = pct + "%";
+}
+
+function renderizarNiveis() {
+  const grid = document.getElementById("niveisGrid");
+  const u = App?.usuario || {};
+  const xp = u.xp || 0;
+  const nivelAtual = App?.calcularNivel(xp)?.nivel || 1;
+  const icones = ["🌱","⭐","🔵","💜","🔶","🔴","👑"];
+  const cores  = ["#95A5A6","#27AE60","#2980B9","#8E44AD","#E67E22","#E74C3C","#F39C12"];
+
+  TRILHA.niveis.forEach(n => {
+    const conquistado = xp >= n.xpMin;
+    const atual = n.nivel === nivelAtual;
+    const row = document.createElement("div");
+    row.className = `nivel-row ${atual ? "atual" : ""} ${conquistado && !atual ? "conquistado" : ""}`;
+    row.innerHTML = `
+      <div class="nivel-num" style="background:${cores[n.nivel-1]}22;color:${cores[n.nivel-1]};">${icones[n.nivel-1]}</div>
+      <div>
+        <div class="nivel-nome" style="color:${cores[n.nivel-1]}">${n.titulo}</div>
+        <div class="nivel-range">${n.xpMin.toLocaleString("pt-BR")} – ${n.xpMax >= 999999 ? "∞" : n.xpMax.toLocaleString("pt-BR")} XP</div>
+      </div>
+      <div class="nivel-status" style="color:${conquistado ? "#43E97B" : "var(--cor-texto-muted)"}">
+        ${atual ? "📍 Nível Atual" : conquistado ? "✅ Conquistado" : "🔒 Bloqueado"}
+      </div>
+    `;
+    grid.appendChild(row);
+  });
+}
+
+function renderizarMedalhas() {
+  const grid = document.getElementById("medalhasGrid");
+  const u = App?.usuario || {};
+  const obtidas = u.medalhasObtidas || [];
+
+  TRILHA.medalhas.forEach(m => {
+    const obtida = obtidas.includes(m.id);
+    const card = document.createElement("div");
+    card.className = `medalha-card ${obtida ? "obtida" : "bloqueada"}`;
+    card.innerHTML = `
+      ${obtida ? '<span class="medalha-check">✅</span>' : ''}
+      <span class="medalha-xp">+${m.xp} XP</span>
+      <span class="medalha-icone">${m.icone}</span>
+      <div class="medalha-titulo">${m.titulo}</div>
+      <p class="medalha-desc">${m.descricao}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderizarRanking() {
+  const lista = document.getElementById("rankingLista");
+  const u = App?.usuario || {};
+  const xpUsuario = u.xp || 0;
+
+  // Ranking simulado com o usuário real
+  const jogadores = [
+    { nome: "Ana Cristina", xp: 1850, nivel: "Validador" },
+    { nome: "Carlos Eduardo", xp: 1420, nivel: "Validador" },
+    { nome: "Mariana Silva", xp: 980, nivel: "Praticante" },
+    { nome: u.nome || "Você", xp: xpUsuario, nivel: App?.calcularNivel(xpUsuario)?.titulo || "Aprendiz", voce: true },
+    { nome: "Roberto Alves", xp: 650, nivel: "Iniciante" },
+    { nome: "Fernanda Costa", xp: 420, nivel: "Iniciante" },
+    { nome: "Lucas Mendes", xp: 180, nivel: "Aprendiz" },
+    { nome: "Patrícia Nunes", xp: 90, nivel: "Aprendiz" },
+  ].sort((a, b) => b.xp - a.xp);
+
+  const posClasses = ["ouro", "prata", "bronze"];
+  const posIcones  = ["🥇", "🥈", "🥉"];
+
+  jogadores.forEach((j, idx) => {
+    const pos = idx + 1;
+    const item = document.createElement("div");
+    item.className = `ranking-item ${j.voce ? "voce" : ""}`;
+    item.innerHTML = `
+      <div class="ranking-pos ${posClasses[idx] || ""}">${pos <= 3 ? posIcones[idx] : "#" + pos}</div>
+      <div>
+        <div class="ranking-nome">${j.nome}${j.voce ? " (Você)" : ""}</div>
+        <div class="ranking-nivel">${j.nivel}</div>
+      </div>
+      <div class="ranking-xp">⚡ ${j.xp.toLocaleString("pt-BR")} XP</div>
+    `;
+    lista.appendChild(item);
+  });
+}
+
+function renderizarFontesXP() {
+  const grid = document.getElementById("xpFontesGrid");
+  const fontes = [
+    { icone: "📚", titulo: "Completar Módulo", desc: "Finalize um módulo da trilha", xp: "100–250 XP", cor: "#6C63FF" },
+    { icone: "✅", titulo: "Quiz Perfeito", desc: "100% de acertos no quiz", xp: "+50 XP Bônus", cor: "#43E97B" },
+    { icone: "🔥", titulo: "Sequência Diária", desc: "Acesse a plataforma todos os dias", xp: "+10 XP/dia", cor: "#FA8231" },
+    { icone: "🏅", titulo: "Desbloquear Medalha", desc: "Conquiste uma medalha especial", xp: "50–500 XP", cor: "#F39C12" },
+    { icone: "🎯", titulo: "Missão da Semana", desc: "Complete a missão semanal", xp: "+150 XP Bônus", cor: "#FF6584" },
+    { icone: "🚀", titulo: "Primeiro Acesso", desc: "Boas-vindas à Academia!", xp: "+25 XP", cor: "#A29BFE" },
+  ];
+
+  fontes.forEach(f => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.display = "flex";
+    card.style.alignItems = "center";
+    card.style.gap = "var(--gap-lg)";
+    card.innerHTML = `
+      <div style="width:56px;height:56px;border-radius:var(--radius-md);background:${f.cor}22;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">${f.icone}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;margin-bottom:4px;">${f.titulo}</div>
+        <div style="font-size:0.85rem;color:var(--cor-texto-muted);">${f.desc}</div>
+      </div>
+      <div style="font-weight:800;color:${f.cor};font-size:0.95rem;white-space:nowrap;">${f.xp}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+</script>
+</body>
+</html>
