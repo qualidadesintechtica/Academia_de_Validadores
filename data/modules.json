@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "titulo": "Primeiros Passos",
+    "descricao": "Conheça a Academia e o papel do validador.",
+    "icone": "🌱"
+  },
+  {
+    "id": 2,
+    "titulo": "Dominando o Fluxo",
+    "descricao": "Entenda etapas, responsáveis e entregas.",
+    "icone": "🗂️"
+  },
+  {
+    "id": 3,
+    "titulo": "Guardião da Planilha",
+    "descricao": "Aprenda registros e acompanhamento.",
+    "icone": "📊"
+  },
+  {
+    "id": 4,
+    "titulo": "Mestre da UA",
+    "descricao": "Valide Unidades de Aprendizagem.",
+    "icone": "📘"
+  },
+  {
+    "id": 5,
+    "titulo": "Auditor do BDQ",
+    "descricao": "Avalie bancos de questões.",
+    "icone": "🗄️"
+  },
+  {
+    "id": 6,
+    "titulo": "Guardião da UC",
+    "descricao": "Aplique padrões na Unidade Curricular.",
+    "icone": "🎓"
+  },
+  {
+    "id": 7,
+    "titulo": "Especialista em Apoio",
+    "descricao": "Use modelos e checklists.",
+    "icone": "📄"
+  },
+  {
+    "id": 8,
+    "titulo": "Especialista em Qualidade",
+    "descricao": "Integre o aprendizado e certifique-se.",
+    "icone": "🏆"
+  }
+]
