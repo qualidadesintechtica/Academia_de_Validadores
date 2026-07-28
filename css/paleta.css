@@ -1,0 +1,163 @@
+/* =========================================================
+   PALETA OFICIAL — ACADEMIA DOS VALIDADORES
+   Magenta/Roxo
+   ========================================================= */
+
+:root{
+  --magenta-vivido: #db007d;
+  --roxo-escuro-1: #2d1553;
+  --roxo-escuro-2: #1d0e42;
+  --rosa-neon-vivido: #a30085;
+  --rosa-neon-escuro: #64037e;
+
+  /* Compatibilidade com os nomes já usados no projeto */
+  --cor-primaria: #db007d;
+  --cor-secundaria: #a30085;
+  --cor-terciaria: #64037e;
+  --cor-acento: #db007d;
+  --cor-roxo-escuro: #2d1553;
+  --cor-roxo-profundo: #1d0e42;
+
+  --grad-aurora: linear-gradient(
+    135deg,
+    #db007d 0%,
+    #a30085 38%,
+    #64037e 68%,
+    #2d1553 100%
+  );
+
+  --grad-principal: linear-gradient(
+    90deg,
+    #db007d 0%,
+    #a30085 50%,
+    #64037e 100%
+  );
+}
+
+/* Fundo geral */
+body{
+  background:
+    radial-gradient(circle at top right, rgba(219,0,125,.10), transparent 32%),
+    linear-gradient(180deg, #1d0e42 0%, #2d1553 38%, #170a35 100%);
+}
+
+/* Navbar e rodapé */
+.navbar,
+.footer{
+  background: linear-gradient(90deg, #1d0e42, #2d1553);
+}
+
+/* Área principal/hero */
+.aurora-bg,
+.hero,
+.section-cta .cta-card{
+  background:
+    radial-gradient(circle at 78% 18%, rgba(219,0,125,.22), transparent 30%),
+    radial-gradient(circle at 18% 82%, rgba(163,0,133,.18), transparent 28%),
+    linear-gradient(135deg, #1d0e42 0%, #2d1553 55%, #64037e 100%);
+}
+
+/* Textos em gradiente */
+.grad-text{
+  background: var(--grad-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Botões principais */
+.btn-primario{
+  background: var(--grad-principal);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 25px rgba(219,0,125,.28);
+}
+
+.btn-primario:hover{
+  filter: brightness(1.08);
+  box-shadow: 0 14px 30px rgba(219,0,125,.36);
+}
+
+/* Botões de contorno */
+.btn-outline{
+  border-color: #db007d;
+  color: #fff;
+}
+
+.btn-outline:hover{
+  background: rgba(219,0,125,.14);
+}
+
+/* Links e estados ativos */
+.navbar-nav a.ativo,
+.navbar-nav a:hover,
+.footer a:hover{
+  color: #db007d;
+}
+
+.navbar-nav a.ativo::after{
+  background: #db007d;
+}
+
+/* XP, badges e detalhes */
+.navbar-xp,
+.badge-primario,
+.hero-badge,
+.hcf-nivel-badge,
+.missao-badge{
+  background: linear-gradient(90deg, rgba(219,0,125,.18), rgba(163,0,133,.18));
+  border-color: rgba(219,0,125,.40);
+  color: #ff8bc9;
+}
+
+/* Barras de progresso */
+.progress-fill,
+.progress-fill.aurora{
+  background: var(--grad-principal);
+}
+
+/* Cards */
+.card,
+.hero-card-flutuante,
+.missao-card,
+.stat-card,
+.progresso-geral{
+  border-color: rgba(219,0,125,.22);
+  box-shadow: 0 14px 35px rgba(29,14,66,.22);
+}
+
+/* Divisores e destaques */
+.divider{
+  background: var(--grad-principal);
+}
+
+.eyebrow{
+  color: #ff4fb2;
+}
+
+/* Ícones e detalhes */
+.card-feature-icon,
+.stat-icon,
+.missao-icon{
+  outline: 1px solid rgba(219,0,125,.22);
+}
+
+/* FAQ */
+.faq-item{
+  border-color: rgba(219,0,125,.20);
+}
+
+.faq-pergunta:hover{
+  color: #db007d;
+}
+
+/* Scroll e seleção */
+::selection{
+  background: #db007d;
+  color: #fff;
+}
+
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(#db007d, #64037e);
+  border-radius: 20px;
+}
