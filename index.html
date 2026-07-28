@@ -1,414 +1,223 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Academia dos Validadores — Sintechtica | Ecossistema Ânima</title>
-  <meta name="description" content="Plataforma de capacitação e gamificação para validadores acadêmicos do ecossistema Ânima. Aprenda, evolua e certifique-se." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/global.css" />
-  <link rel="stylesheet" href="css/home.css" />
-  <link rel="stylesheet" href="css/paleta.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia dos Validadores</title>
+  <meta name="description" content="Academia dos Validadores — capacitação, missões, progresso e certificação.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index-dashboard.css">
 </head>
 <body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <div class="brand-shield">✓</div>
+      <div class="brand-text">
+        <strong>ACADEMIA DOS<br>VALIDADORES</strong>
+        <span>by Sintechtica</span>
+      </div>
+    </a>
 
-<!-- ══ NAVBAR ══════════════════════════════════════════ -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <div class="navbar-inner">
-      <a href="index.html" class="navbar-logo">
-        <div class="logo-icon">🎓</div>
-        <span>Academia <span class="grad-text">Validadores</span></span>
-      </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
 
-      <ul class="navbar-nav">
-        <li><a href="index.html" class="ativo">Início</a></li>
-        <li><a href="pages/trilha.html">Trilha</a></li>
-        <li><a href="pages/gamificacao.html">Gamificação</a></li>
-        <li><a href="pages/perfil.html">Perfil</a></li>
-        <li><a href="pages/certificacao.html">Certificação</a></li>
-      </ul>
+    <nav class="main-nav" id="mainNav">
+      <a class="active" href="index.html"><span>⌂</span>Início</a>
+      <a href="pages/trilha.html"><span>◈</span>Minha Jornada</a>
+      <a href="pages/gamificacao.html"><span>♡</span>Missões</a>
+      <a href="#arsenal"><span>⌘</span>Arsenal</a>
+      <a href="#progresso"><span>▥</span>Meu Progresso</a>
+      <a href="#medalhas"><span>♕</span>Medalhas</a>
+      <a href="pages/certificacao.html"><span>◇</span>Certificação</a>
+      <a href="#faq"><span>?</span>Ajuda</a>
+    </nav>
 
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <div class="navbar-xp">
-          <span>⚡</span>
-          <span class="navbar-xp-valor">0 XP</span>
-        </div>
-        <a href="pages/perfil.html" class="navbar-avatar" title="Meu Perfil">👤</a>
-        <button class="navbar-toggle" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
+    <div class="user-menu">
+      <button class="bell" aria-label="Notificações">♧<b>3</b></button>
+      <div class="avatar">LS</div>
+      <div class="user-copy">
+        <strong>Liu Souza</strong>
+        <span>Aprendiz</span>
       </div>
     </div>
-  </div>
-</nav>
+  </header>
 
-<!-- ══ HERO ════════════════════════════════════════════ -->
-<section class="hero aurora-bg" id="hero">
-  <div class="hero-particles" id="heroParticles"></div>
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span>🚀</span>
-        <span>Plataforma Oficial Sintechtica · Ecossistema Ânima</span>
-      </div>
+  <main class="page">
+    <section class="hero-layout">
+      <article class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">BEM-VINDO À ACADEMIA</span>
+          <h1>Aprender a validar materiais didáticos nunca deveria ser complicado.</h1>
+          <p>
+            A Academia dos Validadores reúne, em um único lugar, tudo o que você precisa
+            para aprender, praticar e validar materiais com excelência.
+          </p>
 
-      <h1 class="hero-titulo">
-        Seja um <span class="grad-text">Guardião</span><br/>
-        da Qualidade Acadêmica
-      </h1>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="pages/trilha.html">🚀 Começar Capacitação</a>
+            <a class="btn btn-ghost" href="#jornada">▶ Continuar Jornada</a>
+          </div>
 
-      <p class="hero-subtitulo">
-        A Academia dos Validadores é a plataforma de capacitação gamificada para profissionais
-        que garantem a excelência do conteúdo educacional digital no ecossistema Ânima.
-        Aprenda, evolua e certifique-se.
-      </p>
-
-      <div class="hero-acoes">
-        <a href="pages/trilha.html" class="btn btn-primario btn-lg">
-          <span>🎯</span> Iniciar Trilha
-        </a>
-        <a href="#missao" class="btn btn-outline btn-lg">
-          <span>📋</span> Ver Missão da Semana
-        </a>
-      </div>
-
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-num grad-text">8</span>
-          <span class="hero-stat-label">Módulos</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num grad-text">40+</span>
-          <span class="hero-stat-label">Questões</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num grad-text">8</span>
-          <span class="hero-stat-label">Medalhas</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num grad-text">7</span>
-          <span class="hero-stat-label">Níveis</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-visual">
-      <div class="hero-card-flutuante">
-        <div class="hcf-header">
-          <span class="hcf-icon">⚡</span>
-          <span class="hcf-titulo">Seu Progresso</span>
-        </div>
-        <div class="hcf-nivel">
-          <div class="hcf-nivel-badge" id="heroNivelBadge">Aprendiz</div>
-          <span class="hcf-xp" id="heroXP">0 XP</span>
-        </div>
-        <div class="progress-bar mt-md">
-          <div class="progress-fill aurora" id="heroProgressBar" style="width:0%"></div>
-        </div>
-        <div class="hcf-modulos">
-          <span id="heroModulosCompletos">0</span>/8 módulos completos
-        </div>
-        <div class="hcf-sequencia">
-          <span>🔥</span>
-          <span id="heroSequencia">0</span> dias de sequência
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-scroll-hint">
-    <span>↓</span>
-  </div>
-</section>
-
-<!-- ══ MISSÃO DA SEMANA ═════════════════════════════════ -->
-<section class="section" id="missao">
-  <div class="container">
-    <div class="missao-wrapper">
-      <div class="missao-header">
-        <div class="missao-badge">
-          <span>🎯</span> Missão da Semana
-        </div>
-        <div class="missao-timer" id="missaoTimer">
-          <span>⏱️</span> <span id="timerTexto">Carregando...</span>
-        </div>
-      </div>
-
-      <div class="missao-card">
-        <div class="missao-icon">📊</div>
-        <div class="missao-info">
-          <h3>Dominar a Planilha de Validação</h3>
-          <p>Complete o Módulo 3 — Planilha de Validação — e obtenha 80% ou mais no quiz para ganhar bônus de XP e desbloquear a medalha <strong>Perfeccionista</strong>.</p>
-          <div class="missao-recompensas">
-            <div class="missao-recomp">
-              <span>⚡</span> +150 XP Bônus
-            </div>
-            <div class="missao-recomp">
-              <span>💎</span> Medalha Perfeccionista
-            </div>
-            <div class="missao-recomp">
-              <span>🔓</span> Módulo 4 Desbloqueado
-            </div>
+          <div class="hero-badges">
+            <span>🛡 Conteúdo oficial Sintechtica</span>
+            <span>✓ Aprendizagem prática</span>
+            <span>◎ Foco na qualidade</span>
           </div>
         </div>
-        <div class="missao-acao">
-          <a href="pages/trilha.html" class="btn btn-primario">
-            Aceitar Missão →
-          </a>
+
+        <div class="hero-visual">
+          <img src="assets/aurora-hero.jpg" alt="Aurora, assistente da Academia dos Validadores">
+          <div class="speech">
+            <strong>Olá! Eu sou a Aurora.</strong>
+            <p>Estou aqui para te guiar em cada etapa da sua jornada. Conte comigo!</p>
+            <span>♥</span>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </article>
 
-<!-- ══ TRILHA PREVIEW ══════════════════════════════════ -->
-<section class="section section-trilha" id="trilha-preview">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Jornada de Aprendizagem</span>
-      <h2>Trilha de <span class="grad-text">8 Módulos</span></h2>
-      <div class="divider"></div>
-      <p>Do fundamentos à excelência — uma jornada estruturada para formar validadores de alto nível.</p>
-    </div>
+      <aside class="profile-card" id="progresso">
+        <div class="profile-title">👤 Meu Perfil</div>
+        <small>NÍVEL ATUAL</small>
+        <h3>🌱 Aprendiz</h3>
 
-    <div class="trilha-preview-grid" id="trilhaPreviewGrid">
-      <!-- Módulos renderizados via JS -->
-    </div>
-
-    <div class="text-center mt-xl">
-      <a href="pages/trilha.html" class="btn btn-primario btn-lg">
-        Ver Trilha Completa →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ ESTATÍSTICAS ════════════════════════════════════ -->
-<section class="section section-stats" id="stats">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Sua Jornada</span>
-      <h2>Acompanhe seu <span class="grad-text">Desempenho</span></h2>
-      <div class="divider"></div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(108,99,255,0.2);">⚡</div>
-        <div class="stat-valor grad-text" id="statXP">0</div>
-        <div class="stat-label">XP Total</div>
-        <div class="stat-desc">Pontos de experiência acumulados</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(67,233,123,0.2);">📚</div>
-        <div class="stat-valor grad-text-verde" id="statModulos">0/8</div>
-        <div class="stat-label">Módulos</div>
-        <div class="stat-desc">Módulos completados na trilha</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(255,101,132,0.2);">🔥</div>
-        <div class="stat-valor" style="background:var(--grad-aurora);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="statSequencia">0</div>
-        <div class="stat-label">Dias Seguidos</div>
-        <div class="stat-desc">Sequência atual de estudo</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(250,130,49,0.2);">🏅</div>
-        <div class="stat-valor" style="color:#FA8231;" id="statMedalhas">0/8</div>
-        <div class="stat-label">Medalhas</div>
-        <div class="stat-desc">Conquistas desbloqueadas</div>
-      </div>
-    </div>
-
-    <div class="progresso-geral card mt-xl">
-      <div class="flex-between mb-md">
-        <div>
-          <h4>Progresso Geral da Trilha</h4>
-          <p class="text-muted" style="margin:0;font-size:0.9rem;">Continue estudando para completar todos os módulos</p>
+        <div class="progress-line">
+          <div class="progress"><span style="width:35%"></span></div>
+          <b>35%</b>
         </div>
-        <span class="badge badge-primario" id="progressoBadge">0%</span>
-      </div>
-      <div class="progress-bar" style="height:12px;">
-        <div class="progress-fill aurora" id="progressoGeralBar" style="width:0%"></div>
-      </div>
-      <div class="progresso-modulos-mini mt-md" id="progressoModulosMini">
-        <!-- Mini indicadores dos módulos -->
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ══ GAMIFICAÇÃO PREVIEW ═════════════════════════════ -->
-<section class="section" id="gamificacao-preview">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Sistema de Recompensas</span>
-      <h2>Evolua e <span class="grad-text">Conquiste</span></h2>
-      <div class="divider"></div>
-      <p>XP, níveis, medalhas e ranking — cada avanço é celebrado e recompensado.</p>
-    </div>
+        <hr>
+        <small>XP ACUMULADO</small>
+        <h2>★ 350 XP</h2>
 
-    <div class="grid-3">
-      <div class="card card-feature">
-        <div class="card-feature-icon" style="background:rgba(108,99,255,0.2);">⚡</div>
-        <h3>Sistema de XP</h3>
-        <p class="text-muted">Ganhe pontos de experiência ao completar módulos, quizzes e missões especiais. Cada ação conta!</p>
-        <a href="pages/gamificacao.html" class="btn btn-ghost btn-sm mt-md">Saiba mais →</a>
-      </div>
-      <div class="card card-feature">
-        <div class="card-feature-icon" style="background:rgba(67,233,123,0.2);">🏆</div>
-        <h3>Medalhas & Conquistas</h3>
-        <p class="text-muted">8 medalhas exclusivas para desbloquear. Cada conquista reflete sua dedicação e excelência.</p>
-        <a href="pages/gamificacao.html" class="btn btn-ghost btn-sm mt-md">Ver medalhas →</a>
-      </div>
-      <div class="card card-feature">
-        <div class="card-feature-icon" style="background:rgba(250,130,49,0.2);">📊</div>
-        <h3>Ranking & Níveis</h3>
-        <p class="text-muted">7 níveis de progressão, do Aprendiz ao Guardião da Qualidade. Onde você está na jornada?</p>
-        <a href="pages/gamificacao.html" class="btn btn-ghost btn-sm mt-md">Ver ranking →</a>
-      </div>
-    </div>
-  </div>
-</section>
+        <hr>
+        <small>MEDALHAS CONQUISTADAS</small>
+        <div class="medals" id="medalhas">
+          <span>🥉</span><span>🥈</span><span>+2</span>
+        </div>
 
-<!-- ══ FAQ ══════════════════════════════════════════════ -->
-<section class="section section-faq" id="faq">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Dúvidas Frequentes</span>
-      <h2>Perguntas <span class="grad-text">Frequentes</span></h2>
-      <div class="divider"></div>
-    </div>
+        <a class="profile-link" href="pages/perfil.html">Ver meu progresso →</a>
+      </aside>
+    </section>
 
-    <div class="faq-lista" id="faqLista">
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>O que é a Academia dos Validadores?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>A Academia dos Validadores é a plataforma oficial de capacitação da Sintechtica para profissionais do ecossistema Ânima. Oferece uma trilha de aprendizagem gamificada com 8 módulos, sistema de XP, medalhas e certificação para validadores acadêmicos.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>Como funciona o sistema de XP e níveis?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>Você ganha XP ao completar módulos, acertar questões nos quizzes, manter sequências de estudo e desbloquear medalhas. Com o XP acumulado, você avança pelos 7 níveis: Aprendiz, Iniciante, Praticante, Validador, Especialista, Mestre e Guardião da Qualidade.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>Posso obter certificado ao concluir a trilha?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>Sim! Ao completar todos os 8 módulos da trilha e atingir a pontuação mínima nos quizzes, você pode gerar seu Certificado de Validador Acadêmico, emitido pela Sintechtica com validação do ecossistema Ânima.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>Os módulos precisam ser feitos em ordem?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>Os três primeiros módulos (Introdução, Fluxo de Trabalho e Planilha de Validação) estão disponíveis imediatamente. Os módulos seguintes são desbloqueados progressivamente conforme você avança, garantindo uma aprendizagem estruturada e eficaz.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>O progresso é salvo automaticamente?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>Sim! Todo o seu progresso — XP, módulos completos, resultados de quizzes, medalhas e sequência de estudo — é salvo automaticamente no seu navegador. Para não perder o progresso, evite limpar os dados do navegador.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-pergunta">
-          <span>Quantas tentativas tenho em cada quiz?</span>
-          <span class="faq-icone">+</span>
-        </button>
-        <div class="faq-resposta">
-          <p>Cada quiz pode ser realizado quantas vezes quiser para aprendizagem. No entanto, o XP máximo é concedido apenas na primeira tentativa com pontuação completa. Tentativas subsequentes oferecem XP reduzido como incentivo à revisão.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="dashboard">
+      <article class="card mission-card">
+        <header>🎯 <span>MISSÃO DA SEMANA</span></header>
+        <h2>Validar corretamente uma Unidade de Aprendizagem.</h2>
 
-<!-- ══ CTA FINAL ════════════════════════════════════════ -->
-<section class="section section-cta">
-  <div class="container">
-    <div class="cta-card aurora-bg">
-      <div class="cta-content">
-        <h2>Pronto para se tornar um <span class="grad-text">Guardião da Qualidade</span>?</h2>
-        <p>Junte-se à Academia dos Validadores e eleve seu nível de excelência acadêmica.</p>
-        <div class="cta-acoes">
-          <a href="pages/trilha.html" class="btn btn-primario btn-lg">
-            🎯 Começar Agora
-          </a>
-          <a href="pages/perfil.html" class="btn btn-outline btn-lg">
-            👤 Meu Perfil
-          </a>
+        <div class="mission-info">
+          <div>
+            <small>◷ TEMPO ESTIMADO</small>
+            <strong>18 minutos</strong>
+          </div>
+          <div>
+            <small>⚑ OBJETIVO</small>
+            <p>Aplicar corretamente todos os critérios de qualidade da Sintechtica.</p>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ══ FOOTER ═══════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="logo">🎓 Academia <span class="grad-text">Validadores</span></span>
-        <p>Plataforma oficial de capacitação para validadores acadêmicos do ecossistema Ânima. Qualidade, excelência e inovação no ensino superior digital.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Plataforma</h4>
+        <a class="btn btn-primary full" href="pages/gamificacao.html">Iniciar Missão →</a>
+      </article>
+
+      <article class="card journey-card" id="jornada">
+        <div class="card-header">
+          <h3>📘 TRILHA DE CAPACITAÇÃO</h3>
+          <a href="pages/trilha.html">Ver todas as etapas →</a>
+        </div>
+
+        <div class="journey">
+          <div class="journey-line"></div>
+          <div class="stage done"><b>1</b><span>Primeiros<br>Passos</span></div>
+          <div class="stage done"><b>2</b><span>Dominando<br>o Fluxo</span></div>
+          <div class="stage current"><b>3</b><span>Guardião da<br>Planilha</span></div>
+          <div class="stage"><b>4</b><span>Mestre<br>da UA</span></div>
+          <div class="stage"><b>5</b><span>Auditor<br>do BDQ</span></div>
+          <div class="stage"><b>6</b><span>Guardião<br>da UC</span></div>
+          <div class="stage"><b>7</b><span>Especialista<br>em Apoio</span></div>
+          <div class="stage"><b>8</b><span>Especialista em<br>Qualidade</span></div>
+        </div>
+
+        <div class="journey-tip">★ Complete as etapas na ordem para se tornar um Especialista em Qualidade Acadêmica.</div>
+      </article>
+
+      <article class="card stats-card">
+        <header>📊 <span>ESTATÍSTICAS RÁPIDAS</span></header>
+        <div class="stats-grid">
+          <div><strong>3</strong><span>Etapas concluídas</span></div>
+          <div><strong>35%</strong><span>Progresso geral</span></div>
+          <div><strong>18 <small>min</small></strong><span>Tempo de estudo</span></div>
+          <div><strong>350 <small>XP</small></strong><span>Pontuação total</span></div>
+        </div>
+
+        <div class="aurora-tip">
+          <div class="tip-avatar">A</div>
+          <div>
+            <small>DICA DA AURORA</small>
+            <p>Dedique um tempo diário para sua jornada. Pequenos passos te levam a grandes conquistas!</p>
+          </div>
+          <span>♥</span>
+        </div>
+      </article>
+
+      <article class="card arsenal-card" id="arsenal">
+        <div class="card-header">
+          <h3>🧰 ARSENAL DO VALIDADOR</h3>
+          <a href="#">Acessar Arsenal →</a>
+        </div>
+        <div class="tools">
+          <a href="#"><span>📄</span>Modelos e Formulários</a>
+          <a href="#"><span>📋</span>Checklists de Validação</a>
+          <a href="#"><span>♡</span>Critérios de Qualidade</a>
+          <a href="#"><span>⌘</span>Fluxos e Processos</a>
+          <a href="#"><span>💬</span>Exemplos Práticos</a>
+          <a href="#"><span>📖</span>Biblioteca de Materiais</a>
+        </div>
+      </article>
+
+      <article class="card news-card">
+        <div class="card-header">
+          <h3>📣 NOVIDADES E ATUALIZAÇÕES</h3>
+          <a href="#">Ver todas →</a>
+        </div>
         <ul>
-          <li><a href="index.html">Início</a></li>
-          <li><a href="pages/trilha.html">Trilha de Aprendizagem</a></li>
-          <li><a href="pages/gamificacao.html">Gamificação</a></li>
-          <li><a href="pages/perfil.html">Meu Perfil</a></li>
+          <li><b>NOVO</b> Novo checklist de validação de UA disponível! <time>22/07/2026</time></li>
+          <li>📄 Atualização nos critérios de qualidade — BDQ <time>18/07/2026</time></li>
+          <li>▶ Live: Dúvidas sobre validação de UC <time>25/07/2026</time></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Recursos</h4>
-        <ul>
-          <li><a href="pages/certificacao.html">Certificação</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#missao">Missão da Semana</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Ecossistema</h4>
-        <ul>
-          <li><a href="#">Sintechtica</a></li>
-          <li><a href="#">Ânima Educação</a></li>
-          <li><a href="#">Qualidade Acadêmica</a></li>
-        </ul>
-      </div>
-    </div>
+      </article>
 
-    <div class="footer-bottom">
-      <p>&copy; 2025 Sintechtica — Qualidade Acadêmica Digital — Ecossistema Ânima.</p>
-      <p>Desenvolvido com 💜 para validadores de excelência.</p>
-    </div>
-  </div>
-</footer>
+      <article class="card faq-card" id="faq">
+        <div class="card-header">
+          <h3>❓ PERGUNTAS FREQUENTES</h3>
+          <a href="#">Ver todas →</a>
+        </div>
 
-<!-- ══ SCRIPTS ══════════════════════════════════════════ -->
-<script src="data/trilha.js"></script>
-<script src="js/app.js"></script>
-<script src="js/home.js"></script>
+        <div class="faq">
+          <button>Como sei se estou aplicando o critério corretamente?<span>+</span></button>
+          <div class="answer">Consulte o checklist oficial e compare com os exemplos práticos.</div>
+
+          <button>Qual a diferença entre UA e UC?<span>+</span></button>
+          <div class="answer">UA é Unidade de Aprendizagem; UC é Unidade Curricular.</div>
+
+          <button>Onde encontro os modelos atualizados?<span>+</span></button>
+          <div class="answer">Na seção Arsenal do Validador.</div>
+
+          <button>Como funciona a certificação?<span>+</span></button>
+          <div class="answer">A certificação é liberada após a conclusão dos módulos obrigatórios.</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <strong>sintechtica</strong>
+      <span>Educação Digital com Excelência</span>
+    </div>
+    <p>Academia dos Validadores by Sintechtica © 2026 — Todos os direitos reservados.</p>
+    <b>Aprender. Validar. Transformar.</b>
+  </footer>
+
+  <script src="js/index-dashboard.js"></script>
 </body>
 </html>

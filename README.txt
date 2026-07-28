@@ -1,0 +1,1 @@
+Copie index.html e as pastas assets, css e js para a raiz do repositório. Depois faça Commit to main e Push origin no GitHub Desktop.
