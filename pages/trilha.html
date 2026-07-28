@@ -1,371 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trilha de Aprendizagem — Academia dos Validadores</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/global.css" />
-  <style>
-    body { padding-top: 72px; }
-
-    .trilha-hero {
-      background: var(--grad-hero);
-      padding: var(--gap-3xl) 0;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .trilha-hero-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--gap-xl);
-      flex-wrap: wrap;
-    }
-
-    .trilha-progresso-card {
-      background: rgba(26,26,46,0.9);
-      border: 1px solid rgba(108,99,255,0.3);
-      border-radius: var(--radius-xl);
-      padding: var(--gap-xl);
-      min-width: 280px;
-    }
-
-    /* ── TRILHA VISUAL ── */
-    .trilha-container {
-      padding: var(--gap-3xl) 0;
-    }
-
-    .trilha-linha {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-
-    .trilha-linha::before {
-      content: '';
-      position: absolute;
-      left: 40px;
-      top: 60px;
-      bottom: 60px;
-      width: 3px;
-      background: linear-gradient(to bottom, var(--cor-primaria), rgba(108,99,255,0.2));
-      z-index: 0;
-    }
-
-    .modulo-item {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: var(--gap-xl);
-      align-items: flex-start;
-      padding: var(--gap-lg) 0;
-      position: relative;
-    }
-
-    .modulo-num-circle {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      border: 3px solid;
-      background: var(--cor-bg-card);
-      position: relative;
-      z-index: 1;
-      flex-shrink: 0;
-      transition: all var(--trans-media);
-    }
-
-    .modulo-num-circle.completo {
-      border-color: #43E97B;
-      background: rgba(67,233,123,0.1);
-      box-shadow: 0 0 20px rgba(67,233,123,0.3);
-    }
-
-    .modulo-num-circle.disponivel {
-      border-color: var(--cor-primaria);
-      background: rgba(108,99,255,0.1);
-      box-shadow: 0 0 20px rgba(108,99,255,0.3);
-    }
-
-    .modulo-num-circle.bloqueado {
-      border-color: rgba(255,255,255,0.1);
-      opacity: 0.5;
-    }
-
-    .modulo-card-full {
-      background: var(--cor-bg-card);
-      border: 1px solid var(--cor-borda);
-      border-radius: var(--radius-lg);
-      padding: var(--gap-xl);
-      transition: all var(--trans-media);
-      margin-bottom: var(--gap-md);
-    }
-
-    .modulo-card-full.disponivel:hover {
-      border-color: rgba(108,99,255,0.5);
-      transform: translateX(4px);
-      box-shadow: var(--sombra-glow);
-    }
-
-    .modulo-card-full.completo {
-      border-color: rgba(67,233,123,0.3);
-      background: rgba(67,233,123,0.03);
-    }
-
-    .modulo-card-full.bloqueado { opacity: 0.55; }
-
-    .modulo-card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: var(--gap-md);
-      margin-bottom: var(--gap-md);
-    }
-
-    .modulo-card-titulo { font-size: 1.2rem; margin-bottom: var(--gap-xs); }
-    .modulo-card-desc   { color: var(--cor-texto-muted); font-size: 0.95rem; margin: 0; }
-
-    .modulo-meta {
-      display: flex;
-      gap: var(--gap-md);
-      flex-wrap: wrap;
-      margin: var(--gap-md) 0;
-    }
-
-    .modulo-meta-item {
-      display: flex;
-      align-items: center;
-      gap: var(--gap-xs);
-      font-size: 0.8rem;
-      color: var(--cor-texto-muted);
-    }
-
-    .modulo-acoes {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--gap-md);
-      flex-wrap: wrap;
-    }
-
-    .modulo-quiz-resultado {
-      font-size: 0.85rem;
-      color: #43E97B;
-      font-weight: 600;
-    }
-
-    /* ── FILTROS ── */
-    .trilha-filtros {
-      display: flex;
-      gap: var(--gap-sm);
-      margin-bottom: var(--gap-2xl);
-      flex-wrap: wrap;
-    }
-
-    .filtro-btn {
-      background: var(--cor-bg-card);
-      border: 1px solid var(--cor-borda);
-      border-radius: var(--radius-full);
-      padding: 0.4rem 1rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--cor-texto-muted);
-      cursor: pointer;
-      transition: all var(--trans-rapida);
-    }
-
-    .filtro-btn:hover,
-    .filtro-btn.ativo {
-      background: rgba(108,99,255,0.15);
-      border-color: var(--cor-primaria);
-      color: var(--cor-primaria);
-    }
-
-    @media (max-width: 768px) {
-      .trilha-linha::before { left: 28px; }
-      .modulo-item { grid-template-columns: 56px 1fr; gap: var(--gap-md); }
-      .modulo-num-circle { width: 56px; height: 56px; font-size: 1.4rem; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Jornada | Academia dos Validadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
 </head>
 <body>
+  
+<header class="topbar">
+  <a class="brand" href="../index.html">Academia dos Validadores</a>
+  <nav class="main-nav">
+    <a href="../index.html">Início</a>
+    <a href="trilha.html">Minha Jornada</a>
+    <a href="gamificacao.html">Missões</a>
+    <a href="perfil.html">Meu Progresso</a>
+    <a href="certificacao.html">Certificação</a>
+  </nav>
+</header>
 
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <div class="navbar-inner">
-      <a href="../index.html" class="navbar-logo">
-        <div class="logo-icon">🎓</div>
-        <span>Academia <span class="grad-text">Validadores</span></span>
-      </a>
-      <ul class="navbar-nav">
-        <li><a href="../index.html">Início</a></li>
-        <li><a href="trilha.html" class="ativo">Trilha</a></li>
-        <li><a href="gamificacao.html">Gamificação</a></li>
-        <li><a href="perfil.html">Perfil</a></li>
-        <li><a href="certificacao.html">Certificação</a></li>
-      </ul>
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <div class="navbar-xp"><span>⚡</span><span class="navbar-xp-valor">0 XP</span></div>
-        <a href="perfil.html" class="navbar-avatar">👤</a>
-        <button class="navbar-toggle"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </div>
-</nav>
+  <main class="page-content">
+    <section class="page-hero">
+      <span class="eyebrow">ACADEMIA DOS VALIDADORES</span>
+      <h1>Minha Jornada</h1>
+      <p>Conteúdo e etapas da trilha de capacitação.</p>
+    </section>
 
-<!-- HERO -->
-<section class="trilha-hero aurora-bg">
-  <div class="container">
-    <div class="trilha-hero-inner">
-      <div>
-        <span class="badge badge-primario mb-md">📚 Trilha de Aprendizagem</span>
-        <h1>8 Módulos para a <span class="grad-text">Excelência</span></h1>
-        <p style="color:var(--cor-texto-muted);max-width:500px;margin:var(--gap-md) 0 0;">
-          Uma jornada estruturada do fundamento à maestria. Complete os módulos em sequência e torne-se um Guardião da Qualidade Acadêmica.
-        </p>
-      </div>
-      <div class="trilha-progresso-card">
-        <div style="font-weight:700;margin-bottom:var(--gap-md);">📊 Seu Progresso</div>
-        <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--cor-texto-muted);margin-bottom:var(--gap-sm);">
-          <span>Módulos completos</span>
-          <span id="trilhaProgressoNum">0/8</span>
-        </div>
-        <div class="progress-bar" style="height:10px;margin-bottom:var(--gap-md);">
-          <div class="progress-fill aurora" id="trilhaProgressoBar" style="width:0%"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
-          <span style="color:var(--cor-texto-muted);">XP da trilha</span>
-          <span style="color:var(--cor-primaria);font-weight:700;" id="trilhaXPTotal">0 / 1.380 XP</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRILHA -->
-<div class="trilha-container">
-  <div class="container">
-
-    <div class="trilha-filtros">
-      <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
-      <button class="filtro-btn" data-filtro="disponivel">Disponíveis</button>
-      <button class="filtro-btn" data-filtro="completo">Completos</button>
-      <button class="filtro-btn" data-filtro="bloqueado">Bloqueados</button>
-    </div>
-
-    <div class="trilha-linha" id="trilhaLinha"></div>
-
-  </div>
-</div>
-
+    <section class="content-card">
+      <h2>Área de conteúdo</h2>
+      <p>Substitua este conteúdo pelo conteúdo original desta página.</p>
+    </section>
+  </main>
+  
 <footer class="footer">
-  <div class="container">
-    <div class="footer-bottom">
-      <p>&copy; 2025 Sintechtica — Qualidade Acadêmica Digital — Ecossistema Ânima.</p>
-      <p><a href="../index.html">← Voltar ao Início</a></p>
-    </div>
-  </div>
+  <p>Academia dos Validadores by Sintechtica © 2026</p>
 </footer>
 
-<script src="../data/trilha.js"></script>
-<script src="../js/app.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  renderizarTrilha();
-  atualizarProgressoTrilha();
-  iniciarFiltros();
-});
-
-function renderizarTrilha() {
-  const container = document.getElementById("trilhaLinha");
-  const u = App?.usuario || {};
-  const modulosCompletos = u.modulosCompletos || [];
-
-  TRILHA.modulos.forEach((mod, idx) => {
-    const completo    = modulosCompletos.includes(mod.id);
-    const desbloqueado = idx < 3 || modulosCompletos.length >= idx;
-    const status = completo ? "completo" : (desbloqueado ? "disponivel" : "bloqueado");
-    const quizRes = (u.quizResultados || {})[mod.id];
-
-    const item = document.createElement("div");
-    item.className = "modulo-item";
-    item.dataset.status = status;
-
-    const nivelCores = { "Iniciante": "#27AE60", "Intermediário": "#2980B9", "Avançado": "#8E44AD", "Expert": "#E74C3C" };
-    const nivelCor = nivelCores[mod.nivel] || "#6C63FF";
-
-    item.innerHTML = `
-      <div class="modulo-num-circle ${status}">
-        ${completo ? "✅" : mod.icone}
-      </div>
-      <div class="modulo-card-full ${status}">
-        <div class="modulo-card-header">
-          <div>
-            <div style="font-size:0.75rem;color:var(--cor-texto-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Módulo ${mod.id}</div>
-            <h3 class="modulo-card-titulo">${mod.titulo}</h3>
-            <p class="modulo-card-desc">${mod.descricao}</p>
-          </div>
-          <div style="flex-shrink:0;">
-            <span class="badge" style="background:${nivelCor}22;color:${nivelCor};border:1px solid ${nivelCor}44;">${mod.nivel}</span>
-          </div>
-        </div>
-
-        <div class="modulo-meta">
-          <div class="modulo-meta-item"><span>⚡</span> ${mod.xp} XP</div>
-          <div class="modulo-meta-item"><span>⏱️</span> ${mod.duracao}</div>
-          <div class="modulo-meta-item"><span>❓</span> ${mod.quiz.length} questões</div>
-          ${quizRes ? `<div class="modulo-meta-item" style="color:#43E97B;"><span>📊</span> Melhor: ${quizRes.percentual}%</div>` : ""}
-        </div>
-
-        <div class="modulo-acoes">
-          ${status === "bloqueado"
-            ? `<span style="color:var(--cor-texto-muted);font-size:0.85rem;">🔒 Complete os módulos anteriores para desbloquear</span>`
-            : `<a href="modulo.html?id=${mod.id}" class="btn ${completo ? "btn-ghost" : "btn-primario"}">
-                ${completo ? "📖 Revisar Módulo" : "▶ Iniciar Módulo"}
-              </a>
-              ${completo ? `<span class="modulo-quiz-resultado">✅ Módulo Concluído${quizRes ? " · " + quizRes.percentual + "% no quiz" : ""}</span>` : ""}
-            `}
-        </div>
-      </div>
-    `;
-
-    container.appendChild(item);
-  });
-}
-
-function atualizarProgressoTrilha() {
-  const u = App?.usuario || {};
-  const completos = (u.modulosCompletos || []).length;
-  const xpTrilha = TRILHA.modulos.reduce((acc, m) => {
-    return (u.modulosCompletos || []).includes(m.id) ? acc + m.xp : acc;
-  }, 0);
-  const xpTotal = TRILHA.modulos.reduce((acc, m) => acc + m.xp, 0);
-
-  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  set("trilhaProgressoNum", `${completos}/8`);
-  set("trilhaXPTotal", `${xpTrilha.toLocaleString("pt-BR")} / ${xpTotal.toLocaleString("pt-BR")} XP`);
-  const bar = document.getElementById("trilhaProgressoBar");
-  if (bar) bar.style.width = Math.round((completos / 8) * 100) + "%";
-}
-
-function iniciarFiltros() {
-  document.querySelectorAll(".filtro-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
-      btn.classList.add("ativo");
-      const filtro = btn.dataset.filtro;
-      document.querySelectorAll(".modulo-item").forEach(item => {
-        item.style.display = (filtro === "todos" || item.dataset.status === filtro) ? "" : "none";
-      });
-    });
-  });
-}
-</script>
+  <script src="../js/global.js"></script>
 </body>
 </html>

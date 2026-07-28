@@ -1,0 +1,19 @@
+.page-content{max-width:1200px;margin:0 auto;padding:28px 18px}
+.page-hero{
+  padding:34px;border-radius:22px;color:#fff;
+  background:linear-gradient(135deg,var(--roxo-profundo),var(--roxo),var(--rosa-escuro));
+  box-shadow:var(--sombra)
+}
+.eyebrow{color:#ff79c8;font-weight:800;font-size:13px}
+.page-hero h1{font:800 38px Poppins,sans-serif;margin:12px 0}
+.page-hero p{line-height:1.6;color:#f2eaf7}
+.content-card{
+  margin-top:20px;padding:26px;background:#fff;border:1px solid var(--linha);
+  border-radius:20px;box-shadow:var(--sombra)
+}
+.content-card h2{color:var(--roxo);margin-bottom:10px}
+@media(max-width:700px){
+  .topbar{align-items:flex-start;flex-direction:column}
+  .main-nav{gap:10px}
+  .page-hero h1{font-size:30px}
+}
