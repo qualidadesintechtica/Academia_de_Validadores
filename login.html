@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | Academia dos Validadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <main class="auth-shell">
+    <section class="auth-brand">
+      <div class="brand-mark">✓</div>
+      <h1>Academia dos Validadores</h1>
+      <p>Aprender, validar e transformar a qualidade da educação digital.</p>
+    </section>
+
+    <section class="auth-card">
+      <div class="auth-panel" id="loginPanel">
+        <h2>Entrar</h2>
+        <p>Use seu e-mail e sua senha para acessar a Academia.</p>
+        <div id="authMessage" class="auth-message" hidden></div>
+        <form id="loginForm">
+          <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="loginPassword">Senha</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+          <button class="auth-submit" type="submit">Entrar</button>
+        </form>
+        <p class="switch-panel">Ainda não tem acesso? <button type="button" data-show-panel="register">Criar conta</button></p>
+      </div>
+
+      <div class="auth-panel" id="registerPanel" hidden>
+        <h2>Criar conta</h2>
+        <p>Preencha seus dados para solicitar acesso.</p>
+        <form id="registerForm">
+          <div class="field"><label for="registerName">Nome completo</label><input id="registerName" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="registerEmail">E-mail</label><input id="registerEmail" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="registerPassword">Senha</label><input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required></div>
+          <button class="auth-submit" type="submit">Criar conta</button>
+        </form>
+        <p class="switch-panel">Já possui conta? <button type="button" data-show-panel="login">Voltar ao login</button></p>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
