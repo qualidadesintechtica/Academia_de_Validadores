@@ -18,7 +18,8 @@
     return;
   }
 
-  const nome = user.user_metadata?.nome || user.email?.split('@')[0] || 'Validador';
+  const nome = user.user_metadata?.nome || user.user_metadata?.nome_completo || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Validador';
+  localStorage.setItem('academia_nome_usuario', nome);
   const iniciais = nome
     .split(/\s+/)
     .filter(Boolean)

@@ -103,10 +103,17 @@ registerForm.addEventListener('submit', async event => {
     return;
   }
 
+  // Sempre retorna à tela de login após o cadastro.
+  // Mesmo quando a confirmação de e-mail estiver desativada no Supabase,
+  // encerramos a sessão criada automaticamente para manter o mesmo fluxo.
   if (data.session) {
-    window.location.replace('index.html');
-  } else {
-    showMessage('Cadastro realizado. Abra o e-mail recebido para confirmar a conta e depois faça o login.', 'success');
-    registerForm.reset();
+    await supabaseClient.auth.signOut();
   }
+
+  registerForm.reset();
+  registerPanel.hidden = true;
+  loginPanel.hidden = false;
+  showMessage('Conta criada! Enviamos um e-mail de confirmação. Confirme seu cadastro pelo link recebido e depois faça o login.', 'success');
+  document.getElementById('loginEmail').value = email;
+  document.getElementById('loginPassword').focus();
 });

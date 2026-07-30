@@ -14,3 +14,14 @@ Arquivos integrados:
 - trilhas/bdq.html
 
 Atenção: a chave pública e a URL do Supabase foram preservadas do projeto existente.
+
+
+ALTERAÇÕES DE INTERFACE - JULHO/2026
+- Nome da Academia destacado na tela de entrada.
+- Aviso de confirmação por e-mail no cadastro.
+- Após criar a conta, retorno automático ao login.
+- Nome real do professor exibido a partir do cadastro no Supabase.
+- Balão flutuante da Aurora.
+- Missões e Ajuda marcadas como Em breve.
+- Arsenal removido do menu e da página inicial.
+- Consulte CONFIGURAR_EMAIL_CONFIRMACAO.txt para alterar o assunto do e-mail.

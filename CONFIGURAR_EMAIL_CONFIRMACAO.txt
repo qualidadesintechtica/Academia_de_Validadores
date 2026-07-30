@@ -1,0 +1,16 @@
+CONFIGURAÇÃO DO E-MAIL DE CONFIRMAÇÃO NO SUPABASE
+
+Essa alteração não é feita no código do site.
+
+1. Abra o projeto no Supabase.
+2. Acesse Authentication > Email Templates > Confirm signup.
+3. No campo Subject, use:
+
+Confirme seu acesso à Academia dos Validadores
+
+4. Sugestão de título dentro da mensagem:
+
+Confirme seu cadastro na Academia dos Validadores
+
+5. Mantenha no corpo o link de confirmação do Supabase: {{ .ConfirmationURL }}
+6. Salve as alterações.
