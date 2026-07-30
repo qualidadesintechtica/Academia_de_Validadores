@@ -1,50 +1,58 @@
 [
   {
     "id": 1,
-    "titulo": "Primeiros Passos",
-    "descricao": "Conheça a Academia e o papel do validador.",
-    "icone": "🌱"
+    "titulo": "Introdução",
+    "descricao": "Conheça o Núcleo de Qualidade e a trilha de validação.",
+    "icone": "🌱",
+    "arquivo": "introducao.html",
+    "disponivel": true
   },
   {
     "id": 2,
-    "titulo": "Dominando o Fluxo",
-    "descricao": "Entenda etapas, responsáveis e entregas.",
-    "icone": "🗂️"
+    "titulo": "Fluxo e ferramentas de apoio",
+    "descricao": "Conheça o fluxo, as plataformas e os recursos de apoio.",
+    "icone": "🗂️",
+    "arquivo": "ferramentas.html",
+    "disponivel": true
   },
   {
     "id": 3,
-    "titulo": "Guardião da Planilha",
-    "descricao": "Aprenda registros e acompanhamento.",
-    "icone": "📊"
+    "titulo": "Validação da planilha de entrada",
+    "descricao": "Aprenda a conferir e validar a planilha de entrada.",
+    "icone": "📊",
+    "arquivo": "planilha.html",
+    "disponivel": false
   },
   {
     "id": 4,
-    "titulo": "Mestre da UA",
-    "descricao": "Valide Unidades de Aprendizagem.",
-    "icone": "📘"
+    "titulo": "Validação da UA",
+    "descricao": "Valide as Unidades de Aprendizagem conforme os critérios do NQ.",
+    "icone": "📘",
+    "arquivo": "ua.html",
+    "disponivel": true
   },
   {
     "id": 5,
-    "titulo": "Auditor do BDQ",
-    "descricao": "Avalie bancos de questões.",
-    "icone": "🗄️"
+    "titulo": "Validação de BDQ",
+    "descricao": "Avalie os itens avaliativos e o Banco de Questões.",
+    "icone": "🗄️",
+    "arquivo": "bdq.html",
+    "disponivel": true
   },
   {
     "id": 6,
-    "titulo": "Guardião da UC",
-    "descricao": "Aplique padrões na Unidade Curricular.",
-    "icone": "🎓"
+    "titulo": "Validação da UC",
+    "descricao": "Aplique os critérios de qualidade à Unidade Curricular.",
+    "icone": "🎓",
+    "arquivo": "uc.html",
+    "disponivel": false
   },
   {
     "id": 7,
-    "titulo": "Especialista em Apoio",
-    "descricao": "Use modelos e checklists.",
-    "icone": "📄"
-  },
-  {
-    "id": 8,
-    "titulo": "Especialista em Qualidade",
-    "descricao": "Integre o aprendizado e certifique-se.",
-    "icone": "🏆"
+    "titulo": "Material de apoio e FAQ",
+    "descricao": "Acesse documentos, modelos, checklists e perguntas frequentes.",
+    "icone": "📄",
+    "arquivo": "faq.html",
+    "disponivel": false
   }
 ]

@@ -1,5 +1,5 @@
 (async function protegerPagina() {
-  const loginPath = window.location.pathname.includes('/pages/') ? '../login.html' : 'login.html';
+  const loginPath = /\/(pages|trilhas)\//.test(window.location.pathname) ? '../login.html' : 'login.html';
 
   const { data: { session }, error } = await supabaseClient.auth.getSession();
 
