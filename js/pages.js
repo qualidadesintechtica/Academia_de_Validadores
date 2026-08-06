@@ -1,1 +1,0 @@
-document.querySelectorAll('[data-complete-module]').forEach(btn=>btn.addEventListener('click',()=>{const k='academia_validadores_state_v1';const s=JSON.parse(localStorage.getItem(k)||'{}');s.modulosConcluidos=Math.min(8,(s.modulosConcluidos||0)+1);s.progresso=Math.round(s.modulosConcluidos/8*100);s.xp=(s.xp||0)+100;localStorage.setItem(k,JSON.stringify(s));location.reload()}))

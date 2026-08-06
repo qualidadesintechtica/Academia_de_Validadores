@@ -1,1 +1,0 @@
-Copie todo o conteúdo para a raiz do repositório. Depois Commit to main e Push origin.
