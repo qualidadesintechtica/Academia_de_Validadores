@@ -56,9 +56,26 @@
   }
 
   async function renderCertificado(session,set){
-    atualizarIndicadores(set); const btn=document.querySelector('[data-generate-certificate]'); const aviso=document.querySelector('[data-certificate-message]'); const ok=set.size===TOTAL_MODULOS;
-    if(btn){btn.disabled=!ok;btn.textContent=ok?'Gerar certificado':'Complete os 7 módulos';}
-    if(aviso) aviso.textContent=ok?'Sua certificação está liberada.':'Conclua todos os módulos para liberar o certificado.';
+    atualizarIndicadores(set);
+    const btn=document.querySelector('[data-generate-certificate]');
+    const aviso=document.querySelector('[data-certificate-message]');
+    const preview=document.querySelector('[data-certificate-preview-message]');
+    const ok=set.size===TOTAL_MODULOS;
+
+    if(btn){
+      btn.disabled=!ok;
+      btn.textContent=ok?'Baixar certificado':'Complete os 7 módulos';
+    }
+    if(aviso){
+      aviso.textContent=ok
+        ?'Parabéns! Você concluiu a Academia dos Validadores.'
+        :'Conclua todos os módulos para liberar seu certificado.';
+    }
+    if(preview){
+      preview.textContent=ok
+        ?'Certificado liberado para emissão.'
+        :'Seu certificado ficará disponível após a conclusão da trilha.';
+    }
   }
 
   document.addEventListener('DOMContentLoaded',async()=>{
