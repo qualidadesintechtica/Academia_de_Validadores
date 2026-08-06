@@ -23,18 +23,18 @@
     document.querySelectorAll('[data-progress-bar]').forEach(el=>el.style.width=p+'%');
     const mini=document.getElementById('moduleProgressText'); if(mini) mini.textContent=p+'% da trilha';
   }
-  function desbloqueado(id,set){ return id===1 || set.has(id-1); }
+  function desbloqueado(id,set){ return true; } // acesso temporariamente liberado a todos os módulos
 
   async function renderTrilha(session,set){
     document.querySelectorAll('[data-module-card]').forEach(card=>{
-      const id=Number(card.dataset.moduleId); const available=card.dataset.available!=='false';
+      const id=Number(card.dataset.moduleId); const available=true;
       const done=set.has(id); const unlocked=desbloqueado(id,set); const link=card.querySelector('[data-module-link]'); const status=card.querySelector('[data-module-status]');
       card.classList.toggle('is-complete',done); card.classList.toggle('is-locked',!unlocked); card.classList.toggle('is-pending',!available);
       if(done){status.textContent='Concluído'; link.textContent='Revisar módulo'; link.removeAttribute('aria-disabled');}
       else if(!available){status.textContent='Conteúdo em preparação'; link.textContent='Em breve'; link.setAttribute('aria-disabled','true');}
       else if(!unlocked){status.textContent='Bloqueado'; link.textContent='🔒 Conclua o módulo anterior'; link.setAttribute('aria-disabled','true');}
       else{status.textContent='Disponível'; link.textContent='Acessar módulo'; link.removeAttribute('aria-disabled');}
-      if(!available || !unlocked){link.addEventListener('click',e=>e.preventDefault());}
+      if(!unlocked){link.addEventListener('click',e=>e.preventDefault());}
     });
     const cert=document.querySelector('[data-certificate-card]');
     if(cert){const link=cert.querySelector('a'); const ok=set.size===TOTAL_MODULOS; cert.classList.toggle('is-locked',!ok); link.textContent=ok?'Gerar certificado':'🔒 Complete os 7 módulos'; if(!ok){link.setAttribute('aria-disabled','true');link.addEventListener('click',e=>e.preventDefault());}}
@@ -44,7 +44,7 @@
     atualizarIndicadores(set);
     const btn=document.getElementById('btnConcluirModulo'); const msg=document.getElementById('moduleMessage'); const next=document.getElementById('btnProximoModulo');
     if(!btn) return; // placeholder pending page
-    if(!desbloqueado(moduloAtual,set)){window.location.replace('../pages/trilha.html?bloqueado='+moduloAtual);return;}
+    
     if(set.has(moduloAtual)){btn.textContent='✓ Módulo concluído';btn.disabled=true;if(next)next.hidden=false;return;}
     btn.addEventListener('click',async()=>{
       btn.disabled=true;btn.textContent='Salvando...';

@@ -28,25 +28,21 @@ document.querySelectorAll('.faq button').forEach(button => button.addEventListen
   if (icon) icon.textContent = open ? '−' : '+';
 }));
 
-// Balão flutuante da Aurora.
-if (!document.querySelector('.aurora-float')) {
+// Assistente virtual flutuante do Gui.
+if (!document.querySelector('.gui-float')) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'aurora-float';
+  wrapper.className = 'gui-float';
   wrapper.innerHTML = `
-    <div class="aurora-float-message" id="auroraFloatMessage" hidden>
-      <button type="button" class="aurora-close" aria-label="Fechar">×</button>
-      <strong>Olá! Eu sou a Aurora.</strong>
-      <p>Estou aqui para acompanhar sua jornada. Os recursos de atendimento interativo estarão disponíveis em breve.</p>
+    <div class="gui-float-message" id="guiFloatMessage" hidden>
+      <button type="button" class="gui-close" aria-label="Fechar">×</button>
+      <div class="gui-message-head"><img src="${location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/')?'../':''}assets/img/gui-avatar.png" alt="Gui"><strong>Gui, seu guia virtual</strong></div>
+      <p>Estou aqui para acompanhar sua jornada. Em breve teremos orientações interativas em cada módulo.</p>
     </div>
-    <button type="button" class="aurora-float-button" aria-label="Abrir mensagem da Aurora">
-      <span>A</span><b>Aurora</b>
+    <button type="button" class="gui-float-button" aria-label="Abrir mensagem do Gui">
+      <img src="${location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/')?'../':''}assets/img/gui-avatar.png" alt=""><b>Falar com o Gui</b>
     </button>`;
   document.body.appendChild(wrapper);
-  const message = wrapper.querySelector('.aurora-float-message');
-  wrapper.querySelector('.aurora-float-button')?.addEventListener('click', () => {
-    message.hidden = !message.hidden;
-  });
-  wrapper.querySelector('.aurora-close')?.addEventListener('click', () => {
-    message.hidden = true;
-  });
+  const message = wrapper.querySelector('.gui-float-message');
+  wrapper.querySelector('.gui-float-button')?.addEventListener('click', () => { message.hidden = !message.hidden; });
+  wrapper.querySelector('.gui-close')?.addEventListener('click', () => { message.hidden = true; });
 }

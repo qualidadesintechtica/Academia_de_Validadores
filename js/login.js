@@ -1,119 +1,277 @@
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const messageBox = document.getElementById('authMessage');
-const loginPanel = document.getElementById('loginPanel');
-const registerPanel = document.getElementById('registerPanel');
+document.addEventListener("DOMContentLoaded", () => {
+  "use strict";
 
-const DOMINIOS_AUTORIZADOS = ['animaeducacao.com.br', 'ulife.com.br'];
+  const loginPanel = document.getElementById("loginPanel");
+  const registerPanel = document.getElementById("registerPanel");
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const authMessage = document.getElementById("authMessage");
+  const registerMessage = document.getElementById("registerMessage");
 
-function emailAutorizado(email) {
-  const dominio = String(email || '').trim().toLowerCase().split('@').pop();
-  return DOMINIOS_AUTORIZADOS.includes(dominio);
-}
+  const dominiosPermitidos = new Set([
+    "animaeducacao.com.br",
+    "ulife.com.br",
+  ]);
 
-function showMessage(message, type = 'error') {
-  messageBox.textContent = message;
-  messageBox.className = `auth-message ${type}`;
-  messageBox.hidden = false;
-}
+  function supabaseDisponivel() {
+    return Boolean(window.supabaseClient?.auth);
+  }
 
-function clearMessage() {
-  messageBox.hidden = true;
-  messageBox.textContent = '';
-}
+  function mostrarMensagem(elemento, mensagem, tipo = "error") {
+    if (!elemento) return;
 
-function setLoading(button, loading, normalText) {
-  button.disabled = loading;
-  button.textContent = loading ? 'Aguarde...' : normalText;
-}
+    elemento.textContent = mensagem;
+    elemento.className = `auth-message ${tipo}`;
+    elemento.hidden = false;
+  }
 
-document.querySelectorAll('[data-show-panel]').forEach(button => {
-  button.addEventListener('click', () => {
-    clearMessage();
-    const target = button.dataset.showPanel;
-    loginPanel.hidden = target !== 'login';
-    registerPanel.hidden = target !== 'register';
+  function limparMensagem(elemento) {
+    if (!elemento) return;
+
+    elemento.textContent = "";
+    elemento.className = "auth-message";
+    elemento.hidden = true;
+  }
+
+  function dominioDoEmail(email) {
+    const partes = String(email || "")
+      .trim()
+      .toLowerCase()
+      .split("@");
+
+    return partes.length === 2 ? partes[1] : "";
+  }
+
+  function emailPermitido(email) {
+    return dominiosPermitidos.has(dominioDoEmail(email));
+  }
+
+  function mostrarPainel(nome) {
+    if (!loginPanel || !registerPanel) return;
+
+    const cadastro = nome === "register";
+
+    loginPanel.hidden = cadastro;
+    registerPanel.hidden = !cadastro;
+
+    limparMensagem(authMessage);
+    limparMensagem(registerMessage);
+  }
+
+  document.querySelectorAll("[data-show-panel]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      mostrarPainel(botao.dataset.showPanel);
+    });
   });
-});
 
-(async () => {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) window.location.replace('index.html');
-})();
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      limparMensagem(authMessage);
 
-loginForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  clearMessage();
-  const button = loginForm.querySelector('button[type="submit"]');
-  setLoading(button, true, 'Entrar');
+      if (!supabaseDisponivel()) {
+        mostrarMensagem(
+          authMessage,
+          "A conexão com o sistema não foi carregada. Atualize a página.",
+        );
+        return;
+      }
 
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
+      const email =
+        document
+          .getElementById("loginEmail")
+          ?.value.trim()
+          .toLowerCase() || "";
 
-  if (!emailAutorizado(email)) {
-    setLoading(button, false, 'Entrar');
-    showMessage('Acesso permitido somente para e-mails @animaeducacao.com.br ou @ulife.com.br.');
-    return;
+      const password =
+        document.getElementById("loginPassword")?.value || "";
+
+      const botao = loginForm.querySelector(
+        'button[type="submit"]',
+      );
+
+      if (!emailPermitido(email)) {
+        mostrarMensagem(
+          authMessage,
+          "Use um e-mail @animaeducacao.com.br ou @ulife.com.br.",
+        );
+        return;
+      }
+
+      if (!password) {
+        mostrarMensagem(authMessage, "Digite sua senha.");
+        return;
+      }
+
+      if (!botao) return;
+
+      botao.disabled = true;
+      botao.textContent = "Entrando...";
+
+      try {
+        const { data, error } =
+          await window.supabaseClient.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+        if (error) throw error;
+
+        if (!data?.session) {
+          throw new Error("Sessão não iniciada.");
+        }
+
+        const nome =
+          data.user?.user_metadata?.nome ||
+          data.user?.user_metadata?.nome_completo ||
+          data.user?.user_metadata?.full_name ||
+          data.user?.email?.split("@")[0] ||
+          "Validador";
+
+        localStorage.setItem("academia_nome_usuario", nome);
+
+        window.location.assign("index.html");
+      } catch (error) {
+        console.error("Erro no login:", error);
+
+        const texto = String(error?.message || "").toLowerCase();
+
+        let mensagem =
+          "Não foi possível entrar. Confira o e-mail e a senha.";
+
+        if (texto.includes("email not confirmed")) {
+          mensagem =
+            "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.";
+        } else if (
+          texto.includes("invalid login credentials")
+        ) {
+          mensagem =
+            "E-mail ou senha incorretos. Use a senha criada na Academia.";
+        }
+
+        mostrarMensagem(authMessage, mensagem);
+      } finally {
+        botao.disabled = false;
+        botao.textContent = "Entrar";
+      }
+    });
   }
 
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-  setLoading(button, false, 'Entrar');
+  if (registerForm) {
+    registerForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        limparMensagem(registerMessage);
 
-  if (error) {
-    showMessage('E-mail ou senha inválidos. Confira os dados e tente novamente.');
-    return;
+        if (!supabaseDisponivel()) {
+          mostrarMensagem(
+            registerMessage,
+            "A conexão com o sistema não foi carregada. Atualize a página.",
+          );
+          return;
+        }
+
+        const nome =
+          document
+            .getElementById("registerName")
+            ?.value.trim() || "";
+
+        const email =
+          document
+            .getElementById("registerEmail")
+            ?.value.trim()
+            .toLowerCase() || "";
+
+        const password =
+          document.getElementById("registerPassword")
+            ?.value || "";
+
+        const botao = registerForm.querySelector(
+          'button[type="submit"]',
+        );
+
+        if (!nome) {
+          mostrarMensagem(
+            registerMessage,
+            "Digite seu nome completo.",
+          );
+          return;
+        }
+
+        if (!emailPermitido(email)) {
+          mostrarMensagem(
+            registerMessage,
+            "Use um e-mail @animaeducacao.com.br ou @ulife.com.br.",
+          );
+          return;
+        }
+
+        if (password.length < 6) {
+          mostrarMensagem(
+            registerMessage,
+            "A senha precisa ter pelo menos 6 caracteres.",
+          );
+          return;
+        }
+
+        if (!botao) return;
+
+        botao.disabled = true;
+        botao.textContent = "Criando conta...";
+
+        try {
+          const redirectUrl =
+            "https://qualidadesintechtica.github.io/Academia_de_Validadores/login.html";
+
+          const { error } =
+            await window.supabaseClient.auth.signUp({
+              email,
+              password,
+              options: {
+                data: {
+                  nome,
+                  nome_completo: nome,
+                  full_name: nome,
+                },
+                emailRedirectTo: redirectUrl,
+              },
+            });
+
+          if (error) throw error;
+
+          registerForm.reset();
+
+          mostrarMensagem(
+            registerMessage,
+            `Cadastro realizado. Enviamos um e-mail de confirmação para ${email}.`,
+            "success",
+          );
+
+          setTimeout(() => {
+            mostrarPainel("login");
+
+            mostrarMensagem(
+              authMessage,
+              "Conta criada. Confirme o e-mail recebido e depois entre.",
+              "success",
+            );
+          }, 2500);
+        } catch (error) {
+          console.error("Erro no cadastro:", error);
+
+          mostrarMensagem(
+            registerMessage,
+            error?.message ||
+              "Não foi possível criar sua conta.",
+          );
+        } finally {
+          botao.disabled = false;
+          botao.textContent = "Criar conta";
+        }
+      },
+    );
   }
 
-  window.location.replace('index.html');
-});
-
-registerForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  clearMessage();
-  const button = registerForm.querySelector('button[type="submit"]');
-  setLoading(button, true, 'Criar conta');
-
-  const nome = document.getElementById('registerName').value.trim();
-  const email = document.getElementById('registerEmail').value.trim();
-  const password = document.getElementById('registerPassword').value;
-
-  if (!emailAutorizado(email)) {
-    setLoading(button, false, 'Criar conta');
-    showMessage('Cadastre-se com um e-mail @animaeducacao.com.br ou @ulife.com.br.');
-    return;
-  }
-
-  if (password.length < 6) {
-    setLoading(button, false, 'Criar conta');
-    showMessage('A senha precisa ter pelo menos 6 caracteres.');
-    return;
-  }
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: { data: { nome } }
-  });
-  setLoading(button, false, 'Criar conta');
-
-  if (error) {
-    showMessage(error.message.includes('already registered')
-      ? 'Este e-mail já possui cadastro.'
-      : `Não foi possível criar a conta: ${error.message}`);
-    return;
-  }
-
-  // Sempre retorna à tela de login após o cadastro.
-  // Mesmo quando a confirmação de e-mail estiver desativada no Supabase,
-  // encerramos a sessão criada automaticamente para manter o mesmo fluxo.
-  if (data.session) {
-    await supabaseClient.auth.signOut();
-  }
-
-  registerForm.reset();
-  registerPanel.hidden = true;
-  loginPanel.hidden = false;
-  showMessage('Conta criada! Enviamos um e-mail de confirmação. Confirme seu cadastro pelo link recebido e depois faça o login.', 'success');
-  document.getElementById('loginEmail').value = email;
-  document.getElementById('loginPassword').focus();
+  mostrarPainel("login");
 });
