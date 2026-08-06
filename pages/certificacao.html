@@ -15,6 +15,26 @@
     h2{font-size:2.4rem!important}
     h3{font-size:1.8rem!important}
     p,li,a,button,input,label{font-size:1.08rem!important}
+
+    /* Layout específico da página de certificação */
+    .certification-requirements{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:16px;
+    }
+    .certification-requirements .card{
+      width:min(100%,520px);
+      min-height:190px;
+    }
+    .certificate-action-card{
+      max-width:760px;
+      margin:28px auto;
+      text-align:center;
+    }
+    @media(max-width:900px){
+      .certification-requirements{justify-content:stretch}
+      .certification-requirements .card{width:100%}
+    }
   </style>
 </head>
 <body>
@@ -47,11 +67,7 @@
       <p>Complete todos os módulos para desbloquear seu certificado.</p>
     </section>
 
-    <section class="content-grid">
-      <div class="certificate-preview">
-        <span>ACADEMIA DOS VALIDADORES</span>
-        <h2>Certificado</h2>
-      </div>
+    <section class="certification-requirements">
       <aside class="card">
         <h3>Requisitos</h3>
         <div class="progress" style="margin-top:14px"><span data-progress-bar></span></div>
@@ -59,7 +75,7 @@
       </aside>
     </section>
 
-    <section class="card" style="max-width:760px;margin:28px auto;text-align:center">
+    <section class="card certificate-action-card">
       <h2>Certificado da Academia</h2>
       <p data-certificate-message>Conclua todos os módulos para liberar seu certificado.</p>
       <button class="btn btn-primary" data-generate-certificate type="button" onclick="window.print()" disabled>Complete os 7 módulos</button>
