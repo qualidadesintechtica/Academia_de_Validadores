@@ -2,36 +2,36 @@
   {
     "id": 1,
     "title": "Introdução à Academia",
-    "description": "Conheça a jornada e os objetivos."
+    "description": "Conheça a proposta, os objetivos e o papel do validador."
   },
   {
     "id": 2,
     "title": "Fluxo e ferramentas de apoio",
-    "description": "Entenda o processo e os recursos."
+    "description": "Entenda as etapas, os responsáveis e os recursos utilizados."
   },
   {
     "id": 3,
     "title": "Validação da planilha de entrada",
-    "description": "Verifique os dados antes da análise."
+    "description": "Confira dados, organização e critérios antes da análise."
   },
   {
     "id": 4,
     "title": "Validação da Unidade de Aprendizagem",
-    "description": "Aplique critérios na UA."
+    "description": "Aplique os critérios de qualidade na UA."
   },
   {
     "id": 5,
     "title": "Validação de BDQ",
-    "description": "Analise questões e bancos de questões."
+    "description": "Analise questões, alternativas, feedbacks e coerência."
   },
   {
     "id": 6,
     "title": "Validação da Unidade Curricular",
-    "description": "Valide coerência e integração da UC."
+    "description": "Verifique integração, consistência e aderência da UC."
   },
   {
     "id": 7,
     "title": "Material de apoio e FAQ",
-    "description": "Consulte referências e tire dúvidas."
+    "description": "Consulte referências, checklists e dúvidas frequentes."
   }
 ]

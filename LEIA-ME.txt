@@ -1,9 +1,22 @@
-ACADEMIA DOS VALIDADORES — NOVA VERSÃO
+ACADEMIA DOS VALIDADORES V2 — ENTREGA LIMPA
 
-1. Projeto recriado do zero, sem conflitos de merge e sem arquivos duplicados.
-2. Abra login.html para testar localmente.
-3. O acesso e o progresso funcionam com localStorage.
-4. Para publicar no GitHub Pages, coloque todo o conteúdo diretamente na raiz do repositório.
-5. O botão SAIR está no canto superior direito e remove a sessão local.
-6. Para conectar ao Supabase, preencha js/config.js e adapte js/auth.js conforme as políticas do projeto.
-7. Página de certificação sem o bloco grande removido, conforme solicitado.
+CONTEÚDO
+- Login, cadastro e recuperação de senha pelo Supabase.
+- Página inicial, jornada, missões, progresso, medalhas, certificação e ajuda.
+- Sete páginas de módulo.
+- Botão Sair em todas as páginas autenticadas.
+- Certificação sem o quadro grande removido, conforme solicitado.
+- Novidades e FAQ marcados como Em breve.
+
+PUBLICAÇÃO
+1. Faça uma cópia de segurança do repositório atual.
+2. Apague os arquivos antigos da raiz, exceto a pasta .git.
+3. Copie TODO o conteúdo deste pacote para a raiz do repositório.
+4. Confirme que index.html e login.html ficam diretamente na raiz.
+5. Faça um único commit e Push origin.
+6. Aguarde o GitHub Pages e atualize com Ctrl+F5.
+
+IMPORTANTE
+- A URL e a chave pública do Supabase foram preservadas do projeto enviado.
+- O progresso desta versão é armazenado no navegador (localStorage). A autenticação usa Supabase.
+- Não misture esta versão com arquivos antigos: isso recria conflitos e páginas duplicadas.
