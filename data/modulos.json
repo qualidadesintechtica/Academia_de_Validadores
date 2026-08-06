@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Introdução à Academia",
+    "description": "Conheça a jornada e os objetivos."
+  },
+  {
+    "id": 2,
+    "title": "Fluxo e ferramentas de apoio",
+    "description": "Entenda o processo e os recursos."
+  },
+  {
+    "id": 3,
+    "title": "Validação da planilha de entrada",
+    "description": "Verifique os dados antes da análise."
+  },
+  {
+    "id": 4,
+    "title": "Validação da Unidade de Aprendizagem",
+    "description": "Aplique critérios na UA."
+  },
+  {
+    "id": 5,
+    "title": "Validação de BDQ",
+    "description": "Analise questões e bancos de questões."
+  },
+  {
+    "id": 6,
+    "title": "Validação da Unidade Curricular",
+    "description": "Valide coerência e integração da UC."
+  },
+  {
+    "id": 7,
+    "title": "Material de apoio e FAQ",
+    "description": "Consulte referências e tire dúvidas."
+  }
+]

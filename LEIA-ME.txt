@@ -1,0 +1,9 @@
+ACADEMIA DOS VALIDADORES — NOVA VERSÃO
+
+1. Projeto recriado do zero, sem conflitos de merge e sem arquivos duplicados.
+2. Abra login.html para testar localmente.
+3. O acesso e o progresso funcionam com localStorage.
+4. Para publicar no GitHub Pages, coloque todo o conteúdo diretamente na raiz do repositório.
+5. O botão SAIR está no canto superior direito e remove a sessão local.
+6. Para conectar ao Supabase, preencha js/config.js e adapte js/auth.js conforme as políticas do projeto.
+7. Página de certificação sem o bloco grande removido, conforme solicitado.

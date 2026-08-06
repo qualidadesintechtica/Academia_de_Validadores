@@ -1,48 +1,12 @@
-const menuToggle = document.getElementById('menuToggle');
-const mainNav = document.getElementById('mainNav');
-menuToggle?.addEventListener('click', () => mainNav?.classList.toggle('open'));
 
-const KEY = 'academia_validadores_state_v1';
-const state = {
-  nivel: 'Aprendiz',
-  xp: 0,
-  progresso: 0,
-  modulosConcluidos: 0,
-  medalhas: 0,
-  ...JSON.parse(localStorage.getItem(KEY) || '{}')
-};
-localStorage.setItem(KEY, JSON.stringify(state));
-
-// O nome é preenchido pelo auth.js com os dados reais do cadastro no Supabase.
-document.querySelectorAll('[data-user-level]').forEach(el => el.textContent = state.nivel);
-document.querySelectorAll('[data-xp]').forEach(el => el.textContent = state.xp);
-document.querySelectorAll('[data-progress]').forEach(el => el.textContent = `${state.progresso}%`);
-document.querySelectorAll('[data-progress-bar]').forEach(el => el.style.width = `${state.progresso}%`);
-document.querySelectorAll('[data-modules-done]').forEach(el => el.textContent = state.modulosConcluidos);
-document.querySelectorAll('[data-medals]').forEach(el => el.textContent = state.medalhas);
-
-document.querySelectorAll('.faq button').forEach(button => button.addEventListener('click', () => {
-  const answer = button.nextElementSibling;
-  const icon = button.querySelector('span');
-  const open = answer?.classList.toggle('open');
-  if (icon) icon.textContent = open ? '−' : '+';
-}));
-
-// Assistente virtual flutuante do Gui.
-if (!document.querySelector('.gui-float')) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'gui-float';
-  wrapper.innerHTML = `
-    <div class="gui-float-message" id="guiFloatMessage" hidden>
-      <button type="button" class="gui-close" aria-label="Fechar">×</button>
-      <div class="gui-message-head"><img src="${location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/')?'../':''}assets/img/gui-avatar.png" alt="Gui"><strong>Gui, seu guia virtual</strong></div>
-      <p>Estou aqui para acompanhar sua jornada. Em breve teremos orientações interativas em cada módulo.</p>
-    </div>
-    <button type="button" class="gui-float-button" aria-label="Abrir mensagem do Gui">
-      <img src="${location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/')?'../':''}assets/img/gui-avatar.png" alt=""><b>Falar com o Gui</b>
-    </button>`;
-  document.body.appendChild(wrapper);
-  const message = wrapper.querySelector('.gui-float-message');
-  wrapper.querySelector('.gui-float-button')?.addEventListener('click', () => { message.hidden = !message.hidden; });
-  wrapper.querySelector('.gui-close')?.addEventListener('click', () => { message.hidden = true; });
-}
+Auth.require();
+const user=Auth.getUser();
+const base=Auth.base();
+const page=document.body.dataset.page||'inicio';
+const nav=[['inicio','⌂','Início',base+'index.html'],['jornada','◈','Minha Jornada',base+'pages/trilha.html'],['missoes','♡','Missões',base+'pages/missoes.html'],['progresso','▥','Meu Progresso',base+'pages/progresso.html'],['medalhas','♕','Medalhas',base+'pages/medalhas.html'],['certificacao','◇','Certificação',base+'pages/certificacao.html'],['ajuda','?','Ajuda',base+'pages/ajuda.html']];
+const header=document.createElement('header');header.className='topbar';header.innerHTML=`<a class="brand" href="${base}index.html"><div class="brand-mark">✓</div><div><strong>ACADEMIA DOS<br>VALIDADORES</strong><span>by Sintechtica</span></div></a><button class="menu-toggle" aria-label="Abrir menu">☰</button><nav class="main-nav">${nav.map(n=>`<a class="${page===n[0]?'active':''}" href="${n[3]}"><span class="nav-icon">${n[1]}</span>${n[2]}</a>`).join('')}</nav><div class="user-area"><div class="avatar">${(user.name||'P').split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()}</div><div class="user-copy"><strong>${user.name||'Professor(a)'}</strong><small>Aprendiz</small></div><button class="logout-button" id="logoutBtn">Sair</button></div>`;
+document.body.prepend(header);
+document.querySelector('.menu-toggle').onclick=()=>document.querySelector('.main-nav').classList.toggle('open');
+document.getElementById('logoutBtn').onclick=()=>Auth.logout();
+const footer=document.createElement('footer');footer.className='footer';footer.innerHTML='<div><b>sintechtica</b><br><small>Educação Digital com Excelência</small></div><div class="footer-center">Academia dos Validadores by Sintechtica © 2026</div><b>Aprender. Validar. Transformar.</b>';document.body.append(footer);
+document.querySelectorAll('[data-user-name]').forEach(el=>el.textContent=user.name||'Professor(a)');

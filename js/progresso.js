@@ -1,88 +1,11 @@
-(function(){
-  const TOTAL_MODULOS = 7;
-  const path = window.location.pathname;
-  const emTrilha = path.endsWith('/pages/trilha.html') || path.endsWith('pages/trilha.html');
-  const emCertificado = path.endsWith('/pages/certificacao.html') || path.endsWith('pages/certificacao.html');
-  const moduloAtual = Number(document.body.dataset.moduleId || 0);
 
-  async function sessao(){
-    const {data, error} = await supabaseClient.auth.getSession();
-    if(error || !data.session) return null;
-    return data.session;
-  }
-  async function concluidos(userId){
-    const {data, error} = await supabaseClient.from('progresso_modulos').select('modulo_id,concluido,concluido_em').eq('user_id',userId).eq('concluido',true);
-    if(error){ console.error(error); return []; }
-    return data || [];
-  }
-  function ids(rows){ return new Set(rows.map(r=>Number(r.modulo_id))); }
-  function percentual(set){ return Math.round((set.size/TOTAL_MODULOS)*100); }
-  function atualizarIndicadores(set){
-    const p=percentual(set);
-    document.querySelectorAll('[data-progress]').forEach(el=>el.textContent=p+'% concluído');
-    document.querySelectorAll('[data-progress-bar]').forEach(el=>el.style.width=p+'%');
-    const mini=document.getElementById('moduleProgressText'); if(mini) mini.textContent=p+'% da trilha';
-  }
-  function desbloqueado(id,set){ return true; } // acesso temporariamente liberado a todos os módulos
-
-  async function renderTrilha(session,set){
-    document.querySelectorAll('[data-module-card]').forEach(card=>{
-      const id=Number(card.dataset.moduleId); const available=true;
-      const done=set.has(id); const unlocked=desbloqueado(id,set); const link=card.querySelector('[data-module-link]'); const status=card.querySelector('[data-module-status]');
-      card.classList.toggle('is-complete',done); card.classList.toggle('is-locked',!unlocked); card.classList.toggle('is-pending',!available);
-      if(done){status.textContent='Concluído'; link.textContent='Revisar módulo'; link.removeAttribute('aria-disabled');}
-      else if(!available){status.textContent='Conteúdo em preparação'; link.textContent='Em breve'; link.setAttribute('aria-disabled','true');}
-      else if(!unlocked){status.textContent='Bloqueado'; link.textContent='🔒 Conclua o módulo anterior'; link.setAttribute('aria-disabled','true');}
-      else{status.textContent='Disponível'; link.textContent='Acessar módulo'; link.removeAttribute('aria-disabled');}
-      if(!unlocked){link.addEventListener('click',e=>e.preventDefault());}
-    });
-    const cert=document.querySelector('[data-certificate-card]');
-    if(cert){const link=cert.querySelector('a'); const ok=set.size===TOTAL_MODULOS; cert.classList.toggle('is-locked',!ok); link.textContent=ok?'Gerar certificado':'🔒 Complete os 7 módulos'; if(!ok){link.setAttribute('aria-disabled','true');link.addEventListener('click',e=>e.preventDefault());}}
-  }
-
-  async function renderModulo(session,set){
-    atualizarIndicadores(set);
-    const btn=document.getElementById('btnConcluirModulo'); const msg=document.getElementById('moduleMessage'); const next=document.getElementById('btnProximoModulo');
-    if(!btn) return; // placeholder pending page
-    
-    if(set.has(moduloAtual)){btn.textContent='✓ Módulo concluído';btn.disabled=true;if(next)next.hidden=false;return;}
-    btn.addEventListener('click',async()=>{
-      btn.disabled=true;btn.textContent='Salvando...';
-      const payload={user_id:session.user.id,email:session.user.email,modulo_id:moduloAtual,concluido:true,concluido_em:new Date().toISOString(),atualizado_em:new Date().toISOString()};
-      const {error}=await supabaseClient.from('progresso_modulos').upsert(payload,{onConflict:'user_id,modulo_id'});
-      if(error){console.error(error);btn.disabled=false;btn.textContent='✓ Concluir módulo';if(msg)msg.textContent='Não foi possível salvar. Verifique se o SQL do Supabase foi executado.';return;}
-      set.add(moduloAtual); atualizarIndicadores(set); btn.textContent='✓ Módulo concluído'; if(msg)msg.textContent='Progresso salvo. A próxima etapa foi liberada.'; if(next)next.hidden=false;
-    });
-  }
-
-  async function renderCertificado(session,set){
-    atualizarIndicadores(set);
-    const btn=document.querySelector('[data-generate-certificate]');
-    const aviso=document.querySelector('[data-certificate-message]');
-    const preview=document.querySelector('[data-certificate-preview-message]');
-    const ok=set.size===TOTAL_MODULOS;
-
-    if(btn){
-      btn.disabled=!ok;
-      btn.textContent=ok?'Baixar certificado':'Complete os 7 módulos';
-    }
-    if(aviso){
-      aviso.textContent=ok
-        ?'Parabéns! Você concluiu a Academia dos Validadores.'
-        :'Conclua todos os módulos para liberar seu certificado.';
-    }
-    if(preview){
-      preview.textContent=ok
-        ?'Certificado liberado para emissão.'
-        :'Seu certificado ficará disponível após a conclusão da trilha.';
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded',async()=>{
-    const session=await sessao(); if(!session)return;
-    const set=ids(await concluidos(session.user.id)); atualizarIndicadores(set);
-    if(emTrilha) await renderTrilha(session,set);
-    else if(emCertificado) await renderCertificado(session,set);
-    else if(moduloAtual) await renderModulo(session,set);
-  });
-})();
+const Progress={
+ total:7,
+ completed(){try{return JSON.parse(localStorage.getItem('academia_modules')||'[]')}catch{return[]}},
+ isDone(id){return this.completed().includes(Number(id))},
+ toggle(id){id=Number(id);let a=this.completed();a=a.includes(id)?a.filter(x=>x!==id):[...a,id];localStorage.setItem('academia_modules',JSON.stringify(a));this.render();},
+ percent(){return Math.round(this.completed().length/this.total*100)},
+ render(){const c=this.completed().length,p=this.percent();document.querySelectorAll('[data-progress]').forEach(e=>e.textContent=`${p}% concluído`);document.querySelectorAll('[data-progress-bar]').forEach(e=>e.style.width=p+'%');document.querySelectorAll('[data-completed-count]').forEach(e=>e.textContent=c);document.querySelectorAll('[data-module]').forEach(e=>{const id=+e.dataset.module;e.classList.toggle('done',this.isDone(id));const b=e.querySelector('[data-toggle-module]');if(b)b.textContent=this.isDone(id)?'Concluído':'Marcar como concluído'});this.certificate(p,c)},
+ certificate(p,c){const msg=document.querySelector('[data-certificate-message]'),btn=document.querySelector('[data-generate-certificate]');if(!msg||!btn)return;if(p===100){msg.textContent='Parabéns! Você concluiu todos os módulos. Seu certificado está disponível.';btn.disabled=false;btn.textContent='Baixar certificado';btn.onclick=()=>window.print();document.querySelector('.certificate-card')?.classList.add('certificate-ready')}else{msg.textContent=`Conclua todos os módulos para liberar seu certificado. Faltam ${this.total-c} módulo(s).`;btn.disabled=true;btn.textContent=`Complete os ${this.total} módulos`;btn.onclick=null;}}
+};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-toggle-module]');if(b)Progress.toggle(b.closest('[data-module]').dataset.module)});Progress.render();
