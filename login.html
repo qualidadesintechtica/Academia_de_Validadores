@@ -1,1 +1,35 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Entrar | Academia dos Validadores</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/login.css?v=20260806-21"></head><body><main class="login-shell"><section class="login-visual"><div class="brand"><div class="brand-mark">✓</div><div><h1>ACADEMIA DOS<br>VALIDADORES</h1><p>by Sintechtica</p></div></div><div class="welcome"><h2>Aprender. Validar. Transformar.</h2><p>Uma jornada prática para fortalecer critérios, segurança e excelência na validação de materiais educacionais.</p><div class="features"><div class="feature">7 módulos</div><div class="feature">Progresso salvo</div><div class="feature">Certificação</div></div></div></section><section class="login-panel"><h2>Bem-vindo(a)</h2><p>Entre com sua conta ou faça seu primeiro cadastro.</p><div class="tabs"><button class="tab active" data-target="loginForm">Entrar</button><button class="tab" data-target="signupForm">Criar conta</button></div><form class="form" id="loginForm"><div class="field"><label>E-mail</label><input name="email" type="email" autocomplete="email" required></div><div class="field"><label>Senha</label><input name="password" type="password" minlength="6" required></div><button class="forgot" id="forgotButton" type="button">Esqueci minha senha</button><button class="submit" type="submit">Entrar</button><div class="message" id="loginMessage"></div></form><form class="form hidden" id="signupForm"><div class="field"><label>Nome completo</label><input name="name" required></div><div class="field"><label>E-mail institucional</label><input name="email" type="email" required></div><div class="field"><label>Crie uma senha</label><input name="password" type="password" minlength="6" required></div><button class="submit" type="submit">Criar minha conta</button><div class="message" id="signupMessage"></div></form><p class="hint">O acesso usa o Supabase já configurado no projeto. Caso o serviço esteja indisponível durante um teste local, o código não cria uma sessão falsa.</p></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=20260806-21"></script><script src="js/supabase.js?v=20260806-21"></script><script src="js/auth.js?v=20260806-21"></script><script src="js/login.js?v=20260806-21"></script></body></html>
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar | Academia dos Validadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css?v=3.0"></head>
+<body class="login-page">
+<main class="login-shell">
+  <section class="login-visual">
+    <div class="brand"><div class="brand-mark">✓</div><div class="brand-copy"><strong>ACADEMIA DOS<br>VALIDADORES</strong><span>by Sintechtica</span></div></div>
+    <h1>Aprender.<br>Validar.<br>Transformar.</h1>
+    <p>Uma jornada prática para garantir excelência, consistência e qualidade na validação de materiais.</p>
+  </section>
+  <section class="login-panel">
+    <span class="eyebrow">ACESSO À PLATAFORMA</span>
+    <h2>Bem-vindo(a)</h2>
+    <p class="muted">Entre com sua conta ou crie um novo acesso.</p>
+    <div class="tabs"><button class="active" data-tab="login">Entrar</button><button data-tab="register">Criar conta</button></div>
+    <form id="loginForm">
+      <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="loginPassword">Senha</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+      <button class="btn btn-primary" style="width:100%" type="submit">Entrar</button>
+    </form>
+    <form id="registerForm" class="hidden">
+      <div class="field"><label for="registerName">Nome completo</label><input id="registerName" required></div>
+      <div class="field"><label for="registerEmail">E-mail</label><input id="registerEmail" type="email" required></div>
+      <div class="field"><label for="registerPassword">Senha</label><input id="registerPassword" type="password" minlength="6" required></div>
+      <button class="btn btn-primary" style="width:100%" type="submit">Criar minha conta</button>
+    </form>
+    <p id="loginMessage" class="login-message"></p>
+    <div class="demo-box"><strong>Acesso de demonstração</strong><br>E-mail: demo@academia.com<br>Senha: 123456</div>
+  </section>
+</main>
+<script src="js/config.js?v=3.0"></script><script src="js/app.js?v=3.0"></script>
+</body></html>

@@ -1,22 +1,17 @@
-ACADEMIA DOS VALIDADORES V2 — ENTREGA LIMPA
+ACADEMIA DOS VALIDADORES V3
 
-CONTEÚDO
-- Login, cadastro e recuperação de senha pelo Supabase.
-- Página inicial, jornada, missões, progresso, medalhas, certificação e ajuda.
-- Sete páginas de módulo.
-- Botão Sair em todas as páginas autenticadas.
-- Certificação sem o quadro grande removido, conforme solicitado.
-- Novidades e FAQ marcados como Em breve.
+Publicação:
+1. Preserve apenas a pasta .git do repositório atual.
+2. Substitua os demais arquivos pelo conteúdo deste pacote.
+3. Faça um único commit e push.
+4. Aguarde o GitHub Pages concluir a implantação.
 
-PUBLICAÇÃO
-1. Faça uma cópia de segurança do repositório atual.
-2. Apague os arquivos antigos da raiz, exceto a pasta .git.
-3. Copie TODO o conteúdo deste pacote para a raiz do repositório.
-4. Confirme que index.html e login.html ficam diretamente na raiz.
-5. Faça um único commit e Push origin.
-6. Aguarde o GitHub Pages e atualize com Ctrl+F5.
+Acesso de demonstração:
+demo@academia.com
+123456
 
-IMPORTANTE
-- A URL e a chave pública do Supabase foram preservadas do projeto enviado.
-- O progresso desta versão é armazenado no navegador (localStorage). A autenticação usa Supabase.
-- Não misture esta versão com arquivos antigos: isso recria conflitos e páginas duplicadas.
+Supabase:
+A versão funciona localmente com localStorage. Para integrar ao Supabase,
+edite js/config.js e implemente as chamadas de autenticação/progresso conforme
+o esquema do seu projeto. A chave não foi incluída para evitar publicar credenciais
+de outro ambiente sem validação.

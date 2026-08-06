@@ -1,1 +1,49 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meu Progresso | Academia dos Validadores</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/base.css?v=20260806-21"></head><body data-page="progresso"><main class="page"><section class="page-banner"><span class="eyebrow">ACADEMIA DOS VALIDADORES</span><h1>Meu Progresso</h1><p>Acompanhe sua evolução ao longo da Academia.</p></section><section class="section stats"><div class="stat"><strong data-completed-count>0</strong><span>Módulos concluídos</span></div><div class="stat"><strong data-progress>0%</strong><span>Progresso da trilha</span></div><div class="stat"><strong>7</strong><span>Total de módulos</span></div><div class="stat"><strong>1</strong><span>Certificado disponível ao final</span></div></section><section class="section card"><h2>Progresso geral</h2><div class="progress"><span data-progress-bar></span></div><p><b data-progress>0% concluído</b></p></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../js/config.js?v=20260806-21"></script><script src="../js/supabase.js?v=20260806-21"></script><script src="../js/auth.js?v=20260806-21"></script><script src="../js/app.js?v=20260806-21"></script><script src="../js/progresso.js?v=20260806-21"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meu Progresso | Academia dos Validadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/app.css?v=3.0">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">
+    <div class="brand-mark">✓</div>
+    <div class="brand-copy"><strong>ACADEMIA DOS<br>VALIDADORES</strong><span>by Sintechtica</span></div>
+  </a>
+  <button class="menu-toggle" data-menu-toggle aria-label="Abrir menu">☰</button>
+  <nav class="main-nav"><a href="../index.html"><span class="nav-icon">⌂</span>Início</a><a href="../pages/trilha.html"><span class="nav-icon">◈</span>Minha Jornada</a><a href="../pages/missoes.html"><span class="nav-icon">♡</span>Missões</a><a class="active" href="../pages/progresso.html"><span class="nav-icon">▥</span>Meu Progresso</a><a href="../pages/medalhas.html"><span class="nav-icon">♕</span>Medalhas</a><a href="../pages/certificacao.html"><span class="nav-icon">◇</span>Certificação</a><a href="../pages/ajuda.html"><span class="nav-icon">?</span>Ajuda</a></nav>
+  <div class="user-area">
+    <div class="avatar" data-user-initials>PV</div>
+    <div class="user-copy"><strong data-user-name>Professor(a)</strong><small>Aprendiz</small></div>
+    <button class="logout-button" data-logout type="button">↪ Sair</button>
+  </div>
+</header>
+
+
+<main class="page">
+<section class="page-banner"><span class="eyebrow">MEU PROGRESSO</span><h1>Acompanhe sua evolução</h1><p>Veja quanto falta para concluir sua jornada.</p></section>
+<section class="grid grid-3">
+  <article class="card stat"><div class="stat-icon">✓</div><div><span class="muted">Concluídos</span><strong data-completed-count>0</strong></div></article>
+  <article class="card stat"><div class="stat-icon">◈</div><div><span class="muted">Total</span><strong data-total-count>7</strong></div></article>
+  <article class="card stat"><div class="stat-icon">⚡</div><div><span class="muted">Progresso</span><strong data-progress-percent>0%</strong></div></article>
+</section>
+<section class="card" style="margin-top:24px"><h2>Progresso geral</h2><div class="progress-track"><div class="progress-fill" data-progress-bar></div></div><p><strong data-progress-count>0 de 7</strong></p><a class="btn btn-primary" href="trilha.html">Voltar à jornada</a></section>
+</main>
+
+
+<footer class="footer">
+  <div><strong>sintechtica</strong><br><small>Educação Digital com Excelência</small></div>
+  <div>Academia dos Validadores by Sintechtica © 2026</div>
+  <strong>Aprender. Validar. Transformar.</strong>
+</footer>
+
+<script src="../js/config.js?v=3.0"></script>
+<script src="../js/app.js?v=3.0"></script>
+</body>
+</html>
