@@ -18,69 +18,6 @@ Aurora, essa pagina era para está assim?
 
 eu quero que fique como a sugestão 
 
-Sim. A alteração é simples: retire apenas a frase “Certificamos que concluiu a trilha.” do bloco superior e mantenha o card inferior com a orientação.
-
-No arquivo:
-
-pages/certificacao.html
-procure este trecho:
-
-<div class="certificate-preview">
-  <span>ACADEMIA DOS VALIDADORES</span>
-  <h2>Certificado</h2>
-  <p>Certificamos que <strong data-user-name></strong> concluiu a trilha.</p>
-</div>
-Substitua por:
-
-<div class="certificate-preview">
-  <span>ACADEMIA DOS VALIDADORES</span>
-  <h2>Certificado</h2>
-</div>
-O card inferior deve permanecer assim:
-
-<section class="card" style="max-width:760px;margin:28px auto;text-align:center">
-  <h2>Certificado da Academia</h2>
-
-  <p data-certificate-message>
-    Conclua todos os módulos para liberar o certificado.
-  </p>
-
-  <button
-    class="btn btn-primary"
-    data-generate-certificate
-    type="button"
-  >
-    Complete os 7 módulos
-  </button>
-</section>
-Depois:
-
-Salve o arquivo.
-
-Volte ao GitHub Desktop.
-
-Confirme que aparece somente pages/certificacao.html em Changes.
-
-Escreva no resumo:
-
-Ajustar texto da página de certificação
-Clique em Commit to main.
-
-Clique em Push origin.
-
-Aguarde a publicação e atualize a página com Ctrl + F5.
-
-O resultado será:
-
-Parte superior: apenas Academia dos Validadores e Certificado.
-
-Parte inferior: Conclua todos os módulos para liberar o certificado.
-
-Sem a frase incorreta de conclusão antes de o usuário terminar a trilha.
-
-
-em ver de mudar uma pagina, ajuste todo o codigo e encaminhe para mim
-
 Pensou por 1m 9s
 Para ajustar todo o código sem destruir as alterações atuais, preciso da pasta mais recente do projeto — exatamente a que está aberta no GitHub Desktop agora.
 
@@ -167,9 +104,55 @@ certificacao_corrigida.html
 HTML
 
 
+continua tudo do mesmo jeito
+
+Continua igual porque o arquivo anterior foi entregue com o nome certificacao_corrigida.html. O site usa exatamente:
+
+pages/certificacao.html
+Se você colocou o arquivo corrigido ao lado do antigo, nada muda.
+
+Baixe este arquivo com o nome correto:
+
+certificacao.html
+
+Depois faça exatamente isto:
+
+Abra a pasta do projeto.
+
+Entre na pasta pages.
+
+Apague ou substitua o arquivo antigo certificacao.html.
+
+Cole este novo arquivo dentro de pages.
+
+Confirme que não ficou assim:
+
+certificacao.html
+certificacao_corrigida.html
+Deve existir apenas:
+
+pages/certificacao.html
+No GitHub Desktop, confirme que aparece somente pages/certificacao.html em Changes.
+
+Faça Commit to main.
+
+Clique em Push origin.
+
+Aguarde a publicação.
+
+Atualize o site com Ctrl + F5.
+
+O erro não estava mais no conteúdo. Estava no nome e no local do arquivo. 
+
+
+
+certificacao.html
+HTML
+
+
 Biblioteca
 /
-certificacao_corrigida.html
+certificacao.html
 
 
 
@@ -177,7 +160,7 @@ certificacao_corrigida.html
 
 Biblioteca
 /
-certificacao_corrigida.html
+certificacao.html
 
 
 
