@@ -1,50 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Entrar | Academia dos Validadores</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/login.css">
-</head>
-<body>
-  <main class="auth-shell">
-    <section class="auth-brand">
-      <div class="brand-mark">✓</div>
-      <h1>Academia dos Validadores</h1>
-      <p>Aprender, validar e transformar a qualidade da educação digital.</p>
-    </section>
+  <head>
+    <meta charset="UTF-8" />
 
-    <section class="auth-card">
-      <div class="auth-panel" id="loginPanel">
-        <h2>Entrar</h2>
-        <p>Use seu e-mail e sua senha para acessar a Academia.</p>
-        <div id="authMessage" class="auth-message" hidden></div>
-        <form id="loginForm">
-          <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" autocomplete="email" required></div>
-          <div class="field"><label for="loginPassword">Senha</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
-          <button class="auth-submit" type="submit">Entrar</button>
-        </form>
-        <p class="switch-panel">Ainda não tem acesso? <button type="button" data-show-panel="register">Criar conta</button></p>
-      </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <div class="auth-panel" id="registerPanel" hidden>
-        <h2>Criar conta</h2>
-        <p>Preencha seus dados para solicitar acesso.</p>
-        <form id="registerForm">
-          <div class="field"><label for="registerName">Nome completo</label><input id="registerName" type="text" autocomplete="name" required></div>
-          <div class="field"><label for="registerEmail">E-mail</label><input id="registerEmail" type="email" autocomplete="email" required></div>
-          <div class="field"><label for="registerPassword">Senha</label><input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required></div>
-          <button class="auth-submit" type="submit">Criar conta</button>
-        </form>
-        <p class="switch-panel">Já possui conta? <button type="button" data-show-panel="login">Voltar ao login</button></p>
-      </div>
-    </section>
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/login.js"></script>
+    <title>Entrar | Academia dos Validadores</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+
+  <body>
+    <main class="auth-shell">
+      <section class="auth-brand">
+        <div class="auth-glow"></div>
+
+        <div class="brand-mark">✓</div>
+
+        <span class="brand-kicker">Ambiente oficial de capacitação</span>
+
+       <h1 class="brand-title">
+    <span>Academia dos</span>
+
+    <span class="brand-title-line">
+        <strong>Validadores</strong>
+        <small>by Sintechtica</small>
+    </span>
+</h1>
+
+        <p>Aprender, validar e transformar a qualidade da educação digital.</p>
+
+        <div class="auth-guide">
+          <img src="assets/img/gui-avatar.png" alt="Avatar do Gui" />
+
+          <div>
+            <strong>Olá! Eu sou o Gui.</strong>
+            <span>Vou acompanhar você durante toda a jornada.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-card">
+        <!-- PAINEL DE LOGIN -->
+        <div class="auth-panel" id="loginPanel">
+          <h2>Entrar</h2>
+
+          <p class="auth-panel-description">
+            Use o e-mail e a senha cadastrados na Academia dos Validadores.
+          </p>
+
+          <div class="first-access-card">
+            <div class="first-access-card__icon" aria-hidden="true">👤+</div>
+
+            <div class="first-access-card__content">
+              <h3>É o seu primeiro acesso?</h3>
+
+              <p>
+                Crie uma conta usando seu
+                <strong>e-mail institucional</strong>
+                para começar a usar a plataforma.
+              </p>
+
+              <p class="first-access-card__help">
+                Depois de confirmar o cadastro pelo e-mail recebido, volte aqui
+                para entrar.
+              </p>
+
+              <button
+                type="button"
+                class="first-access-card__button"
+                data-show-panel="register"
+              >
+                Criar minha conta
+              </button>
+            </div>
+          </div>
+
+          <div id="authMessage" class="auth-message" hidden></div>
+
+          <form id="loginForm">
+            <div class="field">
+              <label for="loginEmail">E-mail</label>
+
+              <input
+                id="loginEmail"
+                type="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="loginPassword">Senha</label>
+
+              <input
+                id="loginPassword"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+
+            <p class="login-password-help">
+              Use a senha criada no cadastro da Academia dos Validadores.
+            </p>
+
+            <button class="auth-submit" type="submit">Entrar</button>
+          </form>
+        </div>
+
+        <!-- PAINEL DE CADASTRO -->
+        <div class="auth-panel" id="registerPanel" hidden>
+          <h2>Criar conta</h2>
+
+          <p class="auth-panel-description">
+            Preencha seus dados usando seu e-mail institucional.
+          </p>
+
+          <div id="registerMessage" class="auth-message" hidden></div>
+
+          <form id="registerForm">
+            <div class="field">
+              <label for="registerName">Nome completo</label>
+
+              <input
+                id="registerName"
+                type="text"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="registerEmail">E-mail institucional</label>
+
+              <input
+                id="registerEmail"
+                type="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="registerPassword">Crie uma senha</label>
+
+              <input
+                id="registerPassword"
+                type="password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+            </div>
+
+            <p class="login-password-help">
+              Use pelo menos 6 caracteres. Essa será a senha da Academia.
+            </p>
+
+            <button class="auth-submit" type="submit">Criar conta</button>
+          </form>
+
+          <p class="switch-panel">
+            Já criou sua conta?
+
+            <button type="button" data-show-panel="login">
+              Voltar para entrar
+            </button>
+          </p>
+        </div>
+      </section>
+    </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js?v=6"></script>
+<script src="js/login.js?v=6"></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+ACADEMIA DOS VALIDADORES — PACOTE CORRIGIDO
+
+Correções aplicadas:
+- conflitos de merge removidos;
+- tela de login restaurada e responsiva;
+- arquivos duplicados .html.html removidos;
+- bloco visual grande do certificado removido;
+- card Requisitos preservado à direita;
+- card Certificado da Academia centralizado;
+- scripts e integração com Supabase preservados;
+- pasta .git removida do pacote para evitar conflitos.
+
+Substitua o conteúdo do repositório pelos arquivos desta pasta, faça commit e push.
