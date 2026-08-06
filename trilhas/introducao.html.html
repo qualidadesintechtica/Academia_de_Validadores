@@ -109,21 +109,6 @@ code{font-family:inherit;font-weight:600;background:#EFE9F8;border:1px solid var
 .step-img+.step-img{margin-top:12px}
 .edit-note{font-size:12.5px;color:var(--ink-mute);margin-top:12px;line-height:1.6}
 
-/* ---------- CARD DE VÍDEO (link externo) ---------- */
-.video-link{display:flex;align-items:center;gap:20px;margin-top:16px;padding:26px 28px;border-radius:16px;
-  text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.14);
-  background:linear-gradient(120deg,var(--roxo-noite),var(--roxo-profundo) 55%,var(--roxo));
-  transition:transform .18s,box-shadow .18s}
-.video-link:hover{transform:translateY(-1px);box-shadow:0 20px 44px -26px rgba(61,19,103,.75)}
-.vl-play{width:58px;height:58px;border-radius:50%;background:var(--magenta);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;transition:transform .18s}
-.vl-play svg{width:24px;height:24px;margin-left:3px}
-.video-link:hover .vl-play{transform:scale(1.06)}
-.vl-txt{flex:1;min-width:0}
-.vl-txt b{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em}
-.vl-txt span{display:block;font-size:13.5px;color:#DCCBEF;margin-top:4px}
-.vl-go{flex-shrink:0;font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#F3D9EC}
-
 /* ---------- VÍDEO ---------- */
 .video-ph{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--line);
   background:linear-gradient(120deg,var(--roxo-noite),var(--roxo-profundo) 55%,var(--roxo));
@@ -157,19 +142,6 @@ code{font-family:inherit;font-weight:600;background:#EFE9F8;border:1px solid var
   font-size:13.5px;color:var(--roxo);border:2px solid var(--roxo);border-radius:999px;padding:9px 18px;
   text-decoration:none;margin-top:14px;transition:background .15s,color .15s,border-color .15s}
 .btn-outline:hover{background:var(--roxo);color:#fff}
-
-/* ---------- CARD DO TUTORIAL ---------- */
-.tut-card{display:flex;align-items:center;gap:18px;background:var(--card);border:1.5px solid var(--line);
-  border-radius:18px;padding:24px 26px;margin-top:18px;text-decoration:none;color:var(--ink);
-  transition:border-color .18s,box-shadow .18s,transform .18s}
-.tut-card:hover{border-color:var(--magenta);box-shadow:0 18px 40px -26px rgba(179,25,131,.55);transform:translateY(-1px)}
-.tut-ic{width:52px;height:52px;border-radius:14px;background:var(--roxo);color:#fff;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;transition:background .18s}
-.tut-ic svg{width:26px;height:26px}
-.tut-card:hover .tut-ic{background:var(--magenta)}
-.tut-body{flex:1;min-width:0}
-.tut-name{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.01em}
-.tut-desc{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:4px}
 
 /* ---------- VIEWS (mini-SPA) ---------- */
 .view{display:none}
@@ -319,12 +291,10 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
 /* ---------- GLOSSÁRIO PE · PP · RM ---------- */
 .gloss{display:flex;flex-direction:column;gap:12px;margin-top:16px}
 .gl{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;align-items:flex-start}
-.gl-sigla,.gl-mark{flex-shrink:0;min-width:64px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;padding:0 12px;align-self:flex-start}
 .gl-sigla{font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;color:#fff;background:var(--roxo);
-  letter-spacing:.04em;white-space:nowrap;border:1px solid var(--roxo)}
-.gl-mark{background:#F3EEFA;border:1px solid var(--line)}
-.gl-mark::before{content:"";width:11px;height:11px;background:var(--magenta);border-radius:2px;transform:rotate(45deg)}
+  border-radius:10px;padding:8px 12px;flex-shrink:0;min-width:64px;text-align:center;letter-spacing:.04em;white-space:nowrap}
+.gl-mark{min-width:64px;flex-shrink:0;display:flex;justify-content:center;padding-top:9px}
+.gl-mark::before{content:"";width:11px;height:11px;background:var(--magenta);border-radius:3px}
 .gl-group{font-family:'Montserrat',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-mute);margin:14px 0 2px;display:flex;align-items:center;gap:9px}
 .gl-group:first-child{margin-top:0}
@@ -358,7 +328,8 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
 @media (max-width:720px){
   .pillars,.arte{grid-template-columns:1fr}
   .gl{flex-direction:column;gap:10px}
-  .gl-sigla,.gl-mark{align-self:flex-start}
+  .gl-mark{display:none}
+  .gl-sigla{min-width:0;align-self:flex-start}
 }
 </style>
 </head>
@@ -443,8 +414,8 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
   </div>
   <div class="gloss">
     <p class="gl-group">Objetos de validação</p>
-    <div class="gl"><span class="gl-mark" aria-hidden="true"></span><div class="gl-body"><p class="gl-name">Planilha de Entrada</p><p class="gl-def">Documento que abre a produção do material: garante a consonância didática, organiza os objetivos de aprendizagem em Unidades de Aprendizagem e planeja os recursos que serão utilizados na produção.</p></div></div>
-    <div class="gl"><span class="gl-sigla">UC</span><div class="gl-body"><p class="gl-name">Unidade Curricular</p><p class="gl-def">Componente curricular em formato digital e principal objeto de produção e validação. Na graduação, é estruturada em oito Unidades de Aprendizagem.</p></div></div>
+    <div class="gl"><span class="gl-sigla">PP</span><div class="gl-body"><p class="gl-name">Plano de Produção</p><p class="gl-def">Documento que garante a consonância didática dos materiais didáticos digitais, a organização dos objetivos de aprendizagem em Unidades de Aprendizagem e o planejamento dos recursos que serão utilizados na produção.</p></div></div>
+    <div class="gl"><span class="gl-sigla">UC</span><div class="gl-body"><p class="gl-name">Unidade Curricular</p><p class="gl-def">Disciplina em formato digital e principal objeto de produção e validação. Na graduação, é estruturada em oito Unidades de Aprendizagem.</p></div></div>
     <div class="gl"><span class="gl-sigla">UA</span><div class="gl-body"><p class="gl-name">Unidade de Aprendizagem</p><p class="gl-def">Cada uma das unidades que compõem a UC, reunindo conteúdos, recursos educacionais e atividades dedicados a um tema. Na graduação, a UA 8 é destinada à atividade avaliativa A3.</p></div></div>
     <div class="gl"><span class="gl-sigla">CA</span><div class="gl-body"><p class="gl-name">Componente de Aprendizagem</p><p class="gl-def">Unidade equivalente à UC na pós-graduação lato sensu, composta por duas Unidades de Aprendizagem.</p></div></div>
     <div class="gl"><span class="gl-sigla">BDQ</span><div class="gl-body"><p class="gl-name">Banco de Questões</p><p class="gl-def">Conjunto de avaliações do material. Na graduação é composto por A1, A2 e A3; na pós-graduação, por uma única avaliação objetiva.</p></div></div>
@@ -467,7 +438,7 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
     <p>Nesta capacitação, você encontrará orientações específicas para a validação dos diferentes artefatos acadêmicos contemplados no processo:</p>
   </div>
   <div class="arte">
-    <div class="art"><b>Planilha</b><span>de Entrada</span></div>
+    <div class="art"><b>PP</b><span>Planos de Produção</span></div>
     <div class="art"><b>UC</b><span>Unidades Curriculares</span></div>
     <div class="art"><b>UA</b><span>Unidades de Aprendizagem</span></div>
     <div class="art"><b>BDQ</b><span>Bancos de Questões</span></div>
