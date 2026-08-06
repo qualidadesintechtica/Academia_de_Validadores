@@ -12,14 +12,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/home.css">
-<style>
-body{font-size:18px;}
-h1{font-size:3.6rem!important;}
-h2{font-size:2.4rem!important;}
-h3{font-size:1.8rem!important;}
-p,li,a,button,input,label{font-size:1.08rem!important;}
-</style>
-
 </head>
 
 <body>
@@ -29,55 +21,60 @@ p,li,a,button,input,label{font-size:1.08rem!important;}
         </a><button class="menu-toggle" id="menuToggle">☰</button>
         <nav class="main-nav" id="mainNav"><a class="active" href="index.html"><span
                     class="nav-icon">⌂</span>Início</a><a href="pages/trilha.html"><span class="nav-icon">◈</span>Minha
-                Jornada</a><a href="pages/gamificacao.html"><span class="nav-icon">♡</span>Missões</a><a href="pages/perfil.html"><span
+                Jornada</a><a href="pages/gamificacao.html"><span class="nav-icon">♡</span>Missões</a><a
+                href="pages/arsenal.html"><span class="nav-icon">⌘</span>Arsenal</a><a href="pages/perfil.html"><span
                     class="nav-icon">▥</span>Meu Progresso</a><a href="pages/medalhas.html"><span
                     class="nav-icon">♕</span>Medalhas</a><a href="pages/certificacao.html"><span
                     class="nav-icon">◇</span>Certificação</a><a href="pages/ajuda.html"><span
                     class="nav-icon">?</span>Ajuda</a></nav>
         <div class="user-menu"><button class="notification">🔔<b>3</b></button>
             <div class="avatar">LS</div>
-            <div class="user-copy"><strong data-user-name>Professor(a)</strong><span data-user-level>Aprendiz</span></div>
+            <div class="user-copy"><strong data-user-name>Liu Souza</strong><span data-user-level>Aprendiz</span></div>
         </div>
     </header>
     <main class="page">
-        
-<section class="immersive-hero">
-  <div class="hero-copy">
-    <span class="eyebrow">SUA JORNADA. MAIS QUALIDADE. MAIS IMPACTO.</span>
-    <h1>Sua jornada para validar materiais com excelência <strong>começa aqui.</strong></h1>
-    <p><b>Academia dos Validadores by Sintechtica.</b> Aprenda, pratique e aplique critérios de qualidade em uma experiência clara, moderna e conectada ao seu progresso.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="pages/trilha.html">▶ Começar jornada</a>
-      <a class="btn btn-outline" href="pages/perfil.html">↗ Ver meu progresso</a>
-    </div>
-    <div class="hero-benefits">
-      <span>✓ Conteúdo oficial e atualizado</span>
-      <span>✓ Aprendizagem prática</span>
-      <span>✓ Certificação ao final</span>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="gui-intro-card">
-      <small>SEU GUIA VIRTUAL</small>
-      <strong>Olá! Eu sou o Gui.</strong>
-      <p>Estou aqui para acompanhar sua jornada sem cobrir a imagem ou o conteúdo.</p>
-    </div>
-    <img src="assets/img/gui-hero-clean.png" alt="Avatar 3D do Gui, guia virtual da Academia dos Validadores">
-  </div>
-</section>
-<section class="journey-strip" aria-label="Etapas da experiência">
-  <article><b>1</b><div><strong>Aprenda</strong><span>Conteúdo claro e direto</span></div></article>
-  <article><b>2</b><div><strong>Pratique</strong><span>Exemplos e aplicação real</span></div></article>
-  <article><b>3</b><div><strong>Valide</strong><span>Qualidade e impacto</span></div></article>
-  <article><b>4</b><div><strong>Conquiste</strong><span>Certificado e reconhecimento</span></div></article>
-</section>
-<section class="dashboard">
-
+        <section class="hero-layout">
+            <article class="hero">
+                <div class="hero-copy"><span class="eyebrow">BEM-VINDO À ACADEMIA</span>
+                    <h1>Aprender a validar materiais didáticos nunca deveria ser complicado.</h1>
+                    <p>A Academia dos Validadores reúne tudo o que você precisa para aprender, praticar e validar
+                        materiais com excelência.</p>
+                    <div class="hero-actions"><a class="btn btn-primary" href="pages/trilha.html">🚀 Começar
+                            Capacitação</a><a class="btn btn-outline" href="#jornada">▶ Continuar Jornada</a></div>
+                    <div class="hero-benefits"><span>🛡 Conteúdo oficial</span><span>✓ Aprendizagem
+                            prática</span><span>◎ Foco na qualidade</span></div>
+                </div>
+                <div class="hero-visual"><img src="assets/img/aurora-hero.jpg" alt="Aurora">
+                    <div class="speech"><strong>Olá! Eu sou a Aurora.</strong>
+                        <p>Estou aqui para te guiar em cada etapa da sua jornada.</p><span>♥</span>
+                    </div>
+                </div>
+            </article>
+            <aside class="profile-card">
+                <h3>👤 Meu Perfil</h3><small>NÍVEL ATUAL</small>
+                <h3>🌱 <span data-user-level>Aprendiz</span></h3>
+                <div class="profile-row">
+                    <div class="progress"><span data-progress-bar></span></div><b data-progress></b>
+                </div>
+                <hr><small>XP ACUMULADO</small>
+                <h2>★ <span data-xp></span> XP</h2>
+                <hr><small>MEDALHAS</small>
+                <div class="medals"><span>🥉</span><span>🥈</span><span>+2</span></div><a class="btn btn-soft full"
+                    href="pages/perfil.html">Ver meu progresso →</a>
+            </aside>
+        </section>
+        <section class="dashboard">
             <article class="card mission">
-                <div class="card-header"><h3>🎯 MISSÕES</h3><span class="badge">EM BREVE</span></div>
-                <h2>Novos desafios para colocar seu aprendizado em prática.</h2>
-                <p style="color:var(--texto-suave);line-height:1.6">A área de missões está sendo preparada e será disponibilizada em breve.</p>
-                <a class="btn btn-soft full" href="pages/gamificacao.html" style="margin-top:18px">Saiba mais →</a>
+                <div class="card-header">
+                    <h3>🎯 MISSÃO DA SEMANA</h3>
+                </div>
+                <h2>Validar corretamente uma Unidade de Aprendizagem.</h2>
+                <div class="mission-info">
+                    <div><small>◷ TEMPO</small><strong>18 minutos</strong></div>
+                    <div><small>⚑ OBJETIVO</small>
+                        <p>Aplicar todos os critérios de qualidade.</p>
+                    </div>
+                </div><a class="btn btn-primary full" href="pages/gamificacao.html">Iniciar Missão →</a>
             </article>
             <article class="card journey" id="jornada">
                 <div class="card-header">
@@ -106,26 +103,41 @@ p,li,a,button,input,label{font-size:1.08rem!important;}
                     <div><strong><span data-xp></span> XP</strong><span>Pontuação</span></div>
                 </div>
                 <div class="aurora-tip">
-                    <div class="tip-avatar"><img src="assets/img/gui-avatar.png" alt="Gui"></div>
-                    <div><small>DICA DO GUI</small>
+                    <div class="tip-avatar">A</div>
+                    <div><small>DICA DA AURORA</small>
                         <p>Pequenos passos levam a grandes conquistas.</p>
                     </div><span>♥</span>
                 </div>
+            </article>
+            <article class="card arsenal">
+                <div class="card-header">
+                    <h3>🧰 ARSENAL</h3><a href="pages/arsenal.html">Acessar →</a>
+                </div>
+                <div class="tools"><a href="pages/arsenal.html"><span>📄</span>Modelos</a><a
+                        href="pages/arsenal.html"><span>📋</span>Checklists</a><a
+                        href="pages/arsenal.html"><span>♡</span>Critérios</a><a
+                        href="pages/arsenal.html"><span>⌘</span>Fluxos</a><a
+                        href="pages/arsenal.html"><span>💬</span>Exemplos</a><a
+                        href="pages/arsenal.html"><span>📖</span>Biblioteca</a></div>
             </article>
             <article class="card">
                 <div class="card-header">
                     <h3>📣 NOVIDADES</h3>
                 </div>
-                <div class="coming-soon-card">
-                    <p>Em breve.</p>
-                </div>
+                <ul class="news-list">
+                    <li><b>NOVO</b> Checklist de UA <time>22/07</time></li>
+                    <li>📄 Critérios BDQ <time>18/07</time></li>
+                    <li>▶ Live sobre UC <time>25/07</time></li>
+                </ul>
             </article>
             <article class="card">
                 <div class="card-header">
                     <h3>❓ FAQ</h3>
                 </div>
-                <div class="coming-soon-card">
-                    <p>Em breve.</p>
+                <div class="faq"><button>Como aplicar o critério?<span>+</span></button>
+                    <div class="answer">Use o checklist oficial.</div><button>Qual a diferença entre UA e
+                        UC?<span>+</span></button>
+                    <div class="answer">UA é Unidade de Aprendizagem; UC é Unidade Curricular.</div>
                 </div>
             </article>
         </section>

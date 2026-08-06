@@ -21,7 +21,7 @@
     "descricao": "Aprenda a conferir e validar a planilha de entrada.",
     "icone": "📊",
     "arquivo": "planilha.html",
-    "disponivel": true
+    "disponivel": false
   },
   {
     "id": 4,
@@ -45,7 +45,7 @@
     "descricao": "Aplique os critérios de qualidade à Unidade Curricular.",
     "icone": "🎓",
     "arquivo": "uc.html",
-    "disponivel": true
+    "disponivel": false
   },
   {
     "id": 7,
@@ -53,6 +53,6 @@
     "descricao": "Acesse documentos, modelos, checklists e perguntas frequentes.",
     "icone": "📄",
     "arquivo": "faq.html",
-    "disponivel": true
+    "disponivel": false
   }
 ]
