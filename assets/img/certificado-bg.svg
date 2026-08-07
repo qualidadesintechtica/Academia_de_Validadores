@@ -3,6 +3,5 @@
 <rect width="1600" height="1100" fill="#fff"/>
 <rect x="34" y="34" width="1532" height="1032" rx="20" fill="none" stroke="url(#c)" stroke-width="12"/>
 <rect x="58" y="58" width="1484" height="984" rx="16" fill="none" stroke="#2d1553" stroke-width="3"/>
-<circle cx="1400" cy="160" r="240" fill="#db007d" opacity=".07"/>
-<circle cx="190" cy="930" r="280" fill="#64037e" opacity=".06"/>
+<circle cx="1400" cy="160" r="240" fill="#db007d" opacity=".07"/><circle cx="190" cy="930" r="280" fill="#64037e" opacity=".06"/>
 </svg>

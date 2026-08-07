@@ -1,6 +1,1 @@
-
-@media print{
-  .sidebar,.topbar,.gui-float,.no-print{display:none!important}
-  .app-shell{display:block}.page{padding:0;max-width:none}
-  body{background:#fff}.certificate-print{display:block!important}
-}
+@media print{.sidebar,.topbar,.gui-float,.no-print{display:none!important}.app-shell{display:block}.page{padding:0;max-width:none}.certificate-print{display:block!important}}

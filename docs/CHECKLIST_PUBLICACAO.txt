@@ -1,13 +1,11 @@
-CHECKLIST DE PUBLICAÇÃO
-
-[ ] Executei SUPABASE_SETUP.sql
-[ ] Preenchi js/config.js
-[ ] Site URL do Supabase aponta para a raiz do GitHub Pages
-[ ] Redirect URLs incluem raiz e login.html
-[ ] GitHub Pages usa main / (root)
-[ ] Fiz apenas um commit/push
-[ ] Testei login
-[ ] Testei logout
-[ ] Testei conclusão de módulo
-[ ] Testei progresso
-[ ] Testei certificado
+CHECKLIST
+[ ] SUPABASE_SETUP.sql executado
+[ ] js/config.js preenchido
+[ ] Site URL correta no Supabase
+[ ] Redirect URLs corretas
+[ ] GitHub Pages em main / (root)
+[ ] Login testado
+[ ] Cadastro testado
+[ ] Logout testado
+[ ] Progresso testado
+[ ] Certificado testado

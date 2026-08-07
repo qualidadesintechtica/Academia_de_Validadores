@@ -1,7 +1,4 @@
 
--- ACADEMIA DOS VALIDADORES V3 PREMIUM
--- Execute este arquivo no SQL Editor do Supabase.
-
 create table if not exists public.profiles(
   id uuid primary key references auth.users(id) on delete cascade,
   nome text not null default '',

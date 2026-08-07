@@ -1,6 +1,6 @@
 window.ACADEMIA_CONFIG={
-SUPABASE_URL:"COLE_AQUI_SUA_PROJECT_URL",
-SUPABASE_ANON_KEY:"COLE_AQUI_SUA_PUBLISHABLE_OU_ANON_KEY",
+SUPABASE_URL:"https://xgtzyinfinjehxzojafn.supabase.co/rest/v1/",
+SUPABASE_ANON_KEY:"sb_publishable_4iYSQaPGuSxaaZUkwdF_lw_IueIdhRw",
 SITE_URL:"https://qualidadesintechtica.github.io/Academia_de_Validadores/",
 TOTAL_MODULOS:7,
 DOMINIO_INSTITUCIONAL:""
