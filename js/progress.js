@@ -1,0 +1,19 @@
+
+(()=>{
+ async function getDone(){const u=await Auth.currentUser();if(!u)return[];const{data,error}=await sb.from('progresso_modulos').select('modulo_id').eq('user_id',u.id).eq('concluido',true);if(error){console.error(error);return[]}return(data||[]).map(x=>Number(x.modulo_id))}
+ async function complete(id){const u=await Auth.currentUser();if(!u)return;const{error}=await sb.from('progresso_modulos').upsert({user_id:u.id,modulo_id:Number(id),concluido:true,concluido_em:new Date().toISOString()},{onConflict:'user_id,modulo_id'});if(error)throw error;await render()}
+ async function render(){
+   const done=await getDone(),total=ACADEMIA_CONFIG.TOTAL_MODULOS||7,pct=Math.round(done.length/total*100);
+   document.querySelectorAll('[data-progress-percent]').forEach(e=>e.textContent=pct+'%');
+   document.querySelectorAll('[data-progress-count]').forEach(e=>e.textContent=`${done.length} de ${total}`);
+   document.querySelectorAll('[data-progress-bar]').forEach(e=>e.style.width=pct+'%');
+   document.querySelectorAll('[data-completed-count]').forEach(e=>e.textContent=done.length);
+   document.querySelectorAll('[data-total-count]').forEach(e=>e.textContent=total);
+   document.querySelectorAll('[data-module-id]').forEach(card=>{const ok=done.includes(Number(card.dataset.moduleId)),b=card.querySelector('[data-module-status]');if(b){b.textContent=ok?'Concluído':'Pendente';b.className='badge '+(ok?'badge-ok':'badge-warn')}});
+   document.querySelectorAll('[data-medal-id]').forEach(m=>{const need=Number(m.dataset.medalId),unlocked=done.length>=need;m.classList.toggle('locked',!unlocked)});
+   const cb=document.querySelector('[data-certificate-button]'),cm=document.querySelector('[data-certificate-message]');
+   if(cb){const ok=done.length>=total;cb.disabled=!ok;cb.textContent=ok?'Baixar certificado':`Complete os ${total} módulos`;if(cm)cm.textContent=ok?'Parabéns! Seu certificado está liberado.':'Conclua todos os módulos para liberar seu certificado.'}
+ }
+ document.addEventListener('DOMContentLoaded',async()=>{if(document.querySelector('[data-progress-percent],[data-module-id],[data-certificate-button],[data-medal-id]'))await render();document.querySelectorAll('[data-complete-module]').forEach(b=>b.addEventListener('click',async()=>{try{await complete(Number(b.dataset.completeModule));b.textContent='Módulo concluído ✓'}catch(e){console.error(e);alert('Não foi possível registrar a conclusão.')}}));document.querySelector('[data-certificate-button]')?.addEventListener('click',()=>window.print())});
+ window.Progress={getDone,complete,render};
+})();

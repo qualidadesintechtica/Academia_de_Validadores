@@ -1,1 +1,1 @@
-(()=>{const c=window.ACADEMIA_CONFIG;if(!c||c.SUPABASE_URL.includes("COLE_AQUI")){console.error("Configure js/config.js");return}window.sb=supabase.createClient(c.SUPABASE_URL,c.SUPABASE_ANON_KEY)})();
+(()=>{const c=window.ACADEMIA_CONFIG;if(!c||!c.SUPABASE_URL||c.SUPABASE_URL.includes("COLE_AQUI")){console.warn("Supabase ainda não configurado em js/config.js");return;}window.sb=supabase.createClient(c.SUPABASE_URL,c.SUPABASE_ANON_KEY);})();

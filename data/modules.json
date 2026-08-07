@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Introdução",
+    "slug": "introducao.html",
+    "description": "Conheça a Academia, objetivos, jornada e critérios de conclusão."
+  },
+  {
+    "id": 2,
+    "title": "Fluxo e ferramentas de apoio",
+    "slug": "ferramentas.html",
+    "description": "Entenda o fluxo de validação e as ferramentas disponíveis."
+  },
+  {
+    "id": 3,
+    "title": "Validação da planilha de entrada",
+    "slug": "planilha.html",
+    "description": "Aprenda a revisar dados de entrada e pré-requisitos."
+  },
+  {
+    "id": 4,
+    "title": "Validação da UA",
+    "slug": "ua.html",
+    "description": "Aplique critérios técnicos, pedagógicos e de qualidade."
+  },
+  {
+    "id": 5,
+    "title": "Validação do BDQ",
+    "slug": "bdq.html",
+    "description": "Avalie questões, alternativas, feedbacks e aderência."
+  },
+  {
+    "id": 6,
+    "title": "Validação da UC",
+    "slug": "uc.html",
+    "description": "Verifique coerência, integração e estrutura curricular."
+  },
+  {
+    "id": 7,
+    "title": "Material de apoio e FAQ",
+    "slug": "faq.html",
+    "description": "Consulte orientações finais, materiais e dúvidas frequentes."
+  }
+]
