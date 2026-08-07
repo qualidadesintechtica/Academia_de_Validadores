@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelector('[data-menu-toggle]')?.addEventListener('click',()=>document.querySelector('.main-nav')?.classList.toggle('open'));const f=location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.main-nav a').forEach(a=>{if((a.getAttribute('href')||'').endsWith(f))a.classList.add('active')})});

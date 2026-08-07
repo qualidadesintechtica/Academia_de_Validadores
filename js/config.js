@@ -1,6 +1,1 @@
-window.ACADEMIA_CONFIG = {
-  useSupabase: false,
-  supabaseUrl: "",
-  supabaseAnonKey: "",
-  modulesTotal: 7
-};
+window.ACADEMIA_CONFIG={SUPABASE_URL:"COLE_AQUI_SUA_PROJECT_URL",SUPABASE_ANON_KEY:"COLE_AQUI_SUA_PUBLISHABLE_OU_ANON_KEY",SITE_URL:"https://qualidadesintechtica.github.io/Academia_de_Validadores/",TOTAL_MODULOS:7};
