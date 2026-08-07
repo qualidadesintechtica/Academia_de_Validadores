@@ -31,3 +31,9 @@ Arquitetura oficial:
 - FAQ
 - Certificado para impressão/PDF
 - Responsivo
+
+## Importante sobre o login
+Se o login não funcionar, confira `js/config.js`. Os campos `SUPABASE_URL` e
+`SUPABASE_ANON_KEY` precisam estar preenchidos com os dados públicos do mesmo
+projeto Supabase onde os usuários foram cadastrados. Sem isso, o sistema não
+consegue reconhecer e-mail e senha.

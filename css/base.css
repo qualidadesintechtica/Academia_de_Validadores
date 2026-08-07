@@ -30,3 +30,51 @@ a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cur
 .faq-item{border-bottom:1px solid var(--border);padding:14px 0}.faq-item summary{cursor:pointer;font-weight:800}.notice{padding:14px 16px;border-radius:14px;background:#fff4fa;border:1px solid #f3bad7;color:#6a2149}
 @media(max-width:1180px){.app-shell{grid-template-columns:90px 1fr}.brand-copy,.side-nav span,.side-section,.sidebar-footer{display:none}.brand{justify-content:center}.side-nav a{justify-content:center}.grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:800px){.app-shell{display:block}.sidebar{position:fixed;left:-280px;width:270px;z-index:100;transition:left .25s}.sidebar.open{left:0}.brand-copy,.side-nav span,.side-section,.sidebar-footer{display:block}.side-nav a{justify-content:flex-start}.mobile-menu{display:inline-flex}.page{padding:18px 14px 38px}.grid-2,.grid-3,.grid-4,.login-shell,.cert-layout{grid-template-columns:1fr}.login-visual{min-height:330px;padding:30px}.login-panel{padding:30px 22px}.module-card{flex-wrap:wrap}.module-actions{margin-left:0;width:100%}.user-copy{display:none}}
+
+.auth-mode-switch{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:18px 0 24px;
+  padding:6px;
+  border-radius:16px;
+  background:#f0eafa;
+  border:1px solid var(--border);
+}
+.auth-mode-button{
+  min-height:46px;
+  border:0;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 14px;
+  font-weight:900;
+  color:var(--roxo);
+  background:transparent;
+  transition:.2s ease;
+}
+.auth-mode-button:hover{
+  background:#fff;
+}
+.auth-mode-button.active{
+  color:#fff;
+  background:linear-gradient(135deg,var(--magenta),var(--rosa));
+  box-shadow:0 8px 20px rgba(219,0,125,.22);
+}
+.supabase-config-warning{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid #f0b6d4;
+  background:#fff4fa;
+  color:#7a214f;
+  font-size:13px;
+  line-height:1.45;
+}
+
+/* V3.3 - reforço visual do seletor de acesso */
+.auth-mode-switch{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:18px 0 24px!important;padding:6px!important;border-radius:16px!important;background:#f0eafa!important;border:1px solid var(--border)!important}
+.auth-mode-button{min-height:48px!important;border:0!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:10px 14px!important;font-weight:900!important;color:var(--roxo)!important;background:transparent!important;text-decoration:none!important}
+.auth-mode-button.active{color:#fff!important;background:linear-gradient(135deg,var(--magenta),var(--rosa))!important;box-shadow:0 8px 20px rgba(219,0,125,.22)!important}
+.login-visual img[src$="gui.svg"]{object-fit:cover;background:#db007d;border:3px solid rgba(255,255,255,.35);box-shadow:0 12px 24px rgba(0,0,0,.18)}
