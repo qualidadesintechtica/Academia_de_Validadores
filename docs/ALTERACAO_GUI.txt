@@ -1,0 +1,7 @@
+ALTERAÇÃO DO GUI — 07/08/2026
+
+1. Inserido o novo Gui no banner principal da página inicial.
+2. Criados os arquivos assets/img/gui-hero.png e assets/img/gui-avatar.png.
+3. Atualizados os avatares do Gui nos cards, botão flutuante, login e demais páginas.
+4. Adicionado comportamento responsivo do Gui no hero para desktop, tablet e celular.
+5. Atualizado cache do CSS para v4.1.
