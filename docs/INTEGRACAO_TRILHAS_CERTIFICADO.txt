@@ -1,0 +1,20 @@
+INTEGRAÇÃO REALIZADA
+
+Conteúdos oficiais incorporados:
+- Módulo 1: Introdução_Validacao_NQ_v3
+- Módulo 2: Ferramentas_de_Apoio_NQ
+- Módulo 4: Validacao_UAs_NQ
+- Módulo 5: Validacao_BDQ_NQ_v4
+
+Os módulos 3, 6 e 7 permanecem com o conteúdo anterior porque não foram fornecidos HTMLs novos para eles.
+
+CERTIFICADO
+- Modelo visual baseado no arquivo Modelo_Certificado_UA_V2.
+- Liberação somente após 7/7 módulos concluídos.
+- Emissão individual registrada na tabela public.certificados.
+- Nome obtido do perfil do professor.
+- Data de conclusão = data mais recente de conclusão entre os 7 módulos.
+- Código individual = UUID da tabela certificados.
+- Botão abre impressão; escolher “Salvar como PDF”.
+
+Não é necessário alterar o esquema existente do Supabase se a tabela certificados já foi criada pelo SUPABASE_SETUP.sql.
