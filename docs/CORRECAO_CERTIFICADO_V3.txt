@@ -1,0 +1,6 @@
+CORREÇÃO V3 — CERTIFICADO
+
+- Nome é obtido de profiles.nome e, se necessário, dos metadados do Auth.
+- Data de conclusão é a data do último módulo concluído.
+- A impressão só inicia depois que nome e data foram preenchidos.
+- Se a tabela certificados não puder ser acessada, o certificado continua sendo exibido com um código local ligado ao ID do usuário, sem perder nome e data.

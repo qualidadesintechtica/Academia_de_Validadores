@@ -1,7 +1,7 @@
 
 (()=>{
 const publicPage=/(login|cadastro|recuperar-senha)\.html$/.test(location.pathname);
-const prefix=(location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/'))?'../':'';
+const prefix=(location.pathname.includes('/pages/')||location.pathname.includes('/trilhas/')||location.pathname.includes('/conteudos/'))?'../':'';
 async function currentUser(){if(!window.sb)return null;const{data:{session}}=await sb.auth.getSession();return session?.user||null}
 async function protect(){if(publicPage)return;const u=await currentUser();if(!u)location.replace(prefix+'login.html')}
 async function logout(){if(window.sb)await sb.auth.signOut();location.replace(prefix+'login.html?logout=1')}

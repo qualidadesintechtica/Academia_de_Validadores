@@ -410,8 +410,36 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
 @media (max-width:900px){.prof{flex:0 0 calc((100% - 14px)/2)}}
 @media (max-width:640px){.prof{flex:0 0 100%;min-width:0}.car-nav{align-self:flex-end}}
 </style>
+
+<style id="academia-integracao-style">
+  .academia-coursebar{position:sticky;top:0;z-index:2147483000;background:#1d0e42;color:#fff;border-bottom:3px solid #db007d;box-shadow:0 8px 24px rgba(29,14,66,.18);font-family:Inter,Segoe UI,Arial,sans-serif}
+  .academia-coursebar__inner{max-width:1180px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+  .academia-coursebar__title{display:flex;align-items:center;gap:10px;min-width:0}
+  .academia-coursebar__logo{width:34px;height:34px;border:2px solid #db007d;border-radius:10px;display:grid;place-items:center;font-weight:900;color:#fff;flex:0 0 auto}
+  .academia-coursebar__copy{min-width:0}.academia-coursebar__copy strong{display:block;font-size:14px;line-height:1.2}.academia-coursebar__copy span{display:block;font-size:11px;color:#ddd3eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .academia-coursebar__actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .academia-coursebar__btn{appearance:none;border:1px solid rgba(255,255,255,.24);background:#fff;color:#2d1553;padding:9px 13px;border-radius:10px;font:700 12px Inter,Segoe UI,Arial,sans-serif;text-decoration:none;cursor:pointer}
+  .academia-coursebar__btn.primary{background:#db007d;color:#fff;border-color:#db007d}
+  .academia-coursebar__btn:disabled{opacity:.65;cursor:default}
+  .academia-coursebar__status{font:700 11px Inter,Segoe UI,Arial,sans-serif;color:#c7f3d8;min-width:0}
+  @media(max-width:720px){.academia-coursebar__inner{align-items:flex-start;flex-direction:column}.academia-coursebar__actions{width:100%;justify-content:flex-start}.academia-coursebar__copy span{white-space:normal}}
+</style>
 </head>
 <body>
+<div class="academia-coursebar" id="academiaCoursebar">
+  <div class="academia-coursebar__inner">
+    <div class="academia-coursebar__title">
+      <div class="academia-coursebar__logo">✓</div>
+      <div class="academia-coursebar__copy"><strong>Academia dos Validadores · Módulo 1</strong><span>Introdução</span></div>
+    </div>
+    <div class="academia-coursebar__actions">
+      <span class="academia-coursebar__status" id="academiaModuleStatus">Em andamento</span>
+      <a class="academia-coursebar__btn" href="../pages/trilha.html">Voltar à jornada</a>
+      <button class="academia-coursebar__btn primary" type="button" data-complete-module="1">Concluir módulo</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ================================================================
      HERO REPLICÁVEL — mesmo padrão da página "Validação das UAs".
@@ -782,6 +810,32 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
     update();
   });
 })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/config.js?v=6.0"></script>
+<script src="../js/supabase.js?v=6.0"></script>
+<script src="../js/auth.js?v=6.0"></script>
+<script src="../js/progress.js?v=6.0"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function(){
+  try{
+    const done = await window.Progress.getDone();
+    const id = Number(document.querySelector('[data-complete-module]')?.dataset.completeModule);
+    const btn = document.querySelector('[data-complete-module]');
+    const st = document.getElementById('academiaModuleStatus');
+    if(done.includes(id)){
+      if(btn){btn.textContent='Módulo concluído ✓';btn.disabled=true;}
+      if(st) st.textContent='Concluído';
+    }
+    if(btn) btn.addEventListener('click', function(){
+      setTimeout(async function(){
+        const d=await window.Progress.getDone();
+        if(d.includes(id) && st) st.textContent='Concluído';
+      },300);
+    });
+  }catch(e){console.error('Academia: falha ao carregar progresso',e)}
+});
 </script>
 </body>
 </html>
