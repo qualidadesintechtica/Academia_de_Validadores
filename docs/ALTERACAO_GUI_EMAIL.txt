@@ -1,0 +1,14 @@
+ALTERAÇÃO DO GUI - SUPORTE POR E-MAIL
+
+O botão "Falar com o Gui" foi configurado centralmente em js/ui.js.
+
+Destinatário:
+qualidadesintechtica@animaeducacao.com.br
+
+Ao clicar, o aplicativo de e-mail do usuário é aberto com:
+- assunto preenchido;
+- nome do usuário (quando disponível);
+- página/módulo atual;
+- espaço para escrever a dúvida.
+
+Nenhuma configuração do Supabase foi alterada.
