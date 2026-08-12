@@ -132,6 +132,12 @@ code{font-family:inherit;font-weight:600;background:#EFE9F8;border:1px solid var
 .video-ph b{font-family:'Montserrat',sans-serif;font-weight:700;font-size:19px}
 .video-ph span{font-size:13.5px;color:#DCCBEF;max-width:44ch}
 
+/* ---------- VÍDEO DE BOAS-VINDAS - PAULA ---------- */
+.video-paula{width:100%;display:flex;justify-content:center;align-items:center;margin-top:18px;padding:24px;
+  border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--roxo-noite),var(--roxo-profundo) 55%,var(--roxo));overflow:hidden}
+.video-paula video{display:block;width:auto;height:auto;max-width:340px;max-height:600px;border-radius:16px;background:#000;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+@media(max-width:600px){.video-paula{padding:14px}.video-paula video{width:100%;max-width:290px;max-height:520px}}
+
 /* ---------- CARD RECADO IVONETE ---------- */
 .ivo-card{display:flex;gap:18px;align-items:center;background:#FFF9FD;border:1.5px solid var(--magenta);
   border-radius:16px;padding:20px 22px;margin-top:16px;flex-wrap:wrap}
@@ -496,10 +502,11 @@ footer{margin-top:64px;border-top:1px solid var(--line);background:#F4EEFB}
   <div class="prose">
     <p>Antes de conhecer o processo, assista &agrave; mensagem de boas-vindas da ger&ecirc;ncia da &aacute;rea de Qualidade em Experi&ecirc;ncias de Aprendizagem Digital &mdash; uma apresenta&ccedil;&atilde;o do que esperamos desta jornada e do papel de quem valida os materiais.</p>
   </div>
-  <div class="video-ph">
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="30" stroke="#FFFFFF" stroke-width="3" opacity=".85"/><path d="M26 21.5v21l18-10.5-18-10.5z" fill="#FFFFFF"/></svg>
-    <b>V&iacute;deo em breve</b>
-    <span>Mensagem de boas-vindas de Paula Madalena dos Santos ser&aacute; publicada aqui.</span>
+  <div class="video-paula">
+    <video controls preload="metadata" playsinline aria-label="Mensagem de boas-vindas de Paula Madalena dos Santos">
+      <source src="../assets/videos/boa-vindas-paula.mp4" type="video/mp4">
+      Seu navegador não suporta a reprodução deste vídeo.
+    </video>
   </div>
   <div class="speaker">
     <!-- EDITAR: FOTO DA PAULA (opcional)
