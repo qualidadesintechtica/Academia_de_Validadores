@@ -1,176 +1,582 @@
-(()=>{
-const TOTAL_MODULOS=window.ACADEMIA_CONFIG?.TOTAL_MODULOS||7;
-let relatorio=[];
-let filtrado=[];
+(() => {
+  "use strict";
 
-function fmtDate(value){
-  if(!value)return '—';
-  const d=new Date(value);
-  if(Number.isNaN(d.getTime()))return '—';
-  return d.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});
-}
+  let relatorioCompleto = [];
 
-function csvCell(value){
-  const s=String(value??'');
-  return '"'+s.replaceAll('"','""')+'"';
-}
+  function formatarData(valor) {
+    if (!valor) return "-";
 
-async function fetchAll(table,select='*'){
-  const batch=1000;
-  let start=0,out=[];
-  while(true){
-    const{data,error}=await sb.from(table).select(select).range(start,start+batch-1);
-    if(error)throw error;
-    const rows=data||[];
-    out=out.concat(rows);
-    if(rows.length<batch)break;
-    start+=batch;
-  }
-  return out;
-}
+    const data = new Date(valor);
 
-function construirResumo(acessos,profiles,progressos,certificados){
-  const map=new Map();
-  const perfilMap=new Map(profiles.map(p=>[p.id,p]));
-  const progMap=new Map();
-  progressos.filter(p=>p.concluido).forEach(p=>{
-    if(!progMap.has(p.user_id))progMap.set(p.user_id,[]);
-    progMap.get(p.user_id).push(p);
-  });
-  const certMap=new Map(certificados.map(c=>[c.user_id,c]));
-
-  acessos.forEach(a=>{
-    if(!map.has(a.user_id))map.set(a.user_id,{
-      user_id:a.user_id,
-      email:a.email||'',
-      nome:a.nome||'',
-      acessos:[],
-      primeiro_acesso:null,
-      ultimo_acesso:null
-    });
-    const r=map.get(a.user_id);
-    if(a.email)r.email=a.email;
-    if(a.nome)r.nome=a.nome;
-    r.acessos.push(a);
-  });
-
-  return [...map.values()].map(r=>{
-    const dates=r.acessos.map(a=>new Date(a.acessado_em)).filter(d=>!Number.isNaN(d.getTime())).sort((a,b)=>a-b);
-    const perfil=perfilMap.get(r.user_id);
-    const progs=progMap.get(r.user_id)||[];
-    const cert=certMap.get(r.user_id);
-    return{
-      ...r,
-      nome:perfil?.nome||r.nome||'Professor(a)',
-      primeiro_acesso:dates[0]?.toISOString()||null,
-      ultimo_acesso:dates.at(-1)?.toISOString()||null,
-      quantidade_acessos:r.acessos.length,
-      modulos_concluidos:new Set(progs.map(p=>Number(p.modulo_id))).size,
-      progresso_percentual:Math.round(new Set(progs.map(p=>Number(p.modulo_id))).size/TOTAL_MODULOS*100),
-      certificado_emitido:Boolean(cert),
-      certificado_em:cert?.emitido_em||null,
-      codigo_certificado:cert?.codigo||''
-    };
-  }).sort((a,b)=>(new Date(b.ultimo_acesso||0))-(new Date(a.ultimo_acesso||0)));
-}
-
-function aplicarFiltros(){
-  const busca=(document.querySelector('#adminBusca')?.value||'').trim().toLowerCase();
-  const cert=document.querySelector('#adminCertificado')?.value||'';
-  const inicio=document.querySelector('#adminDataInicio')?.value||'';
-  const fim=document.querySelector('#adminDataFim')?.value||'';
-
-  filtrado=relatorio.filter(r=>{
-    const texto=(r.nome+' '+r.email).toLowerCase();
-    if(busca&&!texto.includes(busca))return false;
-    if(cert==='sim'&&!r.certificado_emitido)return false;
-    if(cert==='nao'&&r.certificado_emitido)return false;
-    if(inicio){
-      const di=new Date(inicio+'T00:00:00');
-      if(!r.ultimo_acesso||new Date(r.ultimo_acesso)<di)return false;
+    if (Number.isNaN(data.getTime())) {
+      return "-";
     }
-    if(fim){
-      const df=new Date(fim+'T23:59:59');
-      if(!r.ultimo_acesso||new Date(r.ultimo_acesso)>df)return false;
+
+    return data.toLocaleString(
+      "pt-BR",
+      {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+  }
+
+  function percentual(modulos) {
+    const totalModulos = 7;
+
+    if (!modulos) return 0;
+
+    return Math.min(
+      100,
+      Math.round(
+        (modulos / totalModulos) * 100
+      )
+    );
+  }
+
+  async function carregarRelatorio() {
+    const mensagem =
+      document.getElementById(
+        "adminMessage"
+      );
+
+    const contador =
+      document.getElementById(
+        "adminCount"
+      );
+
+    try {
+      mensagem.textContent =
+        "Carregando relatório...";
+
+      const {
+        data: acessos,
+        error: erroAcessos
+      } =
+        await window.sb
+          .from(
+            "vw_relatorio_acessos"
+          )
+          .select("*")
+          .order(
+            "ultimo_acesso",
+            {
+              ascending: false
+            }
+          );
+
+      if (erroAcessos) {
+        throw erroAcessos;
+      }
+
+      const {
+        data: progresso,
+        error: erroProgresso
+      } =
+        await window.sb
+          .from(
+            "progresso_modulos"
+          )
+          .select("*");
+
+      if (erroProgresso) {
+        console.warn(
+          "Não foi possível carregar progresso:",
+          erroProgresso
+        );
+      }
+
+      const progressoPorUsuario = {};
+
+      (progresso || [])
+        .forEach(
+          function (item) {
+            const id =
+              item.user_id ||
+              item.usuario_id;
+
+            if (!id) return;
+
+            const concluido =
+              item.concluido === true ||
+              item.status === "concluido" ||
+              item.status === "Concluído";
+
+            if (!progressoPorUsuario[id]) {
+              progressoPorUsuario[id] = 0;
+            }
+
+            if (concluido) {
+              progressoPorUsuario[id] += 1;
+            }
+          }
+        );
+
+      relatorioCompleto =
+        (acessos || [])
+          .map(
+            function (item) {
+              const modulos =
+                progressoPorUsuario[
+                  item.user_id
+                ] || 0;
+
+              return {
+                user_id:
+                  item.user_id,
+
+                nome:
+                  item.nome ||
+                  item.email ||
+                  "Professor(a)",
+
+                email:
+                  item.email || "",
+
+                primeiro_acesso:
+                  item.primeiro_acesso,
+
+                ultimo_acesso:
+                  item.ultimo_acesso,
+
+                quantidade_acessos:
+                  Number(
+                    item.quantidade_acessos || 0
+                  ),
+
+                modulos,
+
+                progresso:
+                  percentual(modulos),
+
+                certificado:
+                  modulos >= 7
+                    ? "Sim"
+                    : "Não",
+
+                emissao:
+                  "-",
+
+                codigo:
+                  "-"
+              };
+            }
+          );
+
+      aplicarFiltros();
+
+      mensagem.textContent =
+        "Relatório atualizado.";
+
+    } catch (error) {
+      console.error(
+        "Erro ao carregar relatório:",
+        error
+      );
+
+      contador.textContent = "0";
+
+      mensagem.textContent =
+        "Erro ao carregar o relatório: " +
+        (
+          error?.message ||
+          "erro desconhecido"
+        );
+
+      renderizarTabela([]);
     }
-    return true;
-  });
-  render();
-}
-
-function render(){
-  const body=document.querySelector('#adminTabelaBody');
-  const count=document.querySelector('[data-admin-count]');
-  if(count)count.textContent=filtrado.length;
-  if(!body)return;
-  body.innerHTML='';
-  if(!filtrado.length){
-    body.innerHTML='<tr><td colspan="9" class="admin-empty">Nenhum acesso encontrado para os filtros selecionados.</td></tr>';
-    return;
   }
-  filtrado.forEach(r=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td><strong>${escapeHtml(r.nome)}</strong><small>${escapeHtml(r.email)}</small></td>
-      <td>${fmtDate(r.primeiro_acesso)}</td>
-      <td>${fmtDate(r.ultimo_acesso)}</td>
-      <td class="admin-number">${r.quantidade_acessos}</td>
-      <td>${r.modulos_concluidos}/${TOTAL_MODULOS}</td>
-      <td><div class="admin-progress"><span style="width:${r.progresso_percentual}%"></span></div><small>${r.progresso_percentual}%</small></td>
-      <td><span class="badge ${r.certificado_emitido?'badge-ok':'badge-warn'}">${r.certificado_emitido?'Emitido':'Não emitido'}</span></td>
-      <td>${fmtDate(r.certificado_em)}</td>
-      <td><code>${escapeHtml(r.codigo_certificado||'—')}</code></td>`;
-    body.appendChild(tr);
-  });
-}
 
-function escapeHtml(v){
-  return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-}
+  function aplicarFiltros() {
+    const busca =
+      (
+        document.getElementById(
+          "adminSearch"
+        )?.value || ""
+      )
+        .trim()
+        .toLowerCase();
 
-function exportarCSV(){
-  const header=['Nome','E-mail','Primeiro acesso','Último acesso','Qtd. acessos','Módulos concluídos','Progresso','Certificado','Data certificado','Código certificado'];
-  const rows=filtrado.map(r=>[
-    r.nome,r.email,fmtDate(r.primeiro_acesso),fmtDate(r.ultimo_acesso),r.quantidade_acessos,
-    `${r.modulos_concluidos}/${TOTAL_MODULOS}`,`${r.progresso_percentual}%`,r.certificado_emitido?'Sim':'Não',fmtDate(r.certificado_em),r.codigo_certificado||''
-  ]);
-  const csv='\ufeff'+[header,...rows].map(row=>row.map(csvCell).join(';')).join('\r\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download=`relatorio-acessos-academia-${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-}
+    const certificado =
+      document.getElementById(
+        "adminCertificate"
+      )?.value || "";
 
-async function carregar(){
-  const status=document.querySelector('[data-admin-status]');
-  try{
-    const permitido=await Auth.requireAdmin();
-    if(!permitido)return;
-    if(status)status.textContent='Carregando relatório...';
-    const [acessos,profiles,progressos,certificados]=await Promise.all([
-      fetchAll('acessos_academia','user_id,email,nome,origem,acessado_em'),
-      fetchAll('profiles','id,nome,nivel'),
-      fetchAll('progresso_modulos','user_id,modulo_id,concluido,concluido_em'),
-      fetchAll('certificados','user_id,codigo,emitido_em')
-    ]);
-    relatorio=construirResumo(acessos,profiles,progressos,certificados);
-    filtrado=[...relatorio];
-    render();
-    if(status)status.textContent=`${acessos.length} acessos registrados desde a ativação do relatório.`;
-  }catch(e){
-    console.error('Erro no relatório administrativo:',e);
-    if(status)status.textContent='Não foi possível carregar o relatório. Execute primeiro o SQL de configuração no Supabase.';
+    const dataInicio =
+      document.getElementById(
+        "adminDateFrom"
+      )?.value || "";
+
+    const dataFim =
+      document.getElementById(
+        "adminDateTo"
+      )?.value || "";
+
+    const filtrados =
+      relatorioCompleto
+        .filter(
+          function (item) {
+            const texto =
+              (
+                item.nome +
+                " " +
+                item.email
+              )
+                .toLowerCase();
+
+            if (
+              busca &&
+              !texto.includes(busca)
+            ) {
+              return false;
+            }
+
+            if (
+              certificado &&
+              certificado !== "todos"
+            ) {
+              const esperado =
+                certificado === "sim"
+                  ? "Sim"
+                  : "Não";
+
+              if (
+                item.certificado !== esperado
+              ) {
+                return false;
+              }
+            }
+
+            if (
+              dataInicio &&
+              item.ultimo_acesso
+            ) {
+              const acesso =
+                new Date(
+                  item.ultimo_acesso
+                );
+
+              const inicio =
+                new Date(
+                  dataInicio +
+                  "T00:00:00"
+                );
+
+              if (
+                acesso < inicio
+              ) {
+                return false;
+              }
+            }
+
+            if (
+              dataFim &&
+              item.ultimo_acesso
+            ) {
+              const acesso =
+                new Date(
+                  item.ultimo_acesso
+                );
+
+              const fim =
+                new Date(
+                  dataFim +
+                  "T23:59:59"
+                );
+
+              if (
+                acesso > fim
+              ) {
+                return false;
+              }
+            }
+
+            return true;
+          }
+        );
+
+    document.getElementById(
+      "adminCount"
+    ).textContent =
+      filtrados.length;
+
+    renderizarTabela(
+      filtrados
+    );
   }
-}
 
-document.addEventListener('DOMContentLoaded',()=>{
-  ['#adminBusca','#adminCertificado','#adminDataInicio','#adminDataFim'].forEach(sel=>{
-    document.querySelector(sel)?.addEventListener(sel==='#adminBusca'?'input':'change',aplicarFiltros);
-  });
-  document.querySelector('[data-admin-export]')?.addEventListener('click',exportarCSV);
-  document.querySelector('[data-admin-refresh]')?.addEventListener('click',carregar);
-  carregar();
-});
+  function renderizarTabela(dados) {
+    const tbody =
+      document.querySelector(
+        "#adminTable tbody"
+      );
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    if (!dados.length) {
+      const tr =
+        document.createElement("tr");
+
+      tr.innerHTML = `
+        <td
+          colspan="10"
+          style="
+            text-align:center;
+            padding:36px
+          "
+        >
+          Nenhum acesso encontrado para os filtros selecionados.
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+
+      return;
+    }
+
+    dados.forEach(
+      function (item) {
+        const tr =
+          document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>
+            <strong>
+              ${item.nome}
+            </strong>
+
+            <div
+              style="
+                font-size:12px;
+                opacity:.7;
+                margin-top:3px
+              "
+            >
+              ${item.email}
+            </div>
+          </td>
+
+          <td>
+            ${formatarData(
+              item.primeiro_acesso
+            )}
+          </td>
+
+          <td>
+            ${formatarData(
+              item.ultimo_acesso
+            )}
+          </td>
+
+          <td>
+            ${item.quantidade_acessos}
+          </td>
+
+          <td>
+            ${item.modulos}
+          </td>
+
+          <td>
+            ${item.progresso}%
+          </td>
+
+          <td>
+            ${item.certificado}
+          </td>
+
+          <td>
+            ${item.emissao}
+          </td>
+
+          <td>
+            ${item.codigo}
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      }
+    );
+  }
+
+  function exportarCSV() {
+    if (!relatorioCompleto.length) {
+      alert(
+        "Não há dados para exportar."
+      );
+
+      return;
+    }
+
+    const linhas = [
+      [
+        "Professor",
+        "Email",
+        "Primeiro acesso",
+        "Último acesso",
+        "Acessos",
+        "Módulos",
+        "Progresso",
+        "Certificado",
+        "Emissão",
+        "Código"
+      ]
+    ];
+
+    relatorioCompleto.forEach(
+      function (item) {
+        linhas.push([
+          item.nome,
+          item.email,
+          formatarData(
+            item.primeiro_acesso
+          ),
+          formatarData(
+            item.ultimo_acesso
+          ),
+          item.quantidade_acessos,
+          item.modulos,
+          item.progresso + "%",
+          item.certificado,
+          item.emissao,
+          item.codigo
+        ]);
+      }
+    );
+
+    const csv =
+      linhas
+        .map(
+          linha =>
+            linha
+              .map(
+                valor =>
+                  `"${String(valor)
+                    .replace(
+                      /"/g,
+                      '""'
+                    )}"`
+              )
+              .join(";")
+        )
+        .join("\n");
+
+    const blob =
+      new Blob(
+        [
+          "\uFEFF" +
+          csv
+        ],
+        {
+          type:
+            "text/csv;charset=utf-8;"
+        }
+      );
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "relatorio-acessos-academia.csv";
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(
+      url
+    );
+  }
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+      if (
+        window.Auth &&
+        typeof window.Auth
+          .requireAdmin ===
+          "function"
+      ) {
+        const permitido =
+          await window.Auth
+            .requireAdmin();
+
+        if (!permitido) {
+          return;
+        }
+      }
+
+      document
+        .getElementById(
+          "adminRefresh"
+        )
+        ?.addEventListener(
+          "click",
+          carregarRelatorio
+        );
+
+      document
+        .getElementById(
+          "adminSearch"
+        )
+        ?.addEventListener(
+          "input",
+          aplicarFiltros
+        );
+
+      document
+        .getElementById(
+          "adminCertificate"
+        )
+        ?.addEventListener(
+          "change",
+          aplicarFiltros
+        );
+
+      document
+        .getElementById(
+          "adminDateFrom"
+        )
+        ?.addEventListener(
+          "change",
+          aplicarFiltros
+        );
+
+      document
+        .getElementById(
+          "adminDateTo"
+        )
+        ?.addEventListener(
+          "change",
+          aplicarFiltros
+        );
+
+      document
+        .getElementById(
+          "adminExport"
+        )
+        ?.addEventListener(
+          "click",
+          exportarCSV
+        );
+
+      await carregarRelatorio();
+    }
+  );
 })();
