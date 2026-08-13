@@ -97,11 +97,19 @@ img {
 .brand span {
   display: block;
   margin-top: 4px;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-  color: #ff93cb;
+  width: fit-content;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 147, 203, 0.55);
+  border-radius: 999px;
+  background: rgba(219, 0, 125, 0.18);
+  box-shadow: 0 0 18px rgba(219, 0, 125, 0.18);
+  font-family: Poppins, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.015em;
+  color: #ffb4dc;
 }
 .side-nav {
   display: grid;
@@ -899,4 +907,12 @@ img {
   .welcome-video-player {
     max-width: 260px;
   }
+}
+
+.login-visual .brand span {
+  font-size: 19px;
+  padding: 6px 12px;
+  color: #ffd0e9;
+  border-color: rgba(255, 180, 220, 0.72);
+  background: rgba(219, 0, 125, 0.25);
 }

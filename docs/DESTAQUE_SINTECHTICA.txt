@@ -1,0 +1,7 @@
+ALTERAÇÃO VISUAL — SINTECHTICA
+
+- "by Sintechtica" recebeu maior tamanho, peso e contraste.
+- No login/cadastro/recuperação: 19px com destaque reforçado.
+- Na navegação interna: 17px com selo magenta discreto.
+- Nenhuma regra de autenticação, progresso, certificado ou relatório foi alterada.
+- base.css atualizado para v4.3 nas páginas para evitar cache antigo.
