@@ -1,0 +1,16 @@
+ACADEMIA DOS VALIDADORES - RELATORIO DE ACESSOS
+
+1. Publique esta pasta normalmente no GitHub.
+2. No Supabase, abra SQL Editor.
+3. Execute o arquivo: supabase/RELATORIO_ACESSOS_SETUP.sql
+4. No final desse SQL há um exemplo para autorizar cada pessoa que poderá ver o relatório.
+5. Troque PESSOA.AUTORIZADA@animaeducacao.com.br pelo e-mail real da pessoa e execute aquele INSERT.
+6. Repita o INSERT para cada pessoa autorizada.
+7. Faça logout e login novamente na Academia.
+8. Para pessoas autorizadas, o menu "Relatório de Acessos" aparecerá automaticamente.
+
+IMPORTANTE:
+- A tabela começa a registrar acessos a partir da publicação desta versão.
+- A contagem representa logins bem-sucedidos, não cliques ou páginas visitadas.
+- Quem não estiver em relatorio_admins não consegue ler os dados, mesmo digitando a URL da página manualmente.
+- Não coloque service_role ou secret key no GitHub.

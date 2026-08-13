@@ -95,7 +95,12 @@ img {
   line-height: 1.05;
 }
 .brand span {
-  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
   color: #ff93cb;
 }
 .side-nav {
