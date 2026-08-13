@@ -1,410 +1,624 @@
 (() => {
   "use strict";
 
-  let relatorioCompleto = [];
+  const TOTAL_MODULOS =
+    window.ACADEMIA_CONFIG?.TOTAL_MODULOS || 7;
 
-  function formatarData(valor) {
-    if (!valor) return "-";
+  let relatorio = [];
+  let filtrado = [];
 
-    const data = new Date(valor);
 
-    if (Number.isNaN(data.getTime())) {
-      return "-";
+  function fmtDate(value) {
+    if (!value) return "—";
+
+    const d = new Date(value);
+
+    if (Number.isNaN(d.getTime())) {
+      return "—";
     }
 
-    return data.toLocaleString(
+    return d.toLocaleString(
       "pt-BR",
       {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
+        timeZone:
+          "America/Sao_Paulo"
       }
     );
   }
 
-  function percentual(modulos) {
-    const totalModulos = 7;
 
-    if (!modulos) return 0;
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(
+        /[&<>'"]/g,
+        c => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;"
+        })[c]
+      );
+  }
 
-    return Math.min(
-      100,
-      Math.round(
-        (modulos / totalModulos) * 100
-      )
+
+  function csvCell(value) {
+    return (
+      '"' +
+      String(value ?? "")
+        .replaceAll(
+          '"',
+          '""'
+        ) +
+      '"'
     );
   }
 
-  async function carregarRelatorio() {
-    const mensagem =
-      document.getElementById(
-        "adminMessage"
-      );
 
-    const contador =
-      document.getElementById(
-        "adminCount"
-      );
+  async function fetchAll(
+    table,
+    select = "*"
+  ) {
+    const batch = 1000;
 
-    try {
-      mensagem.textContent =
-        "Carregando relatório...";
+    let start = 0;
+    let out = [];
 
+    while (true) {
       const {
-        data: acessos,
-        error: erroAcessos
-      } =
-        await window.sb
-          .from(
-            "vw_relatorio_acessos"
-          )
-          .select("*")
-          .order(
-            "ultimo_acesso",
-            {
-              ascending: false
-            }
-          );
-
-      if (erroAcessos) {
-        throw erroAcessos;
-      }
-
-      const {
-        data: progresso,
-        error: erroProgresso
-      } =
-        await window.sb
-          .from(
-            "progresso_modulos"
-          )
-          .select("*");
-
-      if (erroProgresso) {
-        console.warn(
-          "Não foi possível carregar progresso:",
-          erroProgresso
-        );
-      }
-
-      const progressoPorUsuario = {};
-
-      (progresso || [])
-        .forEach(
-          function (item) {
-            const id =
-              item.user_id ||
-              item.usuario_id;
-
-            if (!id) return;
-
-            const concluido =
-              item.concluido === true ||
-              item.status === "concluido" ||
-              item.status === "Concluído";
-
-            if (!progressoPorUsuario[id]) {
-              progressoPorUsuario[id] = 0;
-            }
-
-            if (concluido) {
-              progressoPorUsuario[id] += 1;
-            }
-          }
-        );
-
-      relatorioCompleto =
-        (acessos || [])
-          .map(
-            function (item) {
-              const modulos =
-                progressoPorUsuario[
-                  item.user_id
-                ] || 0;
-
-              return {
-                user_id:
-                  item.user_id,
-
-                nome:
-                  item.nome ||
-                  item.email ||
-                  "Professor(a)",
-
-                email:
-                  item.email || "",
-
-                primeiro_acesso:
-                  item.primeiro_acesso,
-
-                ultimo_acesso:
-                  item.ultimo_acesso,
-
-                quantidade_acessos:
-                  Number(
-                    item.quantidade_acessos || 0
-                  ),
-
-                modulos,
-
-                progresso:
-                  percentual(modulos),
-
-                certificado:
-                  modulos >= 7
-                    ? "Sim"
-                    : "Não",
-
-                emissao:
-                  "-",
-
-                codigo:
-                  "-"
-              };
-            }
-          );
-
-      aplicarFiltros();
-
-      mensagem.textContent =
-        "Relatório atualizado.";
-
-    } catch (error) {
-      console.error(
-        "Erro ao carregar relatório:",
+        data,
         error
+      } =
+        await window.sb
+          .from(table)
+          .select(select)
+          .range(
+            start,
+            start + batch - 1
+          );
+
+      if (error) {
+        throw error;
+      }
+
+      const rows =
+        data || [];
+
+      out =
+        out.concat(rows);
+
+      if (
+        rows.length <
+        batch
+      ) {
+        break;
+      }
+
+      start += batch;
+    }
+
+    return out;
+  }
+
+
+  function construirResumo(
+    acessos,
+    progressos
+  ) {
+    const map =
+      new Map();
+
+    const progMap =
+      new Map();
+
+
+    /*
+      Organiza módulos concluídos
+      por usuário.
+    */
+
+    progressos
+      .filter(
+        p =>
+          p.concluido === true
+      )
+      .forEach(
+        p => {
+
+          if (
+            !progMap.has(
+              p.user_id
+            )
+          ) {
+            progMap.set(
+              p.user_id,
+              []
+            );
+          }
+
+          progMap
+            .get(
+              p.user_id
+            )
+            .push(p);
+
+        }
       );
 
-      contador.textContent = "0";
 
-      mensagem.textContent =
-        "Erro ao carregar o relatório: " +
-        (
-          error?.message ||
-          "erro desconhecido"
-        );
+    /*
+      Organiza os acessos.
+    */
 
-      renderizarTabela([]);
-    }
+    acessos.forEach(
+      a => {
+
+        if (
+          !map.has(
+            a.user_id
+          )
+        ) {
+          map.set(
+            a.user_id,
+            {
+              user_id:
+                a.user_id,
+
+              email:
+                a.email || "",
+
+              nome:
+                a.nome || "",
+
+              acessos: []
+            }
+          );
+        }
+
+
+        const r =
+          map.get(
+            a.user_id
+          );
+
+
+        if (a.email) {
+          r.email =
+            a.email;
+        }
+
+
+        if (a.nome) {
+          r.nome =
+            a.nome;
+        }
+
+
+        r.acessos.push(a);
+
+      }
+    );
+
+
+    return [
+      ...map.values()
+    ]
+      .map(
+        r => {
+
+          const dates =
+            r.acessos
+              .map(
+                a =>
+                  new Date(
+                    a.acessado_em
+                  )
+              )
+              .filter(
+                d =>
+                  !Number.isNaN(
+                    d.getTime()
+                  )
+              )
+              .sort(
+                (a, b) =>
+                  a - b
+              );
+
+
+          const progs =
+            progMap.get(
+              r.user_id
+            ) || [];
+
+
+          const modulos =
+            new Set(
+              progs.map(
+                p =>
+                  Number(
+                    p.modulo_id
+                  )
+              )
+            ).size;
+
+
+          /*
+            Por enquanto:
+            se concluiu todos os módulos,
+            consideramos certificado liberado.
+
+            Não dependemos da tabela
+            certificados.
+          */
+
+          const certificado =
+            modulos >=
+            TOTAL_MODULOS;
+
+
+          return {
+
+            user_id:
+              r.user_id,
+
+            nome:
+              r.nome ||
+              r.email ||
+              "Professor(a)",
+
+            email:
+              r.email,
+
+            primeiro_acesso:
+              dates[0]
+                ?.toISOString() ||
+              null,
+
+            ultimo_acesso:
+              dates.at(-1)
+                ?.toISOString() ||
+              null,
+
+            quantidade_acessos:
+              r.acessos.length,
+
+            modulos_concluidos:
+              modulos,
+
+            progresso_percentual:
+              Math.round(
+                (
+                  modulos /
+                  TOTAL_MODULOS
+                ) *
+                100
+              ),
+
+            certificado_emitido:
+              certificado,
+
+            certificado_em:
+              null,
+
+            codigo_certificado:
+              ""
+          };
+
+        }
+      )
+      .sort(
+        (a, b) =>
+          (
+            new Date(
+              b.ultimo_acesso ||
+              0
+            )
+          ) -
+          (
+            new Date(
+              a.ultimo_acesso ||
+              0
+            )
+          )
+      );
   }
+
 
   function aplicarFiltros() {
+
     const busca =
       (
-        document.getElementById(
-          "adminSearch"
-        )?.value || ""
+        document
+          .querySelector(
+            "#adminBusca"
+          )
+          ?.value ||
+        ""
       )
         .trim()
         .toLowerCase();
 
-    const certificado =
-      document.getElementById(
-        "adminCertificate"
-      )?.value || "";
 
-    const dataInicio =
-      document.getElementById(
-        "adminDateFrom"
-      )?.value || "";
+    const cert =
+      document
+        .querySelector(
+          "#adminCertificado"
+        )
+        ?.value ||
+      "";
 
-    const dataFim =
-      document.getElementById(
-        "adminDateTo"
-      )?.value || "";
 
-    const filtrados =
-      relatorioCompleto
+    const inicio =
+      document
+        .querySelector(
+          "#adminDataInicio"
+        )
+        ?.value ||
+      "";
+
+
+    const fim =
+      document
+        .querySelector(
+          "#adminDataFim"
+        )
+        ?.value ||
+      "";
+
+
+    filtrado =
+      relatorio
         .filter(
-          function (item) {
+          r => {
+
             const texto =
               (
-                item.nome +
+                r.nome +
                 " " +
-                item.email
+                r.email
               )
                 .toLowerCase();
 
+
             if (
               busca &&
-              !texto.includes(busca)
+              !texto.includes(
+                busca
+              )
             ) {
               return false;
             }
 
-            if (
-              certificado &&
-              certificado !== "todos"
-            ) {
-              const esperado =
-                certificado === "sim"
-                  ? "Sim"
-                  : "Não";
 
-              if (
-                item.certificado !== esperado
-              ) {
-                return false;
-              }
+            if (
+              cert === "sim" &&
+              !r.certificado_emitido
+            ) {
+              return false;
             }
 
-            if (
-              dataInicio &&
-              item.ultimo_acesso
-            ) {
-              const acesso =
-                new Date(
-                  item.ultimo_acesso
-                );
 
-              const inicio =
+            if (
+              cert === "nao" &&
+              r.certificado_emitido
+            ) {
+              return false;
+            }
+
+
+            if (inicio) {
+
+              const di =
                 new Date(
-                  dataInicio +
+                  inicio +
                   "T00:00:00"
                 );
 
+
               if (
-                acesso < inicio
+                !r.ultimo_acesso ||
+                new Date(
+                  r.ultimo_acesso
+                ) < di
               ) {
                 return false;
               }
+
             }
 
-            if (
-              dataFim &&
-              item.ultimo_acesso
-            ) {
-              const acesso =
-                new Date(
-                  item.ultimo_acesso
-                );
 
-              const fim =
+            if (fim) {
+
+              const df =
                 new Date(
-                  dataFim +
+                  fim +
                   "T23:59:59"
                 );
 
+
               if (
-                acesso > fim
+                !r.ultimo_acesso ||
+                new Date(
+                  r.ultimo_acesso
+                ) > df
               ) {
                 return false;
               }
+
             }
 
+
             return true;
+
           }
         );
 
-    document.getElementById(
-      "adminCount"
-    ).textContent =
-      filtrados.length;
 
-    renderizarTabela(
-      filtrados
-    );
+    render();
   }
 
-  function renderizarTabela(dados) {
-    const tbody =
-      document.querySelector(
-        "#adminTable tbody"
-      );
 
-    if (!tbody) return;
+  function render() {
 
-    tbody.innerHTML = "";
+    const body =
+      document
+        .querySelector(
+          "#adminTabelaBody"
+        );
 
-    if (!dados.length) {
-      const tr =
-        document.createElement("tr");
 
-      tr.innerHTML = `
-        <td
-          colspan="10"
-          style="
-            text-align:center;
-            padding:36px
-          "
-        >
-          Nenhum acesso encontrado para os filtros selecionados.
-        </td>
+    const count =
+      document
+        .querySelector(
+          "[data-admin-count]"
+        );
+
+
+    if (count) {
+      count.textContent =
+        filtrado.length;
+    }
+
+
+    if (!body) {
+      return;
+    }
+
+
+    body.innerHTML =
+      "";
+
+
+    if (
+      !filtrado.length
+    ) {
+
+      body.innerHTML = `
+        <tr>
+          <td
+            colspan="9"
+            class="admin-empty"
+          >
+            Nenhum acesso encontrado para os filtros selecionados.
+          </td>
+        </tr>
       `;
-
-      tbody.appendChild(tr);
 
       return;
     }
 
-    dados.forEach(
-      function (item) {
+
+    filtrado.forEach(
+      r => {
+
         const tr =
-          document.createElement("tr");
+          document
+            .createElement(
+              "tr"
+            );
+
 
         tr.innerHTML = `
           <td>
             <strong>
-              ${item.nome}
+              ${escapeHtml(
+                r.nome
+              )}
             </strong>
 
+            <small>
+              ${escapeHtml(
+                r.email
+              )}
+            </small>
+          </td>
+
+          <td>
+            ${fmtDate(
+              r.primeiro_acesso
+            )}
+          </td>
+
+          <td>
+            ${fmtDate(
+              r.ultimo_acesso
+            )}
+          </td>
+
+          <td class="admin-number">
+            ${r.quantidade_acessos}
+          </td>
+
+          <td>
+            ${r.modulos_concluidos}/${TOTAL_MODULOS}
+          </td>
+
+          <td>
+
             <div
-              style="
-                font-size:12px;
-                opacity:.7;
-                margin-top:3px
+              class="admin-progress"
+            >
+              <span
+                style="
+                  width:
+                  ${r.progresso_percentual}%
+                "
+              ></span>
+            </div>
+
+            <small>
+              ${r.progresso_percentual}%
+            </small>
+
+          </td>
+
+          <td>
+
+            <span
+              class="
+                badge
+                ${
+                  r.certificado_emitido
+                    ? "badge-ok"
+                    : "badge-warn"
+                }
               "
             >
-              ${item.email}
-            </div>
+              ${
+                r.certificado_emitido
+                  ? "Liberado"
+                  : "Não liberado"
+              }
+            </span>
+
           </td>
 
           <td>
-            ${formatarData(
-              item.primeiro_acesso
-            )}
+            —
           </td>
 
           <td>
-            ${formatarData(
-              item.ultimo_acesso
-            )}
-          </td>
-
-          <td>
-            ${item.quantidade_acessos}
-          </td>
-
-          <td>
-            ${item.modulos}
-          </td>
-
-          <td>
-            ${item.progresso}%
-          </td>
-
-          <td>
-            ${item.certificado}
-          </td>
-
-          <td>
-            ${item.emissao}
-          </td>
-
-          <td>
-            ${item.codigo}
+            —
           </td>
         `;
 
-        tbody.appendChild(tr);
+
+        body.appendChild(
+          tr
+        );
+
       }
     );
   }
 
+
   function exportarCSV() {
-    if (!relatorioCompleto.length) {
+
+    if (
+      !filtrado.length
+    ) {
+
       alert(
         "Não há dados para exportar."
       );
@@ -412,171 +626,313 @@
       return;
     }
 
-    const linhas = [
-      [
-        "Professor",
-        "Email",
-        "Primeiro acesso",
-        "Último acesso",
-        "Acessos",
-        "Módulos",
-        "Progresso",
-        "Certificado",
-        "Emissão",
-        "Código"
-      ]
+
+    const header = [
+      "Nome",
+      "E-mail",
+      "Primeiro acesso",
+      "Último acesso",
+      "Qtd. acessos",
+      "Módulos concluídos",
+      "Progresso",
+      "Certificado"
     ];
 
-    relatorioCompleto.forEach(
-      function (item) {
-        linhas.push([
-          item.nome,
-          item.email,
-          formatarData(
-            item.primeiro_acesso
+
+    const rows =
+      filtrado.map(
+        r => [
+          r.nome,
+          r.email,
+          fmtDate(
+            r.primeiro_acesso
           ),
-          formatarData(
-            item.ultimo_acesso
+          fmtDate(
+            r.ultimo_acesso
           ),
-          item.quantidade_acessos,
-          item.modulos,
-          item.progresso + "%",
-          item.certificado,
-          item.emissao,
-          item.codigo
-        ]);
-      }
-    );
+          r.quantidade_acessos,
+          `${r.modulos_concluidos}/${TOTAL_MODULOS}`,
+          `${r.progresso_percentual}%`,
+          r.certificado_emitido
+            ? "Liberado"
+            : "Não liberado"
+        ]
+      );
+
 
     const csv =
-      linhas
+      "\ufeff" +
+      [
+        header,
+        ...rows
+      ]
         .map(
-          linha =>
-            linha
-              .map(
-                valor =>
-                  `"${String(valor)
-                    .replace(
-                      /"/g,
-                      '""'
-                    )}"`
-              )
+          row =>
+            row
+              .map(csvCell)
               .join(";")
         )
-        .join("\n");
+        .join("\r\n");
+
 
     const blob =
       new Blob(
-        [
-          "\uFEFF" +
-          csv
-        ],
+        [csv],
         {
           type:
-            "text/csv;charset=utf-8;"
+            "text/csv;charset=utf-8"
         }
       );
+
 
     const url =
       URL.createObjectURL(
         blob
       );
 
-    const link =
-      document.createElement("a");
 
-    link.href = url;
+    const a =
+      document
+        .createElement(
+          "a"
+        );
 
-    link.download =
-      "relatorio-acessos-academia.csv";
 
-    document.body.appendChild(
-      link
-    );
+    a.href = url;
 
-    link.click();
 
-    link.remove();
+    a.download =
+      `relatorio-acessos-academia-${
+        new Date()
+          .toISOString()
+          .slice(0, 10)
+      }.csv`;
+
+
+    document
+      .body
+      .appendChild(a);
+
+
+    a.click();
+
+
+    a.remove();
+
 
     URL.revokeObjectURL(
       url
     );
   }
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
 
-      if (
-        window.Auth &&
-        typeof window.Auth
-          .requireAdmin ===
-          "function"
-      ) {
-        const permitido =
-          await window.Auth
-            .requireAdmin();
+  async function carregar() {
 
-        if (!permitido) {
-          return;
-        }
-      }
-
+    const status =
       document
-        .getElementById(
-          "adminRefresh"
-        )
-        ?.addEventListener(
-          "click",
-          carregarRelatorio
+        .querySelector(
+          "[data-admin-status]"
         );
 
+
+    try {
+
+      if (
+        !window.sb
+      ) {
+        throw new Error(
+          "Cliente Supabase não encontrado."
+        );
+      }
+
+
+      const permitido =
+        await window.Auth
+          .requireAdmin();
+
+
+      if (!permitido) {
+        return;
+      }
+
+
+      if (status) {
+        status.textContent =
+          "Carregando relatório...";
+      }
+
+
+      /*
+        Carregamos SOMENTE
+        tabelas que existem hoje.
+      */
+
+      const [
+        acessos,
+        progressos
+      ] =
+        await Promise.all([
+          fetchAll(
+            "acessos_academia",
+            "user_id,email,nome,origem,acessado_em"
+          ),
+
+          fetchAll(
+            "progresso_modulos",
+            "user_id,modulo_id,concluido,concluido_em"
+          )
+        ]);
+
+
+      console.log(
+        "Acessos:",
+        acessos.length
+      );
+
+
+      console.log(
+        "Progressos:",
+        progressos.length
+      );
+
+
+      relatorio =
+        construirResumo(
+          acessos,
+          progressos
+        );
+
+
+      filtrado =
+        [
+          ...relatorio
+        ];
+
+
+      render();
+
+
+      if (status) {
+
+        status.textContent =
+          `${acessos.length} acessos registrados desde a ativação do relatório.`;
+
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "Erro no relatório administrativo:",
+        error
+      );
+
+
+      if (status) {
+
+        status.textContent =
+          "Erro ao carregar relatório: " +
+          (
+            error?.message ||
+            "erro desconhecido"
+          );
+
+      }
+
+
+      const body =
+        document
+          .querySelector(
+            "#adminTabelaBody"
+          );
+
+
+      if (body) {
+
+        body.innerHTML = `
+          <tr>
+            <td
+              colspan="9"
+              class="admin-empty"
+            >
+              Não foi possível carregar os dados.
+            </td>
+          </tr>
+        `;
+
+      }
+
+    }
+  }
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
       document
-        .getElementById(
-          "adminSearch"
+        .querySelector(
+          "#adminBusca"
         )
         ?.addEventListener(
           "input",
           aplicarFiltros
         );
 
+
       document
-        .getElementById(
-          "adminCertificate"
+        .querySelector(
+          "#adminCertificado"
         )
         ?.addEventListener(
           "change",
           aplicarFiltros
         );
 
+
       document
-        .getElementById(
-          "adminDateFrom"
+        .querySelector(
+          "#adminDataInicio"
         )
         ?.addEventListener(
           "change",
           aplicarFiltros
         );
 
+
       document
-        .getElementById(
-          "adminDateTo"
+        .querySelector(
+          "#adminDataFim"
         )
         ?.addEventListener(
           "change",
           aplicarFiltros
         );
 
+
       document
-        .getElementById(
-          "adminExport"
+        .querySelector(
+          "[data-admin-export]"
         )
         ?.addEventListener(
           "click",
           exportarCSV
         );
 
-      await carregarRelatorio();
+
+      document
+        .querySelector(
+          "[data-admin-refresh]"
+        )
+        ?.addEventListener(
+          "click",
+          carregar
+        );
+
+
+      carregar();
+
     }
   );
+
 })();
