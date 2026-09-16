@@ -1,0 +1,26 @@
+ACADEMIA DOS VALIDADORES — atualização 2026-09-16
+
+Conteúdos substituídos/integrados:
+1. conteudos/validacao-uc-nq.html
+   - substituído pelo novo HTML de Validação da Unidade Curricular.
+   - link "Voltar à trilha" corrigido.
+   - fontes web adicionadas para manter Montserrat/Inter dentro do iframe.
+   - logo do hero incorporada para manter consistência visual.
+
+2. conteudos/validacao-planilha-entrada-nq.html
+   - novo conteúdo oficial de Validação da Planilha de Entrada.
+   - link "Voltar à trilha" corrigido.
+
+3. trilhas/planilha.html
+   - wrapper do Módulo 3 atualizado para exibir o novo conteúdo em iframe.
+   - mantém autenticação, menu, Gui e botão de conclusão do módulo.
+
+Correções adicionais encontradas na verificação:
+- links "Voltar à trilha" corrigidos nos conteúdos Introdução, Ferramentas, UA e BDQ.
+- referência local inexistente da foto opcional de Paula removida; as iniciais PM permanecem como fallback visual.
+- teste-conteudos.html atualizado com acesso ao conteúdo da Planilha de Entrada.
+
+Validação estática:
+- 0 erros de parsing HTML.
+- 0 referências locais quebradas (arquivos, scripts, estilos, imagens ou iframes).
+- os links com data-view em UA/BDQ são controlados por JavaScript e foram preservados.
