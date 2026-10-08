@@ -726,6 +726,21 @@
   }
 
 
+  async function nomesAtuais() {
+    const nomes = new Map();
+    let offset = 0;
+    while (true) {
+      const {data, error} = await window.sb.rpc('academia_listar_participantes', {
+        p_busca: '', p_offset: offset, p_limite: 101
+      });
+      if (error) throw error;
+      const people = data || [];
+      people.forEach(p => nomes.set(p.user_id, p));
+      if (people.length < 101) return nomes;
+      offset += 101;
+    }
+  }
+
   async function carregar() {
 
     const status =
@@ -769,7 +784,8 @@
 
       const [
         acessos,
-        progressos
+        progressos,
+        cadastros
       ] =
         await Promise.all([
           fetchAll(
@@ -780,7 +796,8 @@
           fetchAll(
             "progresso_modulos",
             "user_id,modulo_id,concluido,concluido_em"
-          )
+          ),
+          nomesAtuais()
         ]);
 
 
@@ -802,6 +819,15 @@
           progressos
         );
 
+
+      // O histórico mantém o registro original; a exibição usa o cadastro atual.
+      relatorio.forEach(r => {
+        const cadastro = cadastros.get(r.user_id);
+        if (cadastro) {
+          r.nome = cadastro.nome || cadastro.email || 'Professor(a)';
+          r.email = cadastro.email || r.email;
+        }
+      });
 
       filtrado =
         [

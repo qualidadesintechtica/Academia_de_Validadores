@@ -28,10 +28,10 @@
     try {
 
       const {
-        data: { session },
+        data: { user },
         error
       } =
-        await window.sb.auth.getSession();
+        await window.sb.auth.getUser();
 
 
       if (error) {
@@ -45,7 +45,7 @@
       }
 
 
-      return session?.user || null;
+      return user || null;
 
 
     } catch (error) {
@@ -123,10 +123,10 @@
      NOME / NÍVEL DO USUÁRIO
   ===================================================== */
 
-  async function fillUser() {
+  async function fillUser(updatedUser) {
 
     const user =
-      await currentUser();
+      updatedUser || await currentUser();
 
 
     if (!user) {
@@ -143,6 +143,7 @@
 
     const nome =
       user.user_metadata?.nome ||
+      user.user_metadata?.display_name ||
       user.user_metadata?.nome_completo ||
       user.user_metadata?.full_name ||
       user.email?.split("@")[0] ||
@@ -400,6 +401,32 @@
   }
 
 
+  function fillProfileNav() {
+    const nav = document.querySelector('.side-nav');
+    if (!nav || nav.querySelector('[data-profile-link]')) return;
+    const link = document.createElement('a');
+    link.href = prefix + 'pages/perfil.html';
+    link.dataset.profileLink = '';
+    link.innerHTML = '<b aria-hidden="true">◎</b><span>Meu perfil</span>';
+    if (location.pathname.endsWith('/perfil.html')) link.classList.add('active');
+    nav.insertBefore(link, nav.querySelector('a[href*="ajuda.html"]'));
+  }
+
+  async function fillParticipantsNav() {
+    const nav = document.querySelector('.side-nav');
+    if (!nav || nav.querySelector('[data-participants-link]')) return;
+    try {
+      const {data, error} = await window.sb.rpc('is_academia_perfil_admin');
+      if (error || data !== true) return;
+      const link = document.createElement('a');
+      link.href = prefix + 'pages/participantes.html';
+      link.dataset.participantsLink = '';
+      link.innerHTML = '<b aria-hidden="true">♧</b><span>Participantes</span>';
+      if (location.pathname.endsWith('/participantes.html')) link.classList.add('active');
+      nav.insertBefore(link, nav.querySelector('a[href*="ajuda.html"]'));
+    } catch (_) { /* A edição administrativa depende da instalação do SQL. */ }
+  }
+
   /* =====================================================
      PROTEÇÃO DA PÁGINA ADMINISTRATIVA
   ===================================================== */
@@ -441,7 +468,11 @@
 
         await fillUser();
 
+        fillProfileNav();
+
         await fillAdminNav();
+
+        await fillParticipantsNav();
 
       }
 

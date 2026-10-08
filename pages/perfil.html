@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meu perfil | Academia dos Validadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css?v=4.3">
+<link rel="stylesheet" href="../css/perfil.css?v=20261008.1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/config.js?v=4.0"></script>
+<script src="../js/supabase.js?v=4.0"></script>
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="../index.html"><img src="../assets/img/logo.svg"><div class="brand-copy"><strong>ACADEMIA DOS<br>VALIDADORES</strong><span>by Sintechtica</span></div></a>
+<div class="side-section">NAVEGAÇÃO</div>
+<nav class="side-nav">
+<a href="../index.html"><b>⌂</b><span>Início</span></a>
+<a href="../pages/trilha.html"><b>◈</b><span>Minha Jornada</span></a>
+<a href="../pages/missoes.html"><b>♡</b><span>Missões</span></a>
+<a href="../pages/progresso.html"><b>▥</b><span>Meu Progresso</span></a>
+<a href="../pages/medalhas.html"><b>♕</b><span>Medalhas</span></a>
+<a href="../pages/certificacao.html"><b>◇</b><span>Certificação</span></a>
+<a href="../pages/ajuda.html"><b>?</b><span>Ajuda & FAQ</span></a>
+</nav>
+<div class="sidebar-footer"><strong>Dica do Gui</strong><p style="font-size:13px;color:#e9ddf4">Confira seu nome para que sua certificação fique correta.</p></div>
+</aside>
+<div class="main-wrap">
+<header class="topbar"><button class="icon-button mobile-menu" data-mobile-menu>☰</button><div><strong>Academia dos Validadores</strong><div class="muted" style="font-size:12px">Ambiente oficial de capacitação</div></div><div class="top-actions"><div class="avatar" data-user-initials>PV</div><div class="user-copy"><strong data-user-name>Professor(a)</strong><small data-user-level>Aprendiz</small></div><button class="logout-button" data-logout>Sair</button></div></header>
+<main class="page">
+<section class="hero"><span class="eyebrow">MINHA CONTA</span><h1>Meu perfil</h1><p>Mantenha seu nome completo atualizado para sua jornada e certificação.</p></section>
+<section class="card profile-card">
+<h2>Dados do perfil</h2>
+<form id="perfilForm" class="profile-form">
+<fieldset disabled>
+<div class="field"><label for="perfilNome">Nome completo</label><input id="perfilNome" name="nome" autocomplete="name" maxlength="150" required aria-describedby="perfilNomeAjuda"><small id="perfilNomeAjuda" class="muted">Use o nome que deseja exibir na Academia e no certificado.</small></div>
+<div class="field"><label for="perfilEmail">E-mail de acesso</label><input id="perfilEmail" type="email" readonly aria-readonly="true"></div>
+<div class="profile-actions"><button type="submit" class="btn btn-primary">Salvar alterações</button><button type="button" class="btn btn-secondary" data-profile-reset>Descartar alterações</button></div>
+</fieldset>
+</form>
+<p id="perfilStatus" class="profile-status" role="status" aria-live="polite">Carregando seu perfil...</p>
+</section>
+</main>
+</div></div>
+<div class="gui-float"><div class="gui-message hidden"><button class="gui-close" data-gui-close>×</button><strong>Olá! Eu sou o Gui.</strong><p class="muted">Estou aqui para acompanhar sua jornada na Academia.</p></div><button class="gui-button" data-gui-toggle><img src="../assets/img/gui-avatar.png">Falar com o Gui</button></div>
+<script src="../js/auth.js?v=20261008.1"></script>
+<script src="../js/ui.js?v=4.1"></script>
+<script src="../js/perfil.js?v=20261008.1"></script>
+</body></html>

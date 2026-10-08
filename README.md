@@ -1,3 +1,9 @@
+# Atualização de 08/10/2026
+
+Para habilitar a edição de nomes no sistema atual, siga **LEIA_EDICAO_PERFIS.md**.
+
+As instruções abaixo são as orientações originais para uma instalação inicial.
+
 # Academia dos Validadores V4 Final
 
 Arquitetura:

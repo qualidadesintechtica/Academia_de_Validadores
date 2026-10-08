@@ -47,10 +47,11 @@ document.querySelector('#cadastroForm')?.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!configured)return show('Configure o Supabase em js/config.js.');
   const nome=document.querySelector('#nome').value.trim(),email=document.querySelector('#email').value.trim(),password=document.querySelector('#password').value,confirm=document.querySelector('#confirmPassword').value;
+  if(!nome || [...nome].length>150)return show('Informe seu nome completo com até 150 caracteres.');
   const dom=ACADEMIA_CONFIG.DOMINIO_INSTITUCIONAL;
   if(dom&&!email.toLowerCase().endsWith('@'+dom.toLowerCase()))return show('Use seu e-mail institucional.');
   if(password!==confirm)return show('As senhas não conferem.');
-  const{error}=await sb.auth.signUp({email,password,options:{data:{nome},emailRedirectTo:ACADEMIA_CONFIG.SITE_URL+'login.html'}});
+  const{error}=await sb.auth.signUp({email,password,options:{data:{nome,full_name:nome,display_name:nome},emailRedirectTo:ACADEMIA_CONFIG.SITE_URL+'login.html'}});
   if(error)return show(error.message);
   show('Cadastro criado. Confira seu e-mail para confirmar o acesso.',true);
 });

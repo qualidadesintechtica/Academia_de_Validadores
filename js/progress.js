@@ -37,7 +37,7 @@ async function getProfessorName(u){
     profile=res.data||null;
   }catch(e){console.warn('Falha ao consultar profile:',e)}
   const meta=u.user_metadata||{};
-  const nome=(profile?.nome||meta.nome||meta.nome_completo||meta.full_name||meta.name||'').trim();
+  const nome=(meta.nome||meta.display_name||meta.nome_completo||meta.full_name||meta.name||profile?.nome||'').trim();
   if(nome)return nome;
   const exibido=document.querySelector('[data-user-name]')?.textContent?.trim();
   if(exibido && exibido!=='Professor(a)')return exibido;
