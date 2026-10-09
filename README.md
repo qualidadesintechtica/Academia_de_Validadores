@@ -1,6 +1,6 @@
 # Atualização de 08/10/2026
 
-Para habilitar a edição de nomes no sistema atual, siga **LEIA_EDICAO_PERFIS.md**.
+Para habilitar a edição de nomes, o FAQ e o quiz interativo no sistema atual, siga **LEIA_FAQ_QUIZ.md**.
 
 As instruções abaixo são as orientações originais para uma instalação inicial.
 

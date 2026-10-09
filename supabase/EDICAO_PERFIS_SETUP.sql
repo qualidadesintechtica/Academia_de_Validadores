@@ -1,6 +1,6 @@
 -- Academia dos Validadores: edição do próprio nome e dos participantes.
 -- Execute este arquivo completo no SQL Editor do Supabase da Academia.
--- Usa os administradores já autorizados em public.relatorio_admins.
+-- Usa exatamente a função de autorização dos relatórios: is_relatorio_admin().
 begin;
 
 create table if not exists public.relatorio_admins (
@@ -12,14 +12,31 @@ create table if not exists public.relatorio_admins (
 );
 alter table public.relatorio_admins enable row level security;
 
+-- Mantém a regra de relatórios já existente. Só cria a função se ela não existir.
+do $install$
+begin
+  if to_regprocedure('public.is_relatorio_admin()') is null then
+    execute $function$
+      create function public.is_relatorio_admin()
+      returns boolean language sql stable security definer set search_path = ''
+      as $body$
+        select auth.uid() is not null and exists (
+          select 1 from public.relatorio_admins a
+          where a.user_id = auth.uid() and a.ativo = true
+        );
+      $body$;
+    $function$;
+    execute 'revoke all on function public.is_relatorio_admin() from public, anon';
+    execute 'grant execute on function public.is_relatorio_admin() to authenticated';
+  end if;
+end;
+$install$;
+
 -- Somente o banco concede a permissão; metadados editáveis não autorizam.
 create or replace function public.is_academia_perfil_admin()
 returns boolean language sql stable security definer set search_path = ''
 as $$
-  select auth.uid() is not null and exists (
-    select 1 from public.relatorio_admins a
-    where a.user_id = auth.uid() and a.ativo = true
-  );
+  select auth.uid() is not null and coalesce(public.is_relatorio_admin(), false);
 $$;
 revoke all on function public.is_academia_perfil_admin() from public, anon;
 grant execute on function public.is_academia_perfil_admin() to authenticated;

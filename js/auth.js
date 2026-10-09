@@ -283,10 +283,10 @@
      ADICIONA RELATÓRIO AO MENU
   ===================================================== */
 
-  async function fillAdminNav() {
+  async function fillAdminNav(permitted) {
 
     const admin =
-      await isAdmin();
+      typeof permitted === "boolean" ? permitted : await isAdmin();
 
 
     if (!admin) {
@@ -412,12 +412,12 @@
     nav.insertBefore(link, nav.querySelector('a[href*="ajuda.html"]'));
   }
 
-  async function fillParticipantsNav() {
+  async function fillParticipantsNav(permitted) {
     const nav = document.querySelector('.side-nav');
     if (!nav || nav.querySelector('[data-participants-link]')) return;
     try {
-      const {data, error} = await window.sb.rpc('is_academia_perfil_admin');
-      if (error || data !== true) return;
+      const admin = typeof permitted === 'boolean' ? permitted : await isAdmin();
+      if (!admin) return;
       const link = document.createElement('a');
       link.href = prefix + 'pages/participantes.html';
       link.dataset.participantsLink = '';
@@ -470,9 +470,11 @@
 
         fillProfileNav();
 
-        await fillAdminNav();
+        const admin = await isAdmin();
 
-        await fillParticipantsNav();
+        await fillAdminNav(admin);
+
+        await fillParticipantsNav(admin);
 
       }
 

@@ -1,0 +1,55 @@
+.study-card{margin-top:22px;max-width:1100px}
+.study-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.study-controls{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin:20px 0}
+.study-field{display:grid;gap:8px;min-width:0}
+.study-field label{font-weight:800;font-size:14px}
+.study-field input,.study-field select{width:100%;min-height:48px;border:1px solid var(--border);border-radius:13px;padding:12px;background:#fff;color:var(--text);font:inherit}
+.study-field input:focus,.study-field select:focus{outline:3px solid rgba(219,0,125,.15);border-color:var(--magenta)}
+.study-count{color:var(--muted);line-height:1.5}
+.study-list{margin-top:22px}
+.study-list .faq-item{margin:12px 0;border:1px solid var(--border);border-radius:16px;padding:0;background:var(--surface);scroll-margin-top:110px}
+.study-list summary{padding:18px 20px;line-height:1.55;cursor:pointer;font-weight:800;overflow-wrap:anywhere}
+.study-list summary:focus-visible{outline:3px solid var(--magenta);border-radius:16px}
+.faq-number{color:var(--magenta);margin-right:6px}
+.faq-answer{padding:0 24px 16px;line-height:1.75;overflow-wrap:anywhere}
+.faq-answer p{margin:10px 0}
+.faq-answer li{padding-left:3px;margin-bottom:10px}
+.faq-answer a,.quiz-feedback a,.quiz-review a{color:var(--magenta);text-decoration:underline;text-underline-offset:3px}
+.faq-category{font-size:12px;color:var(--muted);font-weight:800}
+.study-empty{padding:20px;color:var(--muted)}
+.quiz-card{max-width:900px}
+.quiz-progress-copy{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);margin-bottom:12px}
+.quiz-progress-copy strong{color:var(--roxo)}
+.quiz-storage{font-size:12px;color:var(--muted);margin:10px 0 24px;min-height:18px}
+.quiz-question{min-width:0;margin:24px 0 0;padding:0;border:0}
+.quiz-question legend{font-family:Poppins,Inter,sans-serif;font-size:1.45rem;font-weight:800;line-height:1.5;margin-bottom:20px;overflow-wrap:anywhere}
+.quiz-options{display:grid;gap:12px}
+.quiz-option{display:flex;gap:12px;align-items:start;border:1px solid var(--border);border-radius:15px;padding:16px;line-height:1.55;cursor:pointer;background:#fff;overflow-wrap:anywhere}
+.quiz-option:has(input:checked){border-color:var(--magenta);background:#fbf0f7}
+.quiz-option:has(input:focus-visible){outline:3px solid rgba(219,0,125,.35)}
+.quiz-option input{accent-color:var(--magenta);width:18px;height:18px;flex:none;margin:4px 0 0}
+.quiz-option[data-result=correct],.quiz-option[data-result=correct]:has(input:checked){border-color:var(--ok);background:#eefaf4}
+.quiz-option[data-result=wrong],.quiz-option[data-result=wrong]:has(input:checked){border-color:var(--danger);background:#fff1f5}
+.quiz-option-copy{min-width:0;flex:1}
+.quiz-option-tag{display:block;margin-top:6px;font-size:12px;font-weight:800}
+.quiz-feedback{padding:18px 20px;background:var(--surface2);border-radius:16px;line-height:1.65;margin:20px 0;overflow-wrap:anywhere}
+.quiz-feedback p:first-child{margin-top:0;font-weight:800}
+.quiz-feedback p:last-child{margin-bottom:0}
+.quiz-feedback[data-state=error]{border-left:4px solid var(--danger)}
+.quiz-feedback[data-state=success]{border-left:4px solid var(--ok)}
+.quiz-status{min-height:24px;margin:16px 0;color:var(--danger);line-height:1.5}
+.quiz-result-score{font-size:3rem;font-weight:900;color:var(--magenta);margin:12px 0}
+.quiz-result-summary{font-size:1.15rem;line-height:1.7;margin:0 0 22px}
+.quiz-review{margin:26px 0;line-height:1.7}
+.quiz-review>summary{cursor:pointer;font-weight:800;color:var(--roxo);padding:16px 0}
+.quiz-review article{padding:20px 0;border-top:1px solid var(--border);overflow-wrap:anywhere}
+.quiz-review h3{font-size:1rem;line-height:1.6;margin:0 0 12px}
+.quiz-review .review-status{font-weight:800}
+.quiz-review .review-status[data-correct=true]{color:var(--ok)}
+.quiz-review .review-status[data-correct=false]{color:var(--danger)}
+.study-module-links{display:grid;gap:16px;margin:20px 0}
+.study-module-links .btn{justify-self:start}
+[hidden]{display:none!important}
+.page:has(.study-card){padding-bottom:30px}
+body:has(.study-card) .gui-float{position:static;margin:0 30px 24px 300px;display:flex;justify-content:flex-end}
+@media(max-width:700px){.study-controls{grid-template-columns:1fr}.study-actions .btn{flex:1}.study-card>.study-actions:first-child h2{flex-basis:100%!important}.study-list summary{padding:16px}.faq-answer{padding:0 18px 14px}.quiz-question legend{font-size:1.15rem}.quiz-option{padding:14px}.quiz-result-score{font-size:2.5rem}body:has(.study-card) .gui-float{margin:0 14px 24px}}

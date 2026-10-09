@@ -102,9 +102,8 @@
     try {
       const user = await window.Auth.currentUser();
       if (!user) { show('Entre na Academia para continuar.', 'error'); return; }
-      const {data, error} = await window.sb.rpc('is_academia_perfil_admin');
-      if (error) { show('A edição administrativa ainda precisa ser ativada no Supabase. Consulte as instruções da atualização.', 'error'); return; }
-      if (data !== true) { show('Seu perfil não tem permissão para administrar participantes.', 'error'); return; }
+      const admin = await window.Auth.isAdmin();
+      if (!admin) { show('Seu perfil não tem permissão para administrar participantes.', 'error'); return; }
       permitted = true; section.hidden = false; await load();
     } catch (_) { show('Não foi possível verificar seu acesso. Tente atualizar a página.', 'error'); }
   });

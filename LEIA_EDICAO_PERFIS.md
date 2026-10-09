@@ -1,5 +1,7 @@
 # Atualização da Academia — edição de nomes
 
+Para a versão atual com FAQ e quiz, siga **LEIA_FAQ_QUIZ.md**.
+
 Esta atualização adiciona **Meu perfil** para todos os participantes e **Participantes** para os administradores autorizados.
 
 ## Ativar no sistema atual
