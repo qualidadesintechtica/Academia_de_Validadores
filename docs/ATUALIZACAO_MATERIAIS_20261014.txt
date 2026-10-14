@@ -1,0 +1,33 @@
+ATUALIZAÇÃO DA ACADEMIA DOS VALIDADORES — 14/10/2026
+
+Publique o conteúdo desta pasta no repositório existente, mantendo as pastas.
+Depois, recarregue com Ctrl + F5.
+Não exige alteração no Supabase nem novo SQL.
+
+1. Módulo 3 — Validação da planilha de entrada
+   O conteúdo foi substituído pelo HTML enviado nesta atualização.
+   As orientações do módulo agora indicam graduação e pós-graduação,
+   conforme a matriz de oferta, em vez de mencionar quatro indicadores para todos os casos.
+   A conclusão continua sendo registrada como módulo 3.
+
+2. Guia dos indicadores de qualidade das UAs
+   O PDF enviado foi incluído integralmente, sem modificar seu conteúdo, em:
+   assets/guias/guia-indicadores-qualidade-ua-nq.pdf
+   Está disponível para abrir e baixar no material de validação da UA,
+   na página do módulo 4 e em Ajuda & FAQ.
+   O material da UA passa a usar o guia incluído no pacote.
+
+Arquivos alterados:
+- conteudos/validacao-planilha-entrada-nq.html
+- trilhas/planilha.html
+- conteudos/validacao-ua-nq.html
+- trilhas/ua.html
+- pages/ajuda.html
+
+Arquivos acrescentados:
+- assets/guias/guia-indicadores-qualidade-ua-nq.pdf
+- docs/ATUALIZACAO_MATERIAIS_20261014.txt
+
+Os demais arquivos e os scripts de login, perfis, progresso, quiz e certificados
+foram preservados.
+A atualização foi conferida localmente; a publicação ainda precisa ser feita.
