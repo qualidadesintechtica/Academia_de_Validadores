@@ -1,3 +1,5 @@
+> Atualização: a atribuição manual de senha temporária está em [LEIA_SENHA_TEMPORARIA.md](LEIA_SENHA_TEMPORARIA.md). O botão de envio de link por e-mail descrito abaixo continua disponível na mesma janela.
+
 # Academia dos Validadores — troca de senha em Participantes
 
 Atualização de 20/10/2026, aplicada sobre a versão completa de 14/10/2026.

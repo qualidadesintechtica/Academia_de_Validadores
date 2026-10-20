@@ -18,6 +18,14 @@
     const passwordForm = document.querySelector('#participanteSenhaForm');
     const passwordFields = passwordForm.querySelector('fieldset');
     const passwordStatus = document.querySelector('#participanteSenhaStatus');
+    const temporary = document.querySelector('#participanteSenhaTemporaria');
+    const confirmation = document.querySelector('#participanteSenhaConfirmar');
+    const toggle = document.querySelector('#participanteSenhaMostrar');
+    function clearPassword() {
+      temporary.value = confirmation.value = '';
+      temporary.type = confirmation.type = 'password';
+      toggle.textContent = 'Mostrar senhas'; toggle.setAttribute('aria-pressed', 'false');
+    }
     const recentRequests = new Map();
     let passwordPerson = null, passwordBusy = false, accessGeneration = 0;
     let selected = null, offset = 0, sequence = 0, timer, permitted = false;
@@ -26,11 +34,11 @@
     const showPassword = (message, state = '') => { passwordStatus.textContent = message; passwordStatus.dataset.state = state; };
 
     function openPassword(person) {
-      passwordPerson = {...person}; passwordBusy = false; passwordFields.disabled = false;
+      passwordPerson = {...person}; passwordBusy = false; passwordFields.disabled = false; clearPassword();
       document.querySelector('#participanteSenhaEmail').textContent = person.email || 'E-mail não informado';
       document.querySelector('#participanteSenhaNome').textContent = person.nome || 'Participante';
       showPassword(''); passwordDialog.showModal();
-      document.querySelector('#participanteSenhaEnviar').focus();
+      temporary.focus();
     }
 
     function openEdit(person) {
@@ -91,18 +99,29 @@
     form.querySelector('[data-participant-cancel]').addEventListener('click', () => dialog.close());
     passwordForm.querySelector('[data-password-cancel]').addEventListener('click', () => passwordDialog.close());
     passwordDialog.addEventListener('cancel', event => { if (passwordBusy) event.preventDefault(); });
-    passwordDialog.addEventListener('close', () => { passwordPerson = null; });
-    passwordForm.addEventListener('submit', async event => {
-      event.preventDefault();
+    passwordDialog.addEventListener('close', () => { passwordPerson = null; clearPassword(); });
+    toggle.addEventListener('click', () => {
+      const visible = temporary.type === 'password';
+      temporary.type = confirmation.type = visible ? 'text' : 'password';
+      toggle.textContent = visible ? 'Ocultar senhas' : 'Mostrar senhas';
+      toggle.setAttribute('aria-pressed', String(visible));
+    });
+    passwordForm.addEventListener('submit', event => { event.preventDefault(); handlePassword('manual'); });
+    document.querySelector('#participanteSenhaEnviar').addEventListener('click', () => handlePassword('email'));
+    async function handlePassword(action) {
       if (!permitted || passwordBusy || !passwordPerson?.email) return;
+      if (action === 'manual') {
+        const invalid = window.AcademiaPassword.validate(temporary.value, confirmation.value);
+        if (invalid) { showPassword(invalid, 'error'); temporary.focus(); return; }
+      }
       const person = {...passwordPerson}, generation = accessGeneration;
-      const last = recentRequests.get(person.user_id) || 0;
+      const key = action + ':' + person.user_id;
+      const last = recentRequests.get(key) || 0;
       if (Date.now() - last < 60000) {
-        showPassword('Uma solicitação acabou de ser enviada. Aguarde um minuto e confira o e-mail antes de reenviar.', 'error'); return;
+        showPassword('Uma solicitação acabou de ser concluída. Aguarde um minuto antes de repetir.', 'error'); return;
       }
       passwordBusy = true; passwordFields.disabled = true; showPassword('Verificando o cadastro...');
       try {
-        // Reaproveita a autorização administrativa do servidor e confirma o e-mail atual.
         const {data, error} = await window.sb.rpc('academia_listar_participantes', {
           p_busca: person.email, p_offset: 0, p_limite: 101
         });
@@ -112,20 +131,40 @@
         if (!current || current.email?.toLowerCase() !== person.email.toLowerCase()) {
           showPassword('O cadastro mudou. Feche esta janela e atualize a lista antes de solicitar a troca.', 'error'); return;
         }
-        showPassword('Solicitando a troca de senha...');
-        const result = await window.sb.auth.resetPasswordForEmail(current.email, {redirectTo: window.AcademiaPassword.resetURL()});
-        if (generation !== accessGeneration) return;
-        if (result.error) throw result.error;
-        recentRequests.set(person.user_id, Date.now());
-        showPassword('Solicitação enviada para '+current.email+'. O participante deve abrir o link recebido para definir a nova senha.', 'success');
+        if (action === 'email') {
+          showPassword('Solicitando a troca de senha...');
+          const result = await window.sb.auth.resetPasswordForEmail(current.email, {redirectTo: window.AcademiaPassword.resetURL()});
+          if (generation !== accessGeneration) return;
+          if (result.error) throw result.error;
+          showPassword('Solicitação enviada para '+current.email+'. O participante deve abrir o link recebido para definir a nova senha.', 'success');
+        } else {
+          showPassword('Definindo a senha temporária...');
+          const result = await window.sb.functions.invoke('academia-senha-temporaria', {body: {
+            user_id: current.user_id, email: current.email,
+            password: temporary.value, confirmation: confirmation.value
+          }});
+          if (generation !== accessGeneration) return;
+          if (result.error) {
+            let detail;
+            try { detail = await result.error.context?.json(); } catch (_) { /* Mensagem genérica abaixo. */ }
+            if (generation !== accessGeneration) return;
+            showPassword(detail?.message || 'Não foi possível definir a senha. Confira sua conexão e a disponibilidade do serviço e tente novamente.', 'error'); return;
+          }
+          if (result.data?.ok !== true) throw new Error('password_not_saved');
+          clearPassword();
+          showPassword('Senha temporária definida para '+current.email+'. Informe a senha ao professor: ele deverá escolher outra no próximo acesso.', 'success');
+        }
+        recentRequests.set(key, Date.now());
       } catch (error) {
         if (generation === accessGeneration) showPassword(error?.code === '42501'
           ? 'Sua conta não tem mais permissão para administrar participantes. Atualize a página.'
-          : window.AcademiaPassword.errorMessage(error), 'error');
+          : action === 'manual'
+            ? 'Não foi possível definir a senha. Confira sua conexão e a disponibilidade do serviço e tente novamente.'
+            : window.AcademiaPassword.errorMessage(error), 'error');
       } finally {
         if (generation === accessGeneration) { passwordBusy = false; passwordFields.disabled = false; }
       }
-    });
+    }
     dialog.addEventListener('cancel', event => { if (fields.disabled) event.preventDefault(); });
     form.addEventListener('submit', async event => {
       event.preventDefault();

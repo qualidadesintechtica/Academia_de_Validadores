@@ -1,0 +1,2 @@
+[functions.academia-senha-temporaria]
+verify_jwt = true

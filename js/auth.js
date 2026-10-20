@@ -65,27 +65,40 @@
      PROTEÇÃO DAS PÁGINAS
   ===================================================== */
 
+  if (!publicPage) document.documentElement.style.visibility = 'hidden';
+
   async function protect() {
-
-    if (publicPage) {
-      return;
-    }
-
-
-    const user =
-      await currentUser();
-
-
+    if (publicPage) return true;
+    const user = await currentUser();
     if (!user) {
-
-      location.replace(
-        prefix + "login.html"
-      );
-
+      location.replace(prefix + 'login.html');
+      return false;
     }
-
+    try {
+      const {data, error} = await window.sb.rpc('academia_senha_pendente');
+      if (error || typeof data !== 'boolean') throw new Error('password_status_unavailable');
+      if (data) {
+        location.replace(prefix + 'primeiro-acesso.html');
+        return false;
+      }
+      document.documentElement.style.visibility = '';
+      return true;
+    } catch (_) {
+      document.body.replaceChildren();
+      const main = document.createElement('main'); main.className = 'card';
+      main.style.cssText = 'max-width:600px;margin:48px auto;padding:28px';
+      const title = document.createElement('h1'); title.textContent = 'Não foi possível verificar seu acesso';
+      const message = document.createElement('p');
+      message.textContent = 'Confira sua conexão e tente novamente. Se o problema continuar, avise a administração da Academia.';
+      const retry = document.createElement('button'); retry.className = 'btn btn-primary';
+      retry.textContent = 'Tentar novamente'; retry.addEventListener('click', () => location.reload());
+      const exit = document.createElement('button'); exit.className = 'btn btn-secondary';
+      exit.textContent = 'Sair'; exit.addEventListener('click', logout);
+      main.append(title, message, retry, exit); document.body.append(main);
+      document.documentElement.style.visibility = '';
+      return false;
+    }
   }
-
 
   /* =====================================================
      LOGOUT
@@ -464,7 +477,7 @@
 
       if (!publicPage) {
 
-        await protect();
+        if (!await protect()) return;
 
         await fillUser();
 
@@ -502,6 +515,10 @@
      EXPOSIÇÃO GLOBAL
   ===================================================== */
 
+  // Ao voltar a uma aba já aberta, verifica novamente a exigência no servidor.
+  document.addEventListener('visibilitychange', () => {
+    if (!publicPage && document.visibilityState === 'visible') protect();
+  });
   window.Auth = {
 
     currentUser,

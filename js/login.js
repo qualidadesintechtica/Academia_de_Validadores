@@ -35,6 +35,13 @@ document.querySelector('#loginForm')?.addEventListener('submit',async e=>{
       return show(error.message||'Não foi possível entrar.');
     }
     if(!data?.session)return show('O Supabase não retornou uma sessão válida.');
+    const {data: pending, error: pendingError} = await sb.rpc('academia_senha_pendente');
+    if (pendingError || typeof pending !== 'boolean') {
+      document.querySelector('#password').value = '';
+      return show('Não foi possível verificar seu acesso. Tente novamente; se continuar, avise a administração.');
+    }
+    document.querySelector('#password').value = '';
+    if (pending) { location.replace('primeiro-acesso.html'); return; }
     await registrarAcesso(data.user||data.session.user);
     location.replace('index.html');
   }catch(err){
