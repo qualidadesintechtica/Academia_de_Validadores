@@ -6,7 +6,7 @@
 <title>Participantes | Academia dos Validadores</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/base.css?v=4.3">
-<link rel="stylesheet" href="../css/perfil.css?v=20261008.1">
+<link rel="stylesheet" href="../css/perfil.css?v=20261020.1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../js/config.js?v=4.0"></script>
 <script src="../js/supabase.js?v=4.0"></script>
@@ -30,7 +30,7 @@
 <div class="main-wrap">
 <header class="topbar"><button class="icon-button mobile-menu" data-mobile-menu>☰</button><div><strong>Academia dos Validadores</strong><div class="muted" style="font-size:12px">Ambiente oficial de capacitação</div></div><div class="top-actions"><div class="avatar" data-user-initials>PV</div><div class="user-copy"><strong data-user-name>Professor(a)</strong><small data-user-level>Aprendiz</small></div><button class="logout-button" data-logout>Sair</button></div></header>
 <main class="page">
-<section class="hero"><span class="eyebrow">ADMINISTRAÇÃO</span><h1>Participantes</h1><p>Consulte os cadastros e corrija os nomes dos participantes da Academia.</p></section>
+<section class="hero"><span class="eyebrow">ADMINISTRAÇÃO</span><h1>Participantes</h1><p>Consulte os cadastros, corrija os nomes e solicite a troca de senha dos participantes.</p></section>
 <section class="card profile-card">
 <p id="participantesStatus" class="profile-status" role="status" aria-live="polite">Verificando seu acesso...</p>
 <div id="participantesArea" hidden>
@@ -48,10 +48,20 @@
 </fieldset></form>
 <p id="participanteStatus" class="profile-status" role="status" aria-live="polite"></p>
 </dialog>
+<dialog id="participanteSenhaDialog" class="profile-dialog" aria-labelledby="participanteSenhaTitulo" aria-describedby="participanteSenhaExplicacao">
+<h2 id="participanteSenhaTitulo">Trocar senha</h2>
+<p><strong id="participanteSenhaNome"></strong><br><span id="participanteSenhaEmail" class="participant-email muted"></span></p>
+<p id="participanteSenhaExplicacao">Enviaremos um link ao e-mail cadastrado. O participante define a nova senha na tela de recuperação da Academia.</p>
+<form id="participanteSenhaForm" class="profile-form"><fieldset>
+<div class="profile-actions"><button id="participanteSenhaEnviar" type="submit" class="btn btn-primary">Enviar link de troca de senha</button><button type="button" class="btn btn-secondary" data-password-cancel>Fechar</button></div>
+</fieldset></form>
+<p id="participanteSenhaStatus" class="profile-status" role="status" aria-live="polite"></p>
+</dialog>
 </main>
 </div></div>
 <div class="gui-float"><div class="gui-message hidden"><button class="gui-close" data-gui-close>×</button><strong>Olá! Eu sou o Gui.</strong><p class="muted">Estou aqui para acompanhar sua jornada na Academia.</p></div><button class="gui-button" data-gui-toggle><img src="../assets/img/gui-avatar.png">Falar com o Gui</button></div>
 <script src="../js/auth.js?v=20261008.2"></script>
 <script src="../js/ui.js?v=4.1"></script>
-<script src="../js/participantes.js?v=20261008.2"></script>
+<script src="../js/password-flow.js?v=20261020.1"></script>
+<script src="../js/participantes.js?v=20261020.1"></script>
 </body></html>

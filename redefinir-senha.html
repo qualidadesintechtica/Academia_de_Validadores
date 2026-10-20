@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Definir nova senha | Academia dos Validadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=4.3">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=4.0"></script>
+<script src="js/password-flow.js?v=20261020.1"></script>
+<script defer src="js/redefinir-senha.js?v=20261020.1"></script>
+</head>
+<body class="login-page">
+<main class="login-shell">
+<section class="login-visual">
+<div class="brand"><img src="assets/img/logo.svg" alt=""><div class="brand-copy"><strong>ACADEMIA DOS<br>VALIDADORES</strong><span>by Sintechtica</span></div></div>
+<h1>Seu acesso.<br>Sua jornada.</h1><p>Defina sua nova senha para continuar na Academia dos Validadores.</p>
+</section>
+<section class="login-panel">
+<span class="eyebrow">RECUPERAÇÃO DE ACESSO</span>
+<h2>Definir nova senha</h2>
+<p id="senhaStatus" class="form-message" role="status" aria-live="polite">Verificando o link recebido...</p>
+<form id="novaSenhaForm" hidden><fieldset disabled style="border:0;padding:0;margin:0;min-width:0">
+<div class="field"><label for="senhaEmail">E-mail da conta</label><input id="senhaEmail" type="email" readonly autocomplete="username"></div>
+<div class="field"><label for="novaSenha">Nova senha</label><input id="novaSenha" name="new-password" type="password" minlength="8" maxlength="128" autocomplete="new-password" aria-describedby="senhaAjuda" required></div>
+<div class="field"><label for="confirmarNovaSenha">Confirmar nova senha</label><input id="confirmarNovaSenha" name="confirm-password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></div>
+<p id="senhaAjuda" class="muted" style="font-size:12px">Use de 8 a 128 caracteres e confirme a mesma senha nos dois campos.</p>
+<button type="button" id="mostrarNovaSenha" class="btn btn-secondary" aria-pressed="false" style="margin-bottom:14px">Mostrar senhas</button>
+<button type="submit" id="salvarNovaSenha" class="btn btn-primary" style="width:100%">Salvar nova senha</button>
+</fieldset></form>
+<p id="senhaSucesso" hidden>Sua senha foi alterada. Use a nova senha para entrar na Academia.</p>
+<p id="senhaNovoLink" hidden><a href="recuperar-senha.html">Solicitar outro link de recuperação</a></p>
+<p style="text-align:center;margin-top:24px"><a href="login.html">Ir para o login</a></p>
+</section>
+</main>
+</body>
+</html>

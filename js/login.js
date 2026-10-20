@@ -59,10 +59,16 @@ document.querySelector('#cadastroForm')?.addEventListener('submit',async e=>{
 document.querySelector('#recoveryForm')?.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!configured)return show('Configure o Supabase em js/config.js.');
+  const button=e.currentTarget.querySelector('button[type="submit"]');
+  if(button.disabled)return;
   const email=document.querySelector('#email').value.trim();
-  const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:ACADEMIA_CONFIG.SITE_URL+'login.html'});
-  if(error)return show(error.message);
-  show('Enviamos um link de recuperação para seu e-mail.',true);
+  button.disabled=true;show('Solicitando link de recuperação...');
+  try{
+    const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.AcademiaPassword.resetURL()});
+    if(error)throw error;
+    show('Se houver cadastro para este e-mail, você receberá um link para definir a nova senha.',true);
+  }catch(error){show(window.AcademiaPassword.errorMessage(error));}
+  finally{button.disabled=false;}
 });
 
 if(new URLSearchParams(location.search).get('logout'))show('Você saiu da Academia com segurança.',true);

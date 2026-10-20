@@ -1,3 +1,7 @@
+# Atualização de 20/10/2026 — troca de senha
+
+A aba **Participantes** agora tem **Trocar senha**. A administração solicita o link e o participante define a própria senha na nova tela. Para publicar, autorize a URL de retorno e siga **LEIA_TROCA_DE_SENHA.md**. Não há novo SQL; as permissões administrativas existentes foram mantidas.
+
 # Atualização de 08/10/2026
 
 Para habilitar a edição de nomes, o FAQ e o quiz interativo no sistema atual, siga **LEIA_FAQ_QUIZ.md**.
